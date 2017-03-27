@@ -19,5 +19,10 @@ public class a_analytics extends AppCompatActivity
     {
         int i=0;
         i=i+1;
+        System.out.println(i);
+
+        int j=0;
+        j=j+1;
+        System.out.println(j);
     }
 }
