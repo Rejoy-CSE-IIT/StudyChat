@@ -44,6 +44,7 @@ public class recyclerTouchListener_class implements RecyclerView.OnItemTouchList
         }
         return false;
 
+
     }
 
     @Override
