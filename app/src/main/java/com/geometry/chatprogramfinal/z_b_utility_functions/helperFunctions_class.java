@@ -26,5 +26,6 @@ public class helperFunctions_class
         display.getMetrics(outMetrics);
        // float pxWidth = outMetrics.widthPixels;
         return outMetrics.widthPixels;
+
     }
 }
