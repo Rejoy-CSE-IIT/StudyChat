@@ -43,6 +43,7 @@ public class recyclerTouchListener_class implements RecyclerView.OnItemTouchList
             clickListener.onClick(child, rv.getChildPosition(child));
         }
         return false;
+
     }
 
     @Override
