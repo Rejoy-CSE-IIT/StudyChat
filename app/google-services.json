@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "605961466713",
+    "firebase_url": "https://chatprogramfinal.firebaseio.com",
+    "project_id": "chatprogramfinal",
+    "storage_bucket": "chatprogramfinal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605961466713:android:0d8e9a08401d4978",
+        "android_client_info": {
+          "package_name": "com.geometry.chatprogramfinal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605961466713-iaks0netjbqcp2vu04pf921lss19tir4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_ifXkmdLagYwVrfvWOA8_K0hJdNnVWy0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
