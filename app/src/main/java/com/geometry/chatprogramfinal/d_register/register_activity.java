@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.f_login.login_activity;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
+import com.geometry.chatprogramfinal.z_c_validate_input.validate_input;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -58,34 +59,43 @@ public class register_activity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                validate_input validate= new validate_input(register_activity.this,getApplicationContext());
+
+
+
                 String email = email_from_layout.getText().toString();
                 String password = password_from_layout.getText().toString();
-
-
-                progressBar_from_layout.setVisibility(View.VISIBLE);
-
-                // Create user in Firebase
-                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(register_activity.this, new OnCompleteListener<AuthResult>()
+                if(validate.isValidEmail(email) && validate.isValidPassword(password))
                 {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task)
+                    progressBar_from_layout.setVisibility(View.VISIBLE);
+
+                    // Create user in Firebase
+                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(register_activity.this, new OnCompleteListener<AuthResult>()
                     {
-                       // helperFunctions_class.showToast(register_activity.this,"User Registration Finished");
-                        progressBar_from_layout.setVisibility(View.GONE);
-
-                        if (!task.isSuccessful())
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task)
                         {
+                            // helperFunctions_class.showToast(register_activity.this,"User Registration Finished");
+                            progressBar_from_layout.setVisibility(View.GONE);
 
-                            helperFunctions_class.showToast(register_activity.this,"User Registration Failed");
+                            if (!task.isSuccessful())
+                            {
+
+                                helperFunctions_class.showToast(register_activity.this,"User Registration Failed");
+                            }
+                            else
+                            {
+                                helperFunctions_class.showToast(register_activity.this,"User Registration Successful");
+                                startActivity(new Intent(getApplicationContext(), login_activity.class));
+                                finish();
+
+                            }
                         }
-                        else
-                        {
-                            helperFunctions_class.showToast(register_activity.this,"User Registration Successful");
-                            startActivity(new Intent(getApplicationContext(), login_activity.class));
-                            finish();
-                        }
-                    }
-                });
+                    });
+                }
+
+
+
             }
         });
 
