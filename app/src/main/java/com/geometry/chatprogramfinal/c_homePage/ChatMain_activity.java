@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.geometry.chatprogramfinal.R;
-import com.geometry.chatprogramfinal.d_register.register_activity;
+import com.geometry.chatprogramfinal.f_login.login_activity;
 
 public class ChatMain_activity extends AppCompatActivity
 {
@@ -20,7 +20,7 @@ public class ChatMain_activity extends AppCompatActivity
 
         if(!loggedIn)
         {
-            startActivity(new Intent(ChatMain_activity.this, register_activity.class));
+            startActivity(new Intent(ChatMain_activity.this, login_activity.class));
             finish();
         }
     }

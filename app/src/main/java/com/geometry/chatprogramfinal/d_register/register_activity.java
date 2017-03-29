@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.f_login.login_activity;
@@ -25,7 +26,7 @@ public class register_activity extends AppCompatActivity
     private EditText                 email_from_layout, password_from_layout;
     private Button    log_in_button_from_layout, register_button_from_layout;
     private ProgressBar                              progressBar_from_layout;
-
+    private TextView register_label_from_layout;
 
     private FirebaseAuth                                        firebaseAuth;
 
@@ -46,6 +47,7 @@ public class register_activity extends AppCompatActivity
         // Get Firebase Auth instance
         firebaseAuth = firebaseAuth.getInstance();
 
+        register_label_from_layout = (TextView) findViewById(R.id.register_label_from_layout);
         // Construction of subviews
         log_in_button_from_layout = (Button) findViewById(R.id.log_in_button_from_layout);
         register_button_from_layout = (Button) findViewById(R.id.register_button_from_layout);
@@ -82,6 +84,7 @@ public class register_activity extends AppCompatActivity
                             {
 
                                 helperFunctions_class.showToast(register_activity.this,"User Registration Failed");
+                                register_label_from_layout.setText("Registration Failed!!\n Please try again");
                             }
                             else
                             {
@@ -92,6 +95,11 @@ public class register_activity extends AppCompatActivity
                             }
                         }
                     });
+                }
+                else
+                {
+                    register_label_from_layout.setText("Registration Failed!!\n Please try again");
+
                 }
 
 

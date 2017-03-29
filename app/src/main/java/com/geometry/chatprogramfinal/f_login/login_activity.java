@@ -9,11 +9,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 import com.geometry.chatprogramfinal.d_register.register_activity;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
+import com.geometry.chatprogramfinal.z_c_validate_input.validate_input;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -21,7 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class login_activity extends AppCompatActivity
 {
-
+    private TextView login_label_from_layout;
     // Initialisation of subviews
     private EditText email_from_layout, password_from_layout;
     private Button register_from_layout, login_from_layout, reset_password_from_layout;
@@ -45,6 +47,7 @@ public class login_activity extends AppCompatActivity
         firebaseAuth = FirebaseAuth.getInstance();
 
         // Construction of subviews
+        login_label_from_layout = (TextView) findViewById(R.id.login_label_from_layout);
         email_from_layout = (EditText) findViewById(R.id.email_from_layout);
         password_from_layout = (EditText) findViewById(R.id.password_from_layout);
         progressBar_from_layout = (ProgressBar) findViewById(R.id.progressBar_from_layout);
@@ -84,32 +87,44 @@ public class login_activity extends AppCompatActivity
                 // Get the email and password from user inputs
                 String email = email_from_layout.getText().toString();
                 final String password = password_from_layout.getText().toString();
+                validate_input validate= new validate_input(login_activity.this,getApplicationContext());
 
+                if(validate.isValidEmail(email) && validate.isValidPassword(password))
+                {
 
-                progressBar_from_layout.setVisibility(View.VISIBLE);
+                    progressBar_from_layout.setVisibility(View.VISIBLE);
 
-                // Authenticate the user
-                firebaseAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(login_activity.this, new OnCompleteListener<AuthResult>()
-                        {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task)
+                    // Authenticate the user
+                    firebaseAuth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(login_activity.this, new OnCompleteListener<AuthResult>()
                             {
-                                progressBar_from_layout.setVisibility(View.GONE);
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task)
+                                {
+                                    progressBar_from_layout.setVisibility(View.GONE);
 
-                                if(!task.isSuccessful())
-                                {
-                                    helperFunctions_class.showToast(login_activity.this,"User Login Failed");
+                                    if(!task.isSuccessful())
+                                    {
+                                        helperFunctions_class.showToast(login_activity.this,"User Login Failed");
+                                        login_label_from_layout.setText("Login Failed!!\n Please try again");
+                                    }
+                                    else
+                                    {
+                                        helperFunctions_class.showToast(login_activity.this,"User Login Success");
+                                        ChatMain_activity.loggedIn=true;
+                                        startActivity(new Intent(login_activity.this, ChatMain_activity.class));
+                                        finish();
+                                    }
                                 }
-                                else
-                                {
-                                    helperFunctions_class.showToast(login_activity.this,"User Login Success");
-                                    ChatMain_activity.loggedIn=true;
-                                    startActivity(new Intent(login_activity.this, ChatMain_activity.class));
-                                    finish();
-                                }
-                            }
-                        });
+                            });
+                }
+                else
+                {
+                    login_label_from_layout.setText("Login Failed!!\n Please try again");
+                }
+
+
+
             }
         });
 
