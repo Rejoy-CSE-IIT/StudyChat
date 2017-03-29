@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin"
+    tools:context="com.geometry.chatprogramfinal.c_homePage.ChatMain_activity">
+    <ImageView
+        android:id="@+id/user_photo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:src="@drawable/chat_icon"
+        android:contentDescription="@null" />
+
+
+
+    <TextView
+        android:id="@+id/email_address_xml"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint ="email address "
+        android:layout_marginTop="@dimen/activity_horizontal_margin" />
+
+    <TextView
+        android:id="@+id/display_name_xml"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint ="display id"
+        android:layout_marginTop="@dimen/activity_horizontal_margin" />
+
+    <Button
+        android:id="@+id/group_chat_Button_xml"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:background="#3F51B5"
+        android:onClick="Group_Chat_action_from_xml"
+        android:text="Group Chat"
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/user_chat_Button_xml"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:background="#3F51B5"
+        android:onClick="User_Chat_action_from_xml"
+        android:text="User Chat" />
+
+    <Button
+        android:id="@+id/logout_button_xml"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:background="#3F51B5"
+        android:text="LogOut" />
+
+    <Button
+        android:id="@+id/creategroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:background="#3F51B5"
+        android:onClick="Group_Control"
+        android:text="Group"
+        />
+
+
+
+</LinearLayout>

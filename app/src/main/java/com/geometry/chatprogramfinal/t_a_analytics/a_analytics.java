@@ -1,4 +1,4 @@
-package com.geometry.chatprogramfinal.b_analytics;
+package com.geometry.chatprogramfinal.t_a_analytics;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,7 +19,7 @@ public class a_analytics extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_a_analytics);
+        setContentView(R.layout.activity_b_analytics);
 
 
         // Obtain the Firebase Analytics instance.

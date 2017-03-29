@@ -21,7 +21,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.geometry.chatprogramfinal.R;
-import com.geometry.chatprogramfinal.b_analytics.a_analytics;
+import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
+import com.geometry.chatprogramfinal.t_a_analytics.a_analytics;
 import com.geometry.chatprogramfinal.z_a_recyler_listener.recyclerTouchListener_class;
 
 import java.util.ArrayList;
@@ -85,7 +86,7 @@ public class e_option_selector_recycler_view_activity extends AppCompatActivity
                             Toast.makeText(e_option_selector_recycler_view_activity.this, "ChatApp"+dataE.getOptionName(), Toast.LENGTH_LONG).show();
 
 
-                        intent = new Intent(e_option_selector_recycler_view_activity.this, e_option_selector_recycler_view_activity.class);
+                        intent = new Intent(e_option_selector_recycler_view_activity.this, ChatMain_activity.class);
                         startActivity(intent);
 
                         break;
@@ -101,6 +102,7 @@ public class e_option_selector_recycler_view_activity extends AppCompatActivity
                         startActivity(intent);
 
                         break;
+
 
 
 

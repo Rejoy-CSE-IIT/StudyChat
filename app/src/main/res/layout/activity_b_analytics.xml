@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.geometry.chatprogramfinal.b_analytics.a_analytics">
+    tools:context="com.geometry.chatprogramfinal.t_a_analytics.a_analytics">
 
 </android.support.constraint.ConstraintLayout>

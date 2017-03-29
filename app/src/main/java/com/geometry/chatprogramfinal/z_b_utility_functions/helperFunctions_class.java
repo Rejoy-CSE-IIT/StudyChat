@@ -3,6 +3,7 @@ package com.geometry.chatprogramfinal.z_b_utility_functions;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.design.widget.TextInputLayout;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.widget.Toast;
@@ -12,6 +13,15 @@ public class helperFunctions_class
 
 
 
+    public static boolean hasText(TextInputLayout inputLayout)
+    {
+        return !inputLayout.getEditText().getText().toString().trim().equals("");
+    }
+
+    public static String getText(TextInputLayout inputLayout)
+    {
+        return inputLayout.getEditText().getText().toString().trim();
+    }
 
     public static void showToast(Context context, String msg)
     {
