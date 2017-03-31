@@ -6,8 +6,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -36,12 +34,15 @@
             android:name=".t_a_analytics.a_analytics"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".d_register.register_activity"
+            android:name=".d_register.a_register_activity"
             android:theme="@style/AppTheme1" />
         <activity
             android:name=".c_homePage.ChatMain_activity"
             android:theme="@style/AppTheme1" />
-        <activity android:name=".f_login.login_activity"
+        <activity
+            android:name=".f_login.login_activity"
+            android:theme="@style/AppTheme1" />
+        <activity android:name=".d_register.b_register_details"
             android:theme="@style/AppTheme1"/>
     </application>
 

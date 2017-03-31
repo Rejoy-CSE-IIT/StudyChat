@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.geometry.chatprogramfinal.d_register.register_activity">
+    tools:context="com.geometry.chatprogramfinal.d_register.a_register_activity">
 
 
     <LinearLayout
@@ -15,6 +15,9 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
+
+
+
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -38,6 +41,14 @@
             android:layout_marginBottom="30sp"
             android:src="@drawable/chat_icon"
             android:contentDescription="@string/logo_description"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+        </android.support.design.widget.TextInputLayout>
+
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

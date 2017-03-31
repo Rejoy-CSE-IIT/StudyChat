@@ -24,6 +24,7 @@ import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 import com.geometry.chatprogramfinal.t_a_analytics.a_analytics;
 import com.geometry.chatprogramfinal.z_a_recyler_listener.recyclerTouchListener_class;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -49,6 +50,7 @@ public class e_option_selector_recycler_view_activity extends AppCompatActivity
         setContentView(R.layout.activity_a_e_option_selector_recycler_view_activity);
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
 
 
 
@@ -84,6 +86,12 @@ public class e_option_selector_recycler_view_activity extends AppCompatActivity
 
                         if(e_option_selector_recycler_view_activity.TESTING_MODE)
                             Toast.makeText(e_option_selector_recycler_view_activity.this, "ChatApp"+dataE.getOptionName(), Toast.LENGTH_LONG).show();
+
+                        if(ChatMain_activity.loggedIn)
+                        {
+                            ChatMain_activity.loggedIn=false;
+                            FirebaseAuth.getInstance().signOut();
+                        }
 
 
                         intent = new Intent(e_option_selector_recycler_view_activity.this, ChatMain_activity.class);

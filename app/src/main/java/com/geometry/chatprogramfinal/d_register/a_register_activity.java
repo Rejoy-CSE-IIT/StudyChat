@@ -19,8 +19,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 
-public class register_activity extends AppCompatActivity
+public class a_register_activity extends AppCompatActivity
 {
 
     private EditText                 email_from_layout, password_from_layout;
@@ -29,6 +30,10 @@ public class register_activity extends AppCompatActivity
     private TextView register_label_from_layout;
 
     private FirebaseAuth                                        firebaseAuth;
+    String email = null;
+    String password = null;
+
+    DatabaseReference databaseRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,7 +46,7 @@ public class register_activity extends AppCompatActivity
 
 
 
-        setContentView(R.layout.activity_c_register);
+        setContentView(R.layout.activity_c_a_register);
 
 
         // Get Firebase Auth instance
@@ -51,6 +56,7 @@ public class register_activity extends AppCompatActivity
         // Construction of subviews
         log_in_button_from_layout = (Button) findViewById(R.id.log_in_button_from_layout);
         register_button_from_layout = (Button) findViewById(R.id.register_button_from_layout);
+
         email_from_layout = (EditText) findViewById(R.id.email_from_layout);
         password_from_layout = (EditText) findViewById(R.id.password_from_layout);
         progressBar_from_layout = (ProgressBar) findViewById(R.id.progressBar_from_layout);
@@ -61,40 +67,55 @@ public class register_activity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                validate_input validate= new validate_input(register_activity.this,getApplicationContext());
+                validate_input validate= new validate_input(a_register_activity.this,getApplicationContext());
 
 
 
-                String email = email_from_layout.getText().toString();
-                String password = password_from_layout.getText().toString();
-                if(validate.isValidEmail(email) && validate.isValidPassword(password))
+                email = email_from_layout.getText().toString();
+                password = password_from_layout.getText().toString();
+
+
+                if(validate.isValidEmail(email) &&
+                        validate.isValidPassword(password))
+
                 {
+
+
                     progressBar_from_layout.setVisibility(View.VISIBLE);
 
                     // Create user in Firebase
-                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(register_activity.this, new OnCompleteListener<AuthResult>()
+                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(a_register_activity.this, new OnCompleteListener<AuthResult>()
                     {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task)
                         {
-                            // helperFunctions_class.showToast(register_activity.this,"User Registration Finished");
+                            helperFunctions_class.showToast(a_register_activity.this,"User Registration Finished");
                             progressBar_from_layout.setVisibility(View.GONE);
 
                             if (!task.isSuccessful())
                             {
-
-                                helperFunctions_class.showToast(register_activity.this,"User Registration Failed");
-                                register_label_from_layout.setText("Registration Failed!!\n Please try again");
+                                          register_label_from_layout.setText("Registration Failed!!\n Please try again");
                             }
                             else
                             {
-                                helperFunctions_class.showToast(register_activity.this,"User Registration Successful");
-                                startActivity(new Intent(getApplicationContext(), login_activity.class));
-                                finish();
+                                // helperFunctions_class.showToast(a_register_activity.this,"User Registration Successful");
+
+
+                                                helperFunctions_class.showToast(a_register_activity.this,"DOne Register!!!");
+
+                                                Intent intent = new Intent(getApplicationContext(), login_activity.class);
+                                                intent.putExtra("fromRegister","fromRegister");
+                                                startActivity(intent);
+                                                finish();
+
+
+
+
 
                             }
                         }
                     });
+
                 }
                 else
                 {
@@ -124,7 +145,8 @@ public class register_activity extends AppCompatActivity
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
     }
 

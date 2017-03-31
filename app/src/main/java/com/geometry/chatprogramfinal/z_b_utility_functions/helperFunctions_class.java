@@ -38,4 +38,6 @@ public class helperFunctions_class
         return outMetrics.widthPixels;
 
     }
+
+
 }

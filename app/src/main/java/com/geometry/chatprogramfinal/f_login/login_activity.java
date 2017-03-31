@@ -12,8 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.geometry.chatprogramfinal.R;
-import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
-import com.geometry.chatprogramfinal.d_register.register_activity;
+import com.geometry.chatprogramfinal.d_register.a_register_activity;
+import com.geometry.chatprogramfinal.d_register.b_register_details;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.geometry.chatprogramfinal.z_c_validate_input.validate_input;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,6 +46,7 @@ public class login_activity extends AppCompatActivity
         // Get FirebaseAuth instance
         firebaseAuth = FirebaseAuth.getInstance();
 
+
         // Construction of subviews
         login_label_from_layout = (TextView) findViewById(R.id.login_label_from_layout);
         email_from_layout = (EditText) findViewById(R.id.email_from_layout);
@@ -55,13 +56,20 @@ public class login_activity extends AppCompatActivity
         login_from_layout = (Button) findViewById(R.id.login_from_layout);
         reset_password_from_layout = (Button) findViewById(R.id.reset_password_from_layout);
 
+
+        Intent intent = getIntent();
+        if(intent.hasExtra("fromRegister"))
+        {
+            login_label_from_layout.setText("Registration is successful \n Please Login");
+        }
+
         // set the click listener to start sign up activity on click.
         register_from_layout.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(login_activity.this, register_activity.class));
+                startActivity(new Intent(login_activity.this, a_register_activity.class));
                 finish();
             }
         });
@@ -72,7 +80,7 @@ public class login_activity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(login_activity.this, register_activity.class));
+                startActivity(new Intent(login_activity.this, a_register_activity.class));
                 finish();
             }
         });
@@ -111,8 +119,8 @@ public class login_activity extends AppCompatActivity
                                     else
                                     {
                                         helperFunctions_class.showToast(login_activity.this,"User Login Success");
-                                        ChatMain_activity.loggedIn=true;
-                                        startActivity(new Intent(login_activity.this, ChatMain_activity.class));
+
+                                        startActivity(new Intent(login_activity.this, b_register_details.class));
                                         finish();
                                     }
                                 }
