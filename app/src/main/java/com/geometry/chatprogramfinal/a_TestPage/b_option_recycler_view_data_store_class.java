@@ -10,7 +10,7 @@ public class b_option_recycler_view_data_store_class
 
 
 
-    static String[] nameArray = new String [] { "Chat App","Analytics","log in"  };
+    static String[] nameArray = new String [] { "Chat App","Analytics","FireBase Auth Google Login"  };
 
 
 

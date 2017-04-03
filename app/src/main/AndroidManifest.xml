@@ -42,7 +42,10 @@
         <activity
             android:name=".f_login.login_activity"
             android:theme="@style/AppTheme1" />
-        <activity android:name=".d_register.b_register_details"
+        <activity
+            android:name=".d_register.b_register_details"
+            android:theme="@style/AppTheme1" />
+        <activity android:name=".t_b_google_login.google_login_acitivity"
             android:theme="@style/AppTheme1"/>
     </application>
 
