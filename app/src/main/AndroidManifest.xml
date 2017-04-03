@@ -46,7 +46,7 @@
             android:name=".d_register.b_register_details"
             android:theme="@style/AppTheme1" />
         <activity android:name=".t_b_google_login.google_login_acitivity"
-            android:theme="@style/AppTheme1"/>
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
