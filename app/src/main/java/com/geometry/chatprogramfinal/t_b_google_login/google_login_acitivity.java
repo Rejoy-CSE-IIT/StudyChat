@@ -21,38 +21,33 @@ public class google_login_acitivity extends AppCompatActivity
     // Choose an arbitrary request code value
     private static final int RC_SIGN_IN = 123;
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_login_acitivity);
 
         // Obtain the FirebaseAuth instance
-         mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
-        mAuthStateListener = new FirebaseAuth.AuthStateListener()
-        {
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
-            {
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 // Get the Firebase User
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 // Check whether user has logged in or not
-                if( user != null)
-                {
+                if (user != null) {
                     // User is logged in
-                    Toast.makeText( google_login_acitivity.this, "You're now signed in. Welcome to FirebaseHero!.", Toast.LENGTH_SHORT). show();
+                    Toast.makeText(google_login_acitivity.this, "You're now signed in. Welcome to FirebaseHero!.", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     // User is not logged in
-                    startActivityForResult( AuthUI.getInstance().createSignInIntentBuilder().setIsSmartLockEnabled( false).setProviders( AuthUI.EMAIL_PROVIDER, AuthUI.GOOGLE_PROVIDER) .build(), RC_SIGN_IN);
+                    //User is not logged in
+                    startActivityForResult( AuthUI.getInstance().createSignInIntentBuilder().setIsSmartLockEnabled( false).setProviders( AuthUI.EMAIL_PROVIDER, AuthUI.GOOGLE_PROVIDER,AuthUI.FACEBOOK_PROVIDER,AuthUI.TWITTER_PROVIDER) .build(), RC_SIGN_IN);
+
                 }
             }
         };
-
-
     }
-
     @Override
     protected void onPause()
     {
