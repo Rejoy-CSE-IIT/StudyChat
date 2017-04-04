@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.d_register.a_register_activity;
 import com.geometry.chatprogramfinal.d_register.b_register_details;
+import com.geometry.chatprogramfinal.g_reset_Password.resetPassword_activity;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.geometry.chatprogramfinal.z_c_validate_input.validate_input;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -63,6 +64,13 @@ public class login_activity extends AppCompatActivity
             login_label_from_layout.setText("Registration is successful \n Please Login");
         }
 
+
+        if(intent.hasExtra("fromReset"))
+        {
+            login_label_from_layout.setText("Password Changed \n Please Login");
+        }
+
+
         // set the click listener to start sign up activity on click.
         register_from_layout.setOnClickListener(new View.OnClickListener()
         {
@@ -80,7 +88,7 @@ public class login_activity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(login_activity.this, a_register_activity.class));
+                startActivity(new Intent(login_activity.this, resetPassword_activity.class));
                 finish();
             }
         });
@@ -115,9 +123,11 @@ public class login_activity extends AppCompatActivity
                                     {
                                         helperFunctions_class.showToast(login_activity.this,"User Login Failed");
                                         login_label_from_layout.setText("Login Failed!!\n Please try again");
+                                        progressBar_from_layout.setVisibility(View.GONE);
                                     }
                                     else
                                     {
+                                        progressBar_from_layout.setVisibility(View.GONE);
                                         helperFunctions_class.showToast(login_activity.this,"User Login Success");
 
                                         startActivity(new Intent(login_activity.this, b_register_details.class));
