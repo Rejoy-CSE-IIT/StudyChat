@@ -96,8 +96,12 @@ public class b_register_details extends AppCompatActivity
                     SystemClock.sleep(1000);
 
                     ChatMain_activity.loggedIn=true;
-                    startActivity(new Intent(b_register_details.this, ChatMain_activity.class));
+
+                    Intent intent = new Intent(getApplicationContext(), ChatMain_activity.class);
+                    intent.putExtra("fromRegisterDetails","fromRegisterDetails");
+                    startActivity(intent);
                     finish();
+
                 }
 
             }

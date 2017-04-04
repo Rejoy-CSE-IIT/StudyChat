@@ -7,8 +7,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.geometry.chatprogramfinal.R;
+import com.geometry.chatprogramfinal.d_register.b_register_details;
 import com.geometry.chatprogramfinal.f_login.login_activity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ChatMain_activity extends AppCompatActivity
 {
@@ -16,20 +18,47 @@ public class ChatMain_activity extends AppCompatActivity
     public static String                                                      userId=null;
 
     public static boolean                                                    loggedIn = false;
+    private FirebaseAuth                                        firebaseAuth;
     Button logout_button_xml;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_d_chat_main);
 
+        // Get Firebase Auth instance
+        firebaseAuth = firebaseAuth.getInstance();
+
         logout_button_xml =(Button) findViewById(R.id.logout_button_xml);
 
+        Intent intent = getIntent();
+        if(!intent.hasExtra("fromRegisterDetails"))
+        {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null)
+            {
+
+                startActivity(new Intent(ChatMain_activity.this, b_register_details.class));
+                finish();
+            }
+            else
+            {
+                startActivity(new Intent(ChatMain_activity.this, login_activity.class));
+                finish();
+            }
+
+        }
+
+
+
+
+
+        /*
         if(!ChatMain_activity.loggedIn)
         {
-            startActivity(new Intent(ChatMain_activity.this, login_activity.class));
-            finish();
-        }
+
+        }*/
 
 
         //Make log out
