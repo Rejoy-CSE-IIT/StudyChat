@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class login_activity extends AppCompatActivity
 {
@@ -71,7 +72,7 @@ public class login_activity extends AppCompatActivity
         Intent intent = getIntent();
         if(intent.hasExtra("fromRegister"))
         {
-            login_label_from_layout.setText("Registration is successful \n Please Login");
+            login_label_from_layout.setText("Registration is successful \n Please verify  & Login");
         }
 
 
@@ -79,6 +80,12 @@ public class login_activity extends AppCompatActivity
         {
             login_label_from_layout.setText("Password Changed \n Please Login");
         }
+
+        if(intent.hasExtra("notVerified"))
+        {
+            login_label_from_layout.setText("Login failed..Please verify   ");
+        }
+
 
 
         // set the click listener to start sign up activity on click.
@@ -138,10 +145,16 @@ public class login_activity extends AppCompatActivity
                                     else
                                     {
                                         progressBar_from_layout.setVisibility(View.GONE);
-                                        helperFunctions_class.showToast(login_activity.this,"User Login Success");
+
+                                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+
+                                        helperFunctions_class.showToast(login_activity.this, "User Login Success");
 
                                         startActivity(new Intent(login_activity.this, b_register_details.class));
                                         finish();
+
+
                                     }
                                 }
                             });

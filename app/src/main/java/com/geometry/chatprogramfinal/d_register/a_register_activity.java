@@ -119,7 +119,8 @@ public class a_register_activity extends AppCompatActivity implements GoogleApiC
                                 // helperFunctions_class.showToast(a_register_activity.this,"User Registration Successful");
 
 
-                                                helperFunctions_class.showToast(a_register_activity.this,"DOne Register!!!");
+
+                                helperFunctions_class.showToast(a_register_activity.this,"DOne Register!!!");
 
                                                 Intent intent = new Intent(getApplicationContext(), login_activity.class);
                                                 intent.putExtra("fromRegister","fromRegister");
@@ -233,12 +234,8 @@ public class a_register_activity extends AppCompatActivity implements GoogleApiC
                     // helperFunctions_class.showToast(a_register_activity.this,"User Registration Successful");
 
 
-                    helperFunctions_class.showToast(a_register_activity.this,"DOne Register!!!");
+                   // helperFunctions_class.showToast(a_register_activity.this,"DOne Register!!!");
 
-                    Intent intent = new Intent(getApplicationContext(), login_activity.class);
-                    intent.putExtra("fromRegister","fromRegister");
-                    startActivity(intent);
-                    finish();
 
 
 
@@ -251,4 +248,9 @@ public class a_register_activity extends AppCompatActivity implements GoogleApiC
     }
 
 
+
+
 }
+
+
+

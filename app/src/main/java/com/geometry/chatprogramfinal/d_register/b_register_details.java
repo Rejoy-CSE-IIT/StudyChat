@@ -3,6 +3,7 @@ package com.geometry.chatprogramfinal.d_register;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -13,8 +14,12 @@ import android.widget.TextView;
 
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
+import com.geometry.chatprogramfinal.f_login.login_activity;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +40,8 @@ public class b_register_details extends AppCompatActivity
 
     DatabaseReference chatIdatLogin;
     DatabaseReference chatIdatverification;
-    DatabaseReference addUserInfo;
+    FirebaseUser firebaseUser;
+    private FirebaseAuth                                        firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -51,10 +57,19 @@ public class b_register_details extends AppCompatActivity
         chatId_label_from_layout            = (TextView) findViewById(R.id.chatId_label_from_layout);
 
         userIdWindow.setVisibility(View.GONE);
-
+        // Get Firebase Auth instance
+        firebaseAuth = firebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
 
           chatIdatLogin= FirebaseDatabase.getInstance()
                 .getReference().child("GroupChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        if( !firebaseUser.isEmailVerified())
+        {
+            sendVerificationEmail();
+
+        }
+
 
         chatIdatLogin.addListenerForSingleValueEvent(new ValueEventListener()
         {
@@ -70,10 +85,14 @@ public class b_register_details extends AppCompatActivity
                     userIdMsgWindow.setVisibility(View.GONE);
                     userIdWindow.setVisibility(View.VISIBLE);
 
+                    chatId_label_from_layout.setText("Check Email for verification");
+
+
+
                 }
                 else
                 {
-                   helperFunctions_class.showToast(b_register_details.this,"user id aleady exists");
+                     helperFunctions_class.showToast(b_register_details.this,"user id aleady exists");
                     SystemClock.sleep(1000);
 
                     ChatMain_activity.loggedIn=true;
@@ -99,65 +118,92 @@ public class b_register_details extends AppCompatActivity
 
                 DatabaseReference addUserInfo;
 
-                chatIdatverification = FirebaseDatabase.getInstance()
-                        .getReference().child("GroupChatIdVerification").child(chatid_from_layout.getText().toString().toLowerCase());
-                chatIdatverification.addListenerForSingleValueEvent(new ValueEventListener()
-                {
 
 
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot)
-                    {
-
-                        if(dataSnapshot.exists())
-                        {
-                            helperFunctions_class.showToast(b_register_details.this,"Please type new id");
-                            chatId_label_from_layout.setText("Error !! Chat Id already Exists \n try again");
+                    chatIdatverification = FirebaseDatabase.getInstance()
+                            .getReference().child("GroupChatIdVerification").child(chatid_from_layout.getText().toString().toLowerCase());
+                    chatIdatverification.addListenerForSingleValueEvent(new ValueEventListener() {
 
 
-                        }
-                        else
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot)
                         {
 
-                            chatIdatverification.setValue(FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                                    new DatabaseReference.CompletionListener()
-                                    {
+                            if (dataSnapshot.exists())
+                            {
+                                helperFunctions_class.showToast(b_register_details.this, "Please type new id");
+                                chatId_label_from_layout.setText("Error !! Chat Id already Exists \n try again");
 
-                                        @Override
-                                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
+
+                            }
+                            else
+                            {
+
+                                chatIdatverification.setValue(FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                        new DatabaseReference.CompletionListener()
                                         {
 
-                                            chatIdatLogin.setValue(chatid_from_layout.getText().toString().toLowerCase(),
-                                                    new DatabaseReference.CompletionListener()
-                                                    {
+                                            @Override
+                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
-                                                        @Override
-                                                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
-                                                        {
-                                                            ChatMain_activity.loggedIn=true;
-                                                       startActivity(new Intent(b_register_details.this, ChatMain_activity.class));
-                                                            finish();
+                                                chatIdatLogin.setValue(chatid_from_layout.getText().toString().toLowerCase(),
+                                                        new DatabaseReference.CompletionListener() {
 
-                                                        }
-                                                    });
+                                                            @Override
+                                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                                                ChatMain_activity.loggedIn = true;
+                                                                startActivity(new Intent(b_register_details.this, ChatMain_activity.class));
+                                                                finish();
 
-                                        }
-                                    });
+                                                            }
+                                                        });
+
+                                            }
+                                        });
+
+                            }
 
                         }
 
-                    }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError)
+                        {
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+                        }
+                    });
 
 
 
 
             }
         });
+    }
+
+    public void sendVerificationEmail()
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null)
+        {
+            user.sendEmailVerification()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task)
+                        {
+                            if (task.isSuccessful())
+                            {
+                                helperFunctions_class.showToast(b_register_details.this,"Check Registration Vertification mail ");
+                                ChatMain_activity.UserName=null;
+                                ChatMain_activity.userId=null;
+                                FirebaseAuth.getInstance().signOut();
+                                Intent intent = new Intent(getApplicationContext(), login_activity.class);
+                                intent.putExtra("notVerified", "notVerified");
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    });
+        }
+
     }
 }
