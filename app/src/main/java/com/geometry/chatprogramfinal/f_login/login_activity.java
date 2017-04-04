@@ -17,6 +17,8 @@ import com.geometry.chatprogramfinal.d_register.b_register_details;
 import com.geometry.chatprogramfinal.g_reset_Password.resetPassword_activity;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.geometry.chatprogramfinal.z_c_validate_input.validate_input;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,6 +31,14 @@ public class login_activity extends AppCompatActivity
     private EditText email_from_layout, password_from_layout;
     private Button register_from_layout, login_from_layout, reset_password_from_layout;
     private ProgressBar progressBar_from_layout;
+
+
+    private SignInButton googleSignBtn;
+    private GoogleApiClient googleApiClient;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private static int RC_SIGN_IN = 0;
+    private static final String TAG = login_activity.class.getSimpleName();
+
 
     // Initialisation of FirebaseAuth variable
     private FirebaseAuth firebaseAuth;

@@ -23,7 +23,6 @@ import android.widget.Toast;
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 import com.geometry.chatprogramfinal.t_a_analytics.a_analytics;
-import com.geometry.chatprogramfinal.t_b_google_login.google_login_acitivity;
 import com.geometry.chatprogramfinal.z_a_recyler_listener.recyclerTouchListener_class;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -112,16 +111,7 @@ public class e_option_selector_recycler_view_activity extends AppCompatActivity
 
                         break;
 
-                    case "FireBase Auth Google Login":
 
-                        if(e_option_selector_recycler_view_activity.TESTING_MODE)
-                            Toast.makeText(e_option_selector_recycler_view_activity.this, "Google Login"+dataE.getOptionName(), Toast.LENGTH_LONG).show();
-
-
-                        intent = new Intent(e_option_selector_recycler_view_activity.this, google_login_acitivity.class);
-                        startActivity(intent);
-
-                        break;
 
 
 

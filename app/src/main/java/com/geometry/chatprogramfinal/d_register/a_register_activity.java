@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -15,13 +16,21 @@ import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.f_login.login_activity;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.geometry.chatprogramfinal.z_c_validate_input.validate_input;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 
-public class a_register_activity extends AppCompatActivity
+public class a_register_activity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener
 {
 
     private EditText                 email_from_layout, password_from_layout;
@@ -34,6 +43,12 @@ public class a_register_activity extends AppCompatActivity
     String password = null;
 
     DatabaseReference databaseRef;
+
+    private Button register_google_button_from_layout;
+    private GoogleApiClient googleApiClient;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private static int RC_SIGN_IN = 0;
+    private static final String TAG = a_register_activity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -62,12 +77,15 @@ public class a_register_activity extends AppCompatActivity
         progressBar_from_layout = (ProgressBar) findViewById(R.id.progressBar_from_layout);
 
 
+        register_google_button_from_layout = (Button) findViewById(R.id.register_google_button_from_layout);
+
         register_button_from_layout.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
                 validate_input validate= new validate_input(a_register_activity.this,getApplicationContext());
+
 
 
 
@@ -142,6 +160,23 @@ public class a_register_activity extends AppCompatActivity
                 }
             });
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder( GoogleSignInOptions.DEFAULT_SIGN_IN).
+                requestIdToken( getString( R.string.default_web_client_id)).
+                requestEmail().build();
+
+        googleApiClient = new GoogleApiClient.Builder( this).enableAutoManage(this, this).addApi( Auth.GOOGLE_SIGN_IN_API, gso).build();
+        register_google_button_from_layout.setOnClickListener( new View.OnClickListener()
+        {
+            @Override public void onClick( View v)
+            {
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent( googleApiClient);
+                startActivityForResult( signInIntent, RC_SIGN_IN);
+            }
+        });
+
+
+
+
     }
 
     @Override
@@ -157,6 +192,63 @@ public class a_register_activity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    protected void onActivityResult( int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult( requestCode, resultCode, data);
+        if( requestCode == RC_SIGN_IN)
+        {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if(result.isSuccess())
+            {
+                GoogleSignInAccount account = result.getSignInAccount();
+                firebaseAuthWithGoogleSignIn( account);
+            }
+            else
+            {
+                Log.d( TAG, "Google Login Failed!");
+            }
+        }
+    }
+
+    private void firebaseAuthWithGoogleSignIn( GoogleSignInAccount account)
+    {
+        AuthCredential authCredential = GoogleAuthProvider.getCredential( account.getIdToken(), null);
+        firebaseAuth.signInWithCredential( authCredential). addOnCompleteListener( this, new OnCompleteListener < AuthResult >()
+        {
+
+            @Override public void onComplete(@ NonNull Task < AuthResult > task)
+            {
+                if (!task.isSuccessful())
+                {
+                    register_label_from_layout.setText("Registration Failed!!\n Please try again");
+                }
+                else
+                {
+                    // helperFunctions_class.showToast(a_register_activity.this,"User Registration Successful");
+
+
+                    helperFunctions_class.showToast(a_register_activity.this,"DOne Register!!!");
+
+                    Intent intent = new Intent(getApplicationContext(), login_activity.class);
+                    intent.putExtra("fromRegister","fromRegister");
+                    startActivity(intent);
+                    finish();
+
+
+
+
+
+                }
+
+            }
+        });
+    }
 
 
 }
