@@ -85,7 +85,7 @@ public class b_register_details extends AppCompatActivity
                     userIdMsgWindow.setVisibility(View.GONE);
                     userIdWindow.setVisibility(View.VISIBLE);
 
-                    chatId_label_from_layout.setText("Check Email for verification");
+                    chatId_label_from_layout.setText("Enter new Chat Id");
 
 
 

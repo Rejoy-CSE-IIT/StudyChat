@@ -72,7 +72,7 @@ public class login_activity extends AppCompatActivity
         Intent intent = getIntent();
         if(intent.hasExtra("fromRegister"))
         {
-            login_label_from_layout.setText("Registration is successful \n Please verify  & Login");
+            login_label_from_layout.setText("Registration is successful \n Please verify from email   & Login");
         }
 
 
