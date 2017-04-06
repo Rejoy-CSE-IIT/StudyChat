@@ -78,6 +78,11 @@
             android:background="@drawable/button_rounded_corners_gradient"
             android:textColor="@android:color/white" />
 
+        <com.google.android.gms.common.SignInButton
+            android:id ="@+id/google_sign_in_button"
+            android:layout_width ="fill_parent"
+            android:layout_height ="wrap_content"
+            android:layout_marginTop ="20dip" />
 
 
         <Button

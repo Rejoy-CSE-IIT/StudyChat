@@ -42,6 +42,8 @@ public class b_register_details extends AppCompatActivity
     DatabaseReference chatIdatverification;
     FirebaseUser firebaseUser;
     private FirebaseAuth                                        firebaseAuth;
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -61,8 +63,13 @@ public class b_register_details extends AppCompatActivity
         firebaseAuth = firebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
+        final Intent intentfromOther = getIntent();
+
           chatIdatLogin= FirebaseDatabase.getInstance()
                 .getReference().child("GroupChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+
+          intent = new Intent(getApplicationContext(), ChatMain_activity.class);
 
         if( !firebaseUser.isEmailVerified())
         {
@@ -98,6 +105,12 @@ public class b_register_details extends AppCompatActivity
                     ChatMain_activity.loggedIn=true;
 
                     Intent intent = new Intent(getApplicationContext(), ChatMain_activity.class);
+
+                    if(intentfromOther.hasExtra("googleSignIn"))
+                    {
+                        intent.putExtra("googleSignIn","googleSignIn");
+                    }
+
                     intent.putExtra("fromRegisterDetails","fromRegisterDetails");
                     startActivity(intent);
                     finish();
@@ -156,7 +169,15 @@ public class b_register_details extends AppCompatActivity
                                                             @Override
                                                             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                                                                 ChatMain_activity.loggedIn = true;
-                                                                startActivity(new Intent(b_register_details.this, ChatMain_activity.class));
+
+
+                                                                if(intentfromOther.hasExtra("googleSignIn"))
+                                                                {
+                                                                    intent.putExtra("googleSignIn","googleSignIn");
+                                                                }
+
+                                                                intent.putExtra("fromRegisterDetails","fromRegisterDetails");
+                                                                startActivity(intent);
                                                                 finish();
 
                                                             }
