@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.geometry.chatprogramfinal.R;
-import com.geometry.chatprogramfinal.d_register.b_register_details;
 import com.geometry.chatprogramfinal.f_login.login_activity;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.google.android.gms.auth.api.Auth;
@@ -18,7 +17,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class ChatMain_activity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
@@ -31,14 +29,14 @@ public class ChatMain_activity extends AppCompatActivity implements
     Button logout_button_xml;
     private GoogleApiClient mGoogleApiClient;
     private GoogleSignInOptions gso;
+    Intent intentfromOther;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_d_chat_main);
 
-        // Get Firebase Auth instance
-        firebaseAuth = firebaseAuth.getInstance();
+         intentfromOther = getIntent();
 
         // [START config_signin]
         // Configure Google Sign In
@@ -56,23 +54,7 @@ public class ChatMain_activity extends AppCompatActivity implements
 
         logout_button_xml =(Button) findViewById(R.id.logout_button_xml);
 
-        Intent intent = getIntent();
-        if(!intent.hasExtra("fromRegisterDetails"))
-        {
-            FirebaseUser user = firebaseAuth.getCurrentUser();
-            if (user != null)
-            {
 
-                startActivity(new Intent(ChatMain_activity.this, b_register_details.class));
-                finish();
-            }
-            else
-            {
-                startActivity(new Intent(ChatMain_activity.this, login_activity.class));
-                finish();
-            }
-
-        }
 
 
 
@@ -100,28 +82,35 @@ public class ChatMain_activity extends AppCompatActivity implements
 
                     ChatMain_activity.UserName=null;
                     ChatMain_activity.userId=null;
-                    FirebaseAuth.getInstance().signOut();
 
-                final Intent intentfromOther = getIntent();
+
+
 
                 if(intentfromOther.hasExtra("googleSignIn"))
                 {
+
+                    helperFunctions_class.showToast(ChatMain_activity.this, "AAADOne googlesign out!!!");
+
                     Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                             new ResultCallback<Status>()
                             {
                                 @Override
                                 public void onResult(@NonNull Status status)
                                 {
-                                    helperFunctions_class.showToast(ChatMain_activity.this, "DOne googlesign out!!!");
+                                    helperFunctions_class.showToast(ChatMain_activity.this, "BBDOne googlesign out!!!");
 
+                                    FirebaseAuth.getInstance().signOut();
                                     startActivity(new Intent(ChatMain_activity.this, login_activity.class));
                                     finish();
 
                                 }
                             });
+
                 }
                 else
                 {
+                    helperFunctions_class.showToast(ChatMain_activity.this, "cccOne googlesign out!!!");
+
                     startActivity(new Intent(ChatMain_activity.this, login_activity.class));
                     finish();
                 }

@@ -58,7 +58,7 @@ public class a_register_activity extends AppCompatActivity implements GoogleApiC
 
 
         // Get Firebase Auth instance
-        firebaseAuth = firebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         register_label_from_layout = (TextView) findViewById(R.id.register_label_from_layout);
         // Construction of subviews

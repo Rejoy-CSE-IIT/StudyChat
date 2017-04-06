@@ -26,7 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class b_register_details extends AppCompatActivity
+public class b_register_details_activity extends AppCompatActivity
 {
     EditText chatid_from_layout;
     LinearLayout userIdWindow;
@@ -88,7 +88,7 @@ public class b_register_details extends AppCompatActivity
 
                 if(!dataSnapshot.exists())
                 {
-                    helperFunctions_class.showToast(b_register_details.this,"user id is new");
+                    helperFunctions_class.showToast(b_register_details_activity.this,"user id is new");
                     userIdMsgWindow.setVisibility(View.GONE);
                     userIdWindow.setVisibility(View.VISIBLE);
 
@@ -99,7 +99,7 @@ public class b_register_details extends AppCompatActivity
                 }
                 else
                 {
-                     helperFunctions_class.showToast(b_register_details.this,"user id aleady exists");
+                     helperFunctions_class.showToast(b_register_details_activity.this,"user id aleady exists");
                     SystemClock.sleep(1000);
 
                     ChatMain_activity.loggedIn=true;
@@ -148,7 +148,7 @@ public class b_register_details extends AppCompatActivity
 
                             if (dataSnapshot.exists())
                             {
-                                helperFunctions_class.showToast(b_register_details.this, "Please type new id");
+                                helperFunctions_class.showToast(b_register_details_activity.this, "Please type new id");
                                 chatId_label_from_layout.setText("Error !! Chat Id already Exists \n try again");
 
 
@@ -217,7 +217,7 @@ public class b_register_details extends AppCompatActivity
                         {
                             if (task.isSuccessful())
                             {
-                                helperFunctions_class.showToast(b_register_details.this,"Check Registration Vertification mail ");
+                                helperFunctions_class.showToast(b_register_details_activity.this,"Check Registration Vertification mail ");
                                 ChatMain_activity.UserName=null;
                                 ChatMain_activity.userId=null;
                                 FirebaseAuth.getInstance().signOut();
