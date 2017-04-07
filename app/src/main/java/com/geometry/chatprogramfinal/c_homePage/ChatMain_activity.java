@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.geometry.chatprogramfinal.R;
@@ -39,6 +40,7 @@ public class ChatMain_activity extends AppCompatActivity implements
     TextView     email_address_from_xml,display_name_from_xml;
 
     DatabaseReference chatIdatLogin;
+    private ProgressBar progressBar_from_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -46,7 +48,7 @@ public class ChatMain_activity extends AppCompatActivity implements
         setContentView(R.layout.activity_d_chat_main);
 
 
-
+        progressBar_from_layout = (ProgressBar) findViewById(R.id.progressBar_from_layout);
 
         email_address_from_xml =(TextView) findViewById(R.id.email_address_from_xml);
         display_name_from_xml =(TextView) findViewById(R.id.display_name_from_xml);
@@ -108,7 +110,7 @@ public class ChatMain_activity extends AppCompatActivity implements
             {
                 chatIdatLogin= FirebaseDatabase.getInstance()
                         .getReference().child("GroupChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
+                progressBar_from_layout.setVisibility(View.VISIBLE);
 
                 UserData userData = new UserData(ChatMain_activity.userId,ChatMain_activity.UserName,"OFFLINE");
                 chatIdatLogin.setValue(userData,
@@ -162,6 +164,8 @@ public class ChatMain_activity extends AppCompatActivity implements
                             helperFunctions_class.showToast(ChatMain_activity.this, "BBDOne googlesign out!!!");
 
                             FirebaseAuth.getInstance().signOut();
+
+                            progressBar_from_layout.setVisibility(View.GONE);
                             startActivity(new Intent(ChatMain_activity.this, login_activity.class));
                             finish();
 
