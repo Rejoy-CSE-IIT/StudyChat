@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 import com.geometry.chatprogramfinal.f_login.login_activity;
+import com.geometry.chatprogramfinal.h_Users_List.UserData;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -61,8 +62,8 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
     TextView chatId_label_from_layout;
 
 
-    DatabaseReference chatIdatLogin;
     DatabaseReference chatIdatverification;
+    DatabaseReference chatIdatLogin;
     FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
     Intent intent;
@@ -108,12 +109,13 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
             public void onClick(View view)
             {
 
+                DatabaseReference addUserInfo;
+
 
 
                 chatIdatverification = FirebaseDatabase.getInstance()
                         .getReference().child("GroupChatIdVerification").child(chatid_from_layout.getText().toString().toLowerCase());
-                chatIdatverification.addListenerForSingleValueEvent(new ValueEventListener()
-                {
+                chatIdatverification.addListenerForSingleValueEvent(new ValueEventListener() {
 
 
                     @Override
@@ -122,7 +124,7 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
 
                         if (dataSnapshot.exists())
                         {
-                            helperFunctions_class.showToast(c_register_details_google_signIn_activity.this, "Please type new id");
+                          //  helperFunctions_class.showToast(b_register_details_activity.this, "Please type new id");
                             chatId_label_from_layout.setText("Error !! Chat Id already Exists \n try again");
 
 
@@ -135,25 +137,20 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
                                     {
 
                                         @Override
-                                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-                                            chatIdatLogin.setValue(chatid_from_layout.getText().toString().toLowerCase(),
-                                                    new DatabaseReference.CompletionListener()
-                                                    {
+                                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
+                                        {
+                                            UserName = chatid_from_layout.getText().toString();
+                                            userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                            loggedIn=true;
+                                            UserData userData = new UserData(userId,UserName,"ONLINE");
+                                            chatIdatLogin.setValue(userData,
+                                                    new DatabaseReference.CompletionListener() {
 
                                                         @Override
                                                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
                                                         {
 
-
-
-                                                            UserName = chatid_from_layout.getText().toString();
-                                                            userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                                            loggedIn=true;
                                                             call_home_page();
-
-
-
                                                         }
                                                     });
 
@@ -176,7 +173,6 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
 
             }
         });
-
 
 
 
@@ -268,11 +264,33 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
                                         helperFunctions_class.showToast(c_register_details_google_signIn_activity.this,"user id aleady exists");
                                         SystemClock.sleep(1000);
 
-                                        UserName = dataSnapshot.getValue(String.class);
+                                        UserData userData = dataSnapshot.getValue(UserData.class);
+
+
+
+
+                                        UserName = userData.getUserid();
                                         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                         loggedIn=true;
+                                        userData = new UserData(userId,UserName,"ONLINE");
 
-                                        call_home_page();
+
+                                        chatIdatLogin.setValue(userData,
+                                                new DatabaseReference.CompletionListener()
+                                                {
+
+                                                    @Override
+                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
+                                                    {
+                                                        loggedIn=true;
+                                                        loggedIn=true;
+                                                        call_home_page();
+
+                                                    }
+                                                });
+
+
+
 
                                     }
 

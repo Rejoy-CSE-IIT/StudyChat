@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.f_login.login_activity;
+import com.geometry.chatprogramfinal.h_Users_List.UserData;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -18,6 +19,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ChatMain_activity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
@@ -31,13 +35,18 @@ public class ChatMain_activity extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private GoogleSignInOptions gso;
     Intent intentfromOther;
-
+    DatabaseReference chatIdatverification;
     TextView     email_address_from_xml,display_name_from_xml;
+
+    DatabaseReference chatIdatLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_d_chat_main);
+
+
+
 
         email_address_from_xml =(TextView) findViewById(R.id.email_address_from_xml);
         display_name_from_xml =(TextView) findViewById(R.id.display_name_from_xml);
@@ -97,51 +106,27 @@ public class ChatMain_activity extends AppCompatActivity implements
             @Override
             public void onClick(View view)
             {
-                        /*
-                    mRef= FirebaseDatabase.getInstance()
-                            .getReference().child("UserInfo").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-                    logout=true;
-                    mRef.setValue(new UserData(ChatMain.userId, ChatMain.UserName, "OFF LINE"));*/
-
-                    ChatMain_activity.UserName=null;
-                    ChatMain_activity.userId=null;
+                chatIdatLogin= FirebaseDatabase.getInstance()
+                        .getReference().child("GroupChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
 
+                UserData userData = new UserData(ChatMain_activity.userId,ChatMain_activity.UserName,"OFFLINE");
+                chatIdatLogin.setValue(userData,
+                        new DatabaseReference.CompletionListener() {
 
-
-                if(intentfromOther.hasExtra("googleSignIn"))
-                {
-
-                    helperFunctions_class.showToast(ChatMain_activity.this, "AAADOne googlesign out!!!");
-
-                    Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                            new ResultCallback<Status>()
+                            @Override
+                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
                             {
-                                @Override
-                                public void onResult(@NonNull Status status)
-                                {
-                                    helperFunctions_class.showToast(ChatMain_activity.this, "BBDOne googlesign out!!!");
 
-                                    FirebaseAuth.getInstance().signOut();
-                                    startActivity(new Intent(ChatMain_activity.this, login_activity.class));
-                                    finish();
+                                call_login();
+                            }
+                        });
 
-                                }
-                            });
+/*
+                chatIdatverification = FirebaseDatabase.getInstance()
+                        .getReference().child("GroupChatIdVerification").child(chatid_from_layout.getText().toString().toLowerCase());
 
-                }
-                else
-                {
-                    helperFunctions_class.showToast(ChatMain_activity.this, "cccOne googlesign out!!!");
-
-                    startActivity(new Intent(ChatMain_activity.this, login_activity.class));
-                    finish();
-                }
-
-
-
-
+*/
 
 
             }
@@ -151,6 +136,46 @@ public class ChatMain_activity extends AppCompatActivity implements
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    private void call_login()
+    {
+
+        ChatMain_activity.UserName=null;
+        ChatMain_activity.userId=null;
+
+
+
+
+        if(intentfromOther.hasExtra("googleSignIn"))
+        {
+
+            helperFunctions_class.showToast(ChatMain_activity.this, "AAADOne googlesign out!!!");
+
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>()
+                    {
+                        @Override
+                        public void onResult(@NonNull Status status)
+                        {
+                            helperFunctions_class.showToast(ChatMain_activity.this, "BBDOne googlesign out!!!");
+
+                            FirebaseAuth.getInstance().signOut();
+                            startActivity(new Intent(ChatMain_activity.this, login_activity.class));
+                            finish();
+
+                        }
+                    });
+
+        }
+        else
+        {
+            helperFunctions_class.showToast(ChatMain_activity.this, "cccOne googlesign out!!!");
+
+            startActivity(new Intent(ChatMain_activity.this, login_activity.class));
+            finish();
+        }
 
     }
 }

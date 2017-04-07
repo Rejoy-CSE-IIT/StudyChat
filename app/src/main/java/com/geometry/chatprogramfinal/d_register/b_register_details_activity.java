@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 import com.geometry.chatprogramfinal.f_login.login_activity;
+import com.geometry.chatprogramfinal.h_Users_List.UserData;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -106,10 +107,23 @@ public class b_register_details_activity extends AppCompatActivity
                      helperFunctions_class.showToast(b_register_details_activity.this,"user id aleady exists");
                      SystemClock.sleep(1000);
 
-                    UserName = dataSnapshot.getValue(String.class);
-                    userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    UserData userData = dataSnapshot.getValue(UserData.class);
+
+                    UserName = userData.getUserid();
+                    userId = userData.getFirebaseUserId();
                     loggedIn=true;
-                    call_home_page();
+                    userData.setStatus("ONLINE");
+                    chatIdatLogin.setValue(userData,
+                            new DatabaseReference.CompletionListener() {
+
+                                @Override
+                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
+                                {
+
+                                    call_home_page();
+                                }
+                            });
+
                 }
 
             }
@@ -156,17 +170,19 @@ public class b_register_details_activity extends AppCompatActivity
                                         {
 
                                             @Override
-                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-                                                chatIdatLogin.setValue(chatid_from_layout.getText().toString().toLowerCase(),
+                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
+                                            {
+                                                UserName = chatid_from_layout.getText().toString();
+                                                userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                                loggedIn=true;
+                                                UserData userData = new UserData(userId,UserName,"ONLINE");
+                                                chatIdatLogin.setValue(userData,
                                                         new DatabaseReference.CompletionListener() {
 
                                                             @Override
                                                             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
                                                             {
-                                                                UserName = chatid_from_layout.getText().toString();
-                                                                userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                                                loggedIn=true;
+
                                                                 call_home_page();
                                                             }
                                                         });
