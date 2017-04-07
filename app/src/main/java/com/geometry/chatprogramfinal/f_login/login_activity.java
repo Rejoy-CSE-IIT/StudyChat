@@ -23,7 +23,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class login_activity extends AppCompatActivity
 {
@@ -169,13 +168,7 @@ public class login_activity extends AppCompatActivity
                                     {
                                         progressBar_from_layout.setVisibility(View.GONE);
 
-                                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-
-
-                                        helperFunctions_class.showToast(login_activity.this, "User Login Success");
-
-                                        startActivity(new Intent(login_activity.this, b_register_details_activity.class));
-                                        finish();
+                                        call_register_details_activity_page();
 
 
                                     }
@@ -194,6 +187,19 @@ public class login_activity extends AppCompatActivity
 
         firebaseAuth.signOut();
 
+
+    }
+
+
+    private void call_register_details_activity_page()
+    {
+       // helperFunctions_class.showToast(b_register_details_activity.this,"Check Registration Vertification mail ");
+
+
+        Intent intent = new Intent(getApplicationContext(), b_register_details_activity.class);
+
+        startActivity(intent);
+        finish();
 
     }
 

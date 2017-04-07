@@ -43,6 +43,10 @@ public class b_register_details_activity extends AppCompatActivity
     FirebaseUser firebaseUser;
     private FirebaseAuth                                        firebaseAuth;
     Intent intent;
+    Intent intentfromOther;
+
+    String UserName,  userId;
+    Boolean loggedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -63,13 +67,13 @@ public class b_register_details_activity extends AppCompatActivity
         firebaseAuth = firebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        final Intent intentfromOther = getIntent();
 
-          chatIdatLogin= FirebaseDatabase.getInstance()
+
+        chatIdatLogin= FirebaseDatabase.getInstance()
                 .getReference().child("GroupChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
 
-          intent = new Intent(getApplicationContext(), ChatMain_activity.class);
+
 
         if( !firebaseUser.isEmailVerified())
         {
@@ -100,21 +104,12 @@ public class b_register_details_activity extends AppCompatActivity
                 else
                 {
                      helperFunctions_class.showToast(b_register_details_activity.this,"user id aleady exists");
-                    SystemClock.sleep(1000);
+                     SystemClock.sleep(1000);
 
-                    ChatMain_activity.loggedIn=true;
-
-                    Intent intent = new Intent(getApplicationContext(), ChatMain_activity.class);
-
-                    if(intentfromOther.hasExtra("googleSignIn"))
-                    {
-                        intent.putExtra("googleSignIn","googleSignIn");
-                    }
-
-                    intent.putExtra("fromRegisterDetails","fromRegisterDetails");
-                    startActivity(intent);
-                    finish();
-
+                    UserName = dataSnapshot.getValue(String.class);
+                    userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    loggedIn=true;
+                    call_home_page();
                 }
 
             }
@@ -167,19 +162,12 @@ public class b_register_details_activity extends AppCompatActivity
                                                         new DatabaseReference.CompletionListener() {
 
                                                             @Override
-                                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                ChatMain_activity.loggedIn = true;
-
-
-                                                                if(intentfromOther.hasExtra("googleSignIn"))
-                                                                {
-                                                                    intent.putExtra("googleSignIn","googleSignIn");
-                                                                }
-
-                                                                intent.putExtra("fromRegisterDetails","fromRegisterDetails");
-                                                                startActivity(intent);
-                                                                finish();
-
+                                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
+                                                            {
+                                                                UserName = chatid_from_layout.getText().toString();
+                                                                userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                                                loggedIn=true;
+                                                                call_home_page();
                                                             }
                                                         });
 
@@ -217,18 +205,39 @@ public class b_register_details_activity extends AppCompatActivity
                         {
                             if (task.isSuccessful())
                             {
-                                helperFunctions_class.showToast(b_register_details_activity.this,"Check Registration Vertification mail ");
-                                ChatMain_activity.UserName=null;
-                                ChatMain_activity.userId=null;
-                                FirebaseAuth.getInstance().signOut();
-                                Intent intent = new Intent(getApplicationContext(), login_activity.class);
-                                intent.putExtra("notVerified", "notVerified");
-                                startActivity(intent);
-                                finish();
+
+
+                                call_Login_page();
                             }
                         }
                     });
         }
+
+    }
+
+    private void call_home_page()
+    {
+        intent = new Intent(getApplicationContext(), ChatMain_activity.class);
+
+        helperFunctions_class.set_user_statics( UserName,  userId,  loggedIn);
+
+
+
+        intent.putExtra("normalLogin","normalLogin");
+        startActivity(intent);
+        finish();
+
+    }
+
+    private void call_Login_page()
+    {
+        helperFunctions_class.showToast(b_register_details_activity.this,"Check Registration Vertification mail ");
+        helperFunctions_class.set_user_statics(  null,  null,  false);
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(getApplicationContext(), login_activity.class);
+        intent.putExtra("notVerified", "notVerified");
+        startActivity(intent);
+        finish();
 
     }
 }

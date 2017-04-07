@@ -8,6 +8,8 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.widget.Toast;
 
+import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
+
 public class helperFunctions_class
 {
 
@@ -37,6 +39,15 @@ public class helperFunctions_class
        // float pxWidth = outMetrics.widthPixels;
         return outMetrics.widthPixels;
 
+    }
+
+    public static void  set_user_statics(String UserName,String userId,Boolean loggedIn)
+    {
+
+
+        ChatMain_activity.UserName = UserName;
+        ChatMain_activity.userId =userId;
+        ChatMain_activity.loggedIn = loggedIn;
     }
 
 

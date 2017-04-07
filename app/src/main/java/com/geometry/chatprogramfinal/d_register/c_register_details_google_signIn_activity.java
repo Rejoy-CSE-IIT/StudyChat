@@ -47,7 +47,8 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
     private SignInButton googleSignBtn;
     private GoogleApiClient mGoogleApiClient;
     private GoogleSignInOptions gso;
-
+    String UserName,  userId;
+    Boolean loggedIn;
 
 
     EditText chatid_from_layout;
@@ -137,22 +138,19 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
                                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
                                             chatIdatLogin.setValue(chatid_from_layout.getText().toString().toLowerCase(),
-                                                    new DatabaseReference.CompletionListener() {
+                                                    new DatabaseReference.CompletionListener()
+                                                    {
 
                                                         @Override
-                                                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                            ChatMain_activity.loggedIn = true;
-
-
-                                                            intent = new Intent(getApplicationContext(), ChatMain_activity.class);
-
-
-                                                                intent.putExtra("googleSignIn","googleSignIn");
+                                                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
+                                                        {
 
 
 
-                                                            startActivity(intent);
-                                                            finish();
+                                                            UserName = chatid_from_layout.getText().toString();
+                                                            userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                                            loggedIn=true;
+                                                            call_home_page();
 
 
 
@@ -214,10 +212,7 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
             }
             else
             {
-                Intent intent = new Intent(getApplicationContext(), login_activity.class);
-                intent.putExtra("from_google_Login_error","from_google_Login_error");
-                startActivity(intent);
-                finish();
+                call_Login_page();
             }
         }
     }
@@ -273,17 +268,11 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
                                         helperFunctions_class.showToast(c_register_details_google_signIn_activity.this,"user id aleady exists");
                                         SystemClock.sleep(1000);
 
-                                        ChatMain_activity.loggedIn=true;
+                                        UserName = dataSnapshot.getValue(String.class);
+                                        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                        loggedIn=true;
 
-                                        Intent intent = new Intent(getApplicationContext(), ChatMain_activity.class);
-
-
-                                        intent.putExtra("googleSignIn","googleSignIn");
-
-
-
-                                        startActivity(intent);
-                                        finish();
+                                        call_home_page();
 
                                     }
 
@@ -309,10 +298,7 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
                                         {
                                            // helperFunctions_class.showToast(c_register_details_google_signIn_activity.this, "DOne googlesign out!!!");
 
-                                            Intent intent = new Intent(getApplicationContext(), login_activity.class);
-                                            intent.putExtra("from_google_Login_error","from_google_Login_error");
-                                            startActivity(intent);
-                                            finish();
+                                            call_Login_page();
 
                                         }
                                     });
@@ -326,5 +312,36 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
                 });
     }
     // [END auth_with_google]*/
+
+
+    private void call_home_page()
+    {
+        intent = new Intent(getApplicationContext(), ChatMain_activity.class);
+
+        helperFunctions_class.set_user_statics( UserName,  userId,  loggedIn);
+
+
+
+            intent.putExtra("googleSignIn","googleSignIn");
+
+
+
+        startActivity(intent);
+        finish();
+
+    }
+
+
+    private void call_Login_page()
+    {
+        //helperFunctions_class.showToast(c_register_details_google_signIn_activity.this,"Check Registration Vertification mail ");
+        helperFunctions_class.set_user_statics(  null,  null,  false);
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(getApplicationContext(), login_activity.class);
+        intent.putExtra("from_google_Login_error", "from_google_Login_error");
+        startActivity(intent);
+        finish();
+
+    }
 
 }

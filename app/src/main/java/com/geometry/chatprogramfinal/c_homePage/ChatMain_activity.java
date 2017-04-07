@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.f_login.login_activity;
@@ -30,13 +31,18 @@ public class ChatMain_activity extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private GoogleSignInOptions gso;
     Intent intentfromOther;
+
+    TextView     email_address_from_xml,display_name_from_xml;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_d_chat_main);
 
-         intentfromOther = getIntent();
+        email_address_from_xml =(TextView) findViewById(R.id.email_address_from_xml);
+        display_name_from_xml =(TextView) findViewById(R.id.display_name_from_xml);
+
+           intentfromOther = getIntent();
 
         // [START config_signin]
         // Configure Google Sign In
@@ -58,13 +64,31 @@ public class ChatMain_activity extends AppCompatActivity implements
 
 
 
+/*
+
+ */
 
 
-        /*
-        if(!ChatMain_activity.loggedIn)
+
+        if(  FirebaseAuth.getInstance().getCurrentUser()  ==null)
         {
+            startActivity(new Intent(ChatMain_activity.this, login_activity.class));
+            finish();
+        }
 
-        }*/
+
+        if(intentfromOther.hasExtra("googleSignIn")||intentfromOther.hasExtra("normalLogin"))
+        {
+            email_address_from_xml.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail().toString());
+            display_name_from_xml.setText(ChatMain_activity.UserName);
+
+        }
+
+
+
+
+
+
 
 
         //Make log out

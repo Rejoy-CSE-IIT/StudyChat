@@ -5,8 +5,8 @@ android {
     buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId "com.geometry.chatprogramfinal"
-        minSdkVersion 25
-        targetSdkVersion 25
+        minSdkVersion 23
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -27,13 +27,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //analytics
-
     // Single target that includes all FirebaseUI libraries above
-
-
-    
-
-
     compile 'com.google.firebase:firebase-core:10.2.1'
     compile 'com.google.firebase:firebase-auth:10.2.1'
     compile 'com.google.firebase:firebase-database:10.2.1'
