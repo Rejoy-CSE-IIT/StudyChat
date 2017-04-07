@@ -7,9 +7,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/activity_horizontal_margin"
+    android:background="@drawable/background"
     tools:context="com.geometry.chatprogramfinal.c_homePage.ChatMain_activity">
     <ImageView
         android:id="@+id/user_photo"
+        android:background="@drawable/button_rounded_corners_gradient"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
@@ -17,29 +19,32 @@
         android:contentDescription="@null" />
 
 
-
     <TextView
         android:id="@+id/email_address_from_xml"
-        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint ="email address "
-        android:layout_marginTop="@dimen/activity_horizontal_margin" />
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:background="@drawable/button_rounded_corners_gradient"
+        android:hint="email address "
+        android:textAlignment="center"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/display_name_from_xml"
-        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint ="User id"
-        android:layout_marginTop="@dimen/activity_horizontal_margin" />
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:background="@drawable/button_rounded_corners_gradient"
+        android:hint="User id"
+        android:textAlignment="center"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/group_chat_Button_xml"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:background="#3F51B5"
+        android:background="@drawable/button_rounded_corners_gradient"
         android:onClick="Group_Chat_action_from_xml"
         android:text="Group Chat"
         android:visibility="invisible"/>
@@ -49,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:background="#3F51B5"
+        android:background="@drawable/button_rounded_corners_gradient"
         android:onClick="User_Chat_action_from_xml"
         android:text="User Chat" />
 
@@ -58,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:background="#3F51B5"
+        android:background="@drawable/button_rounded_corners_gradient"
         android:text="LogOut" />
 
     <Button
@@ -66,7 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:background="#3F51B5"
+        android:background="@drawable/button_rounded_corners_gradient"
         android:onClick="Group_Control"
         android:text="Group"
         />
