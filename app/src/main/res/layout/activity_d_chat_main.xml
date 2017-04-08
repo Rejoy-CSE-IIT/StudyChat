@@ -58,14 +58,17 @@
         android:onClick="User_Chat_action_from_xml"
         android:text="User Chat" />
 
+
+
     <Button
-        android:id="@+id/logout_button_xml"
+        android:id="@+id/group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:background="@drawable/button_rounded_corners_gradient"
-        android:text="LogOut" />
-
+        android:onClick="Group_Control"
+        android:text="Group Chat"
+        />
     <Button
         android:id="@+id/creategroup"
         android:layout_width="match_parent"
@@ -73,8 +76,15 @@
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:background="@drawable/button_rounded_corners_gradient"
         android:onClick="Group_Control"
-        android:text="Group"
+        android:text="Create Chat Group"
         />
+    <Button
+        android:id="@+id/logout_button_xml"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:background="@drawable/button_rounded_corners_gradient"
+        android:text="LogOut" />
 
     <ProgressBar
         android:id="@+id/progressBar_from_layout"

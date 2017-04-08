@@ -1,7 +1,7 @@
 package com.geometry.chatprogramfinal.h_Users_List;
 
 
-public class UserData
+public class c_userlist_recycler_view_data_model_class
 {
     public String getFirebaseUserId() {
         return firebaseUserId;
@@ -11,12 +11,12 @@ public class UserData
         this.firebaseUserId = firebaseUserId;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getUsername() {
+        return Username;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setUsername(String username) {
+        this.Username = username;
     }
 
     public String getStatus() {
@@ -29,21 +29,21 @@ public class UserData
 
     private String firebaseUserId;
 
-    private String userid;
+    private String Username;
     private String status="OFF LINE";
 
 
 
-    public UserData(String firebaseUserId, String userid, String status )
+    public c_userlist_recycler_view_data_model_class(String firebaseUserId, String Username, String status )
     {
 
         this.firebaseUserId = firebaseUserId;
-        this.userid = userid;
+        this.Username = Username;
         this.status = status;
 
     }
 
-    public UserData()
+    public c_userlist_recycler_view_data_model_class()
     {
 
     }

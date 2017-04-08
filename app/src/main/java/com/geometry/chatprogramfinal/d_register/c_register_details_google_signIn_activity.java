@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 import com.geometry.chatprogramfinal.f_login.login_activity;
-import com.geometry.chatprogramfinal.h_Users_List.UserData;
+import com.geometry.chatprogramfinal.h_Users_List.c_userlist_recycler_view_data_model_class;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -142,7 +142,7 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
                                             UserName = chatid_from_layout.getText().toString();
                                             userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                             loggedIn=true;
-                                            UserData userData = new UserData(userId,UserName,"ONLINE");
+                                            c_userlist_recycler_view_data_model_class userData = new c_userlist_recycler_view_data_model_class(userId,UserName,"ONLINE");
                                             chatIdatLogin.setValue(userData,
                                                     new DatabaseReference.CompletionListener() {
 
@@ -264,15 +264,15 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
                                         helperFunctions_class.showToast(c_register_details_google_signIn_activity.this,"user id aleady exists");
                                         SystemClock.sleep(1000);
 
-                                        UserData userData = dataSnapshot.getValue(UserData.class);
+                                        c_userlist_recycler_view_data_model_class userData = dataSnapshot.getValue(c_userlist_recycler_view_data_model_class.class);
 
 
 
 
-                                        UserName = userData.getUserid();
+                                        UserName = userData.getUsername();
                                         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                         loggedIn=true;
-                                        userData = new UserData(userId,UserName,"ONLINE");
+                                        userData = new c_userlist_recycler_view_data_model_class(userId,UserName,"ONLINE");
 
 
                                         chatIdatLogin.setValue(userData,
@@ -282,8 +282,8 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
                                                     @Override
                                                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
                                                     {
-                                                        loggedIn=true;
-                                                        loggedIn=true;
+
+
                                                         call_home_page();
 
                                                     }

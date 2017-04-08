@@ -11,18 +11,22 @@ import android.widget.TextView;
 
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.f_login.login_activity;
-import com.geometry.chatprogramfinal.h_Users_List.UserData;
+import com.geometry.chatprogramfinal.h_Users_List.c_userlist_recycler_view_data_model_class;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ChatMain_activity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
@@ -31,15 +35,16 @@ public class ChatMain_activity extends AppCompatActivity implements
     public static String                                                      userId=null;
 
     public static boolean                                                    loggedIn = false;
-    private FirebaseAuth                                        firebaseAuth;
+
     Button logout_button_xml;
     private GoogleApiClient mGoogleApiClient;
     private GoogleSignInOptions gso;
     Intent intentfromOther;
-    DatabaseReference chatIdatverification;
+
     TextView     email_address_from_xml,display_name_from_xml;
 
     DatabaseReference chatIdatLogin;
+
     private ProgressBar progressBar_from_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,7 +58,8 @@ public class ChatMain_activity extends AppCompatActivity implements
         email_address_from_xml =(TextView) findViewById(R.id.email_address_from_xml);
         display_name_from_xml =(TextView) findViewById(R.id.display_name_from_xml);
 
-           intentfromOther = getIntent();
+
+
 
         // [START config_signin]
         // Configure Google Sign In
@@ -69,6 +75,21 @@ public class ChatMain_activity extends AppCompatActivity implements
                 .build();
 
 
+        intentfromOther = getIntent();
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        if (opr.isDone())
+        {
+
+            intentfromOther.putExtra("googleSignInD", "googleSignInD");
+
+            helperFunctions_class.showToast(ChatMain_activity.this,"Detected Google Sign In");
+        }
+        else
+        {
+            intentfromOther.putExtra("googleSignInD", "normalLoginD");
+            helperFunctions_class.showToast(ChatMain_activity.this,"Detected Normal Sign In");
+        }
+
         logout_button_xml =(Button) findViewById(R.id.logout_button_xml);
 
 
@@ -81,19 +102,74 @@ public class ChatMain_activity extends AppCompatActivity implements
 
 
 
-        if(  FirebaseAuth.getInstance().getCurrentUser()  ==null)
+        if(  FirebaseAuth.getInstance().getCurrentUser()!=null)
         {
+            helperFunctions_class.showToast(ChatMain_activity.this,"Not Null user ::"+FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+
+        }
+        else
+        {
+
             startActivity(new Intent(ChatMain_activity.this, login_activity.class));
+            helperFunctions_class.showToast(ChatMain_activity.this,"  Null user");
             finish();
         }
 
 
+        chatIdatLogin= FirebaseDatabase.getInstance()
+                .getReference().child("GroupChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+
         if(intentfromOther.hasExtra("googleSignIn")||intentfromOther.hasExtra("normalLogin"))
         {
-            email_address_from_xml.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail().toString());
-            display_name_from_xml.setText(ChatMain_activity.UserName);
+            helperFunctions_class.showToast(ChatMain_activity.this,"Ssecond Not Null user ::"+FirebaseAuth.getInstance().getCurrentUser().getEmail());
+            email_address_from_xml.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+            display_name_from_xml.setText(ChatMain_activity.UserName.toString());
+
+           // email_address_from_xml.setText("Hello test Email");
 
         }
+        else
+        {
+            chatIdatLogin.addListenerForSingleValueEvent(new ValueEventListener()
+            {
+
+
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot)
+                {
+
+
+
+
+                        c_userlist_recycler_view_data_model_class userData = dataSnapshot.getValue(c_userlist_recycler_view_data_model_class.class);
+                        email_address_from_xml.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                        display_name_from_xml.setText(userData.getUsername().toString());
+
+                    ChatMain_activity.UserName =userData.getUsername().toString();
+                    ChatMain_activity.userId=userData.getFirebaseUserId().toString();
+
+
+
+                    /*
+                         ChatMain_activity.userId =FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                        ChatMain_activity.UserName =userData.getUsername().toString();
+                        ChatMain_activity.userId=email_address_from_xml.setText();
+                         display_name_from_xml.setText(userData.getUsername().toString());*/
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+
+
+
 
 
 
@@ -108,11 +184,9 @@ public class ChatMain_activity extends AppCompatActivity implements
             @Override
             public void onClick(View view)
             {
-                chatIdatLogin= FirebaseDatabase.getInstance()
-                        .getReference().child("GroupChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                progressBar_from_layout.setVisibility(View.VISIBLE);
+                        progressBar_from_layout.setVisibility(View.VISIBLE);
 
-                UserData userData = new UserData(ChatMain_activity.userId,ChatMain_activity.UserName,"OFFLINE");
+                c_userlist_recycler_view_data_model_class userData = new c_userlist_recycler_view_data_model_class(ChatMain_activity.userId,ChatMain_activity.UserName,"OFFLINE");
                 chatIdatLogin.setValue(userData,
                         new DatabaseReference.CompletionListener() {
 
@@ -150,7 +224,7 @@ public class ChatMain_activity extends AppCompatActivity implements
 
 
 
-        if(intentfromOther.hasExtra("googleSignIn"))
+        if(intentfromOther.hasExtra("googleSignIn")||intentfromOther.hasExtra("googleSignInD"))
         {
 
             helperFunctions_class.showToast(ChatMain_activity.this, "AAADOne googlesign out!!!");
