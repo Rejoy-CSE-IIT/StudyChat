@@ -107,50 +107,44 @@ public class ChatMain_activity extends AppCompatActivity implements
             helperFunctions_class.showToast(ChatMain_activity.this,"Not Null user ::"+FirebaseAuth.getInstance().getCurrentUser().getUid());
 
 
-        }
-        else
-        {
 
-            startActivity(new Intent(ChatMain_activity.this, login_activity.class));
-            helperFunctions_class.showToast(ChatMain_activity.this,"  Null user");
-            finish();
-        }
+            chatIdatLogin= FirebaseDatabase.getInstance()
+                    .getReference().child("GroupChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
 
-        chatIdatLogin= FirebaseDatabase.getInstance()
-                .getReference().child("GroupChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-
-        if(intentfromOther.hasExtra("googleSignIn")||intentfromOther.hasExtra("normalLogin"))
-        {
-            helperFunctions_class.showToast(ChatMain_activity.this,"Ssecond Not Null user ::"+FirebaseAuth.getInstance().getCurrentUser().getEmail());
-            email_address_from_xml.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-            display_name_from_xml.setText(ChatMain_activity.UserName.toString());
-
-           // email_address_from_xml.setText("Hello test Email");
-
-        }
-        else
-        {
-            chatIdatLogin.addListenerForSingleValueEvent(new ValueEventListener()
+            if(intentfromOther.hasExtra("googleSignIn")||intentfromOther.hasExtra("normalLogin"))
             {
+                helperFunctions_class.showToast(ChatMain_activity.this,"Ssecond Not Null user ::"+FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                email_address_from_xml.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                display_name_from_xml.setText(ChatMain_activity.UserName.toString());
 
+                // email_address_from_xml.setText("Hello test Email");
 
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot)
+            }
+            else
+            {
+                logout_button_xml.setVisibility(View.GONE);
+                email_address_from_xml.setText("loading..................");
+                display_name_from_xml.setText("loading..................");
+                chatIdatLogin.addListenerForSingleValueEvent(new ValueEventListener()
                 {
 
 
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot)
+                    {
+
+                        logout_button_xml.setVisibility(View.VISIBLE);
 
 
                         c_userlist_recycler_view_data_model_class userData = dataSnapshot.getValue(c_userlist_recycler_view_data_model_class.class);
                         email_address_from_xml.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                         display_name_from_xml.setText(userData.getUsername().toString());
 
-                    ChatMain_activity.UserName =userData.getUsername().toString();
-                    ChatMain_activity.userId=userData.getFirebaseUserId().toString();
+                        ChatMain_activity.UserName =userData.getUsername().toString();
+                        ChatMain_activity.userId=userData.getFirebaseUserId().toString();
 
-
+                        logout_button_xml.setEnabled(true);
 
                     /*
                          ChatMain_activity.userId =FirebaseAuth.getInstance().getCurrentUser().getEmail();
@@ -158,13 +152,26 @@ public class ChatMain_activity extends AppCompatActivity implements
                         ChatMain_activity.userId=email_address_from_xml.setText();
                          display_name_from_xml.setText(userData.getUsername().toString());*/
 
-                }
+                    }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
+                    }
+                });
+
+            }
+
+
+
+        }
+        else
+        {
+
+            startActivity(new Intent(ChatMain_activity.this, login_activity.class));
+            finish();
+            helperFunctions_class.showToast(ChatMain_activity.this,"  Null user");
+
         }
 
 
