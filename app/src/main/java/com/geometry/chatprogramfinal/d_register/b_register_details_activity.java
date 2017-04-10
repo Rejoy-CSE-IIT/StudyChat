@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 import com.geometry.chatprogramfinal.f_login.login_activity;
-import com.geometry.chatprogramfinal.h_Users_List.c_userlist_recycler_view_data_model_class;
+import com.geometry.chatprogramfinal.h_user_list.Item;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -107,12 +107,13 @@ public class b_register_details_activity extends AppCompatActivity
                      helperFunctions_class.showToast(b_register_details_activity.this,"user id aleady exists");
                      SystemClock.sleep(1000);
 
-                     c_userlist_recycler_view_data_model_class userData = dataSnapshot.getValue(c_userlist_recycler_view_data_model_class.class);
+                     Item userData = dataSnapshot.getValue(Item.class);
 
                      UserName = userData.getUsername();
                      userId = userData.getFirebaseUserId();
                      loggedIn=true;
                      userData.setStatus("ONLINE");
+                     userData.setLoginType("Normal");
                      chatIdatLogin.setValue(userData,
                             new DatabaseReference.CompletionListener() {
 
@@ -175,7 +176,11 @@ public class b_register_details_activity extends AppCompatActivity
                                                 UserName = chatid_from_layout.getText().toString();
                                                 userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                                 loggedIn=true;
-                                                c_userlist_recycler_view_data_model_class userData = new c_userlist_recycler_view_data_model_class(userId,UserName,"ONLINE");
+                                              //  c_userlist_recycler_view_data_model_class userData = new c_userlist_recycler_view_data_model_class(userId,UserName,"ONLINE");
+                                               //  Item userData = dataSnapshot.getValue(Item.class);
+                                                Item userData = new Item(userId,UserName,"ONLINE");
+                                                userData.setLoginType("Normal");
+
                                                 chatIdatLogin.setValue(userData,
                                                         new DatabaseReference.CompletionListener()
                                                         {

@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
+import com.geometry.chatprogramfinal.h_user_list.MainActivity;
 import com.geometry.chatprogramfinal.t_a_analytics.a_analytics;
 import com.geometry.chatprogramfinal.z_a_recyler_listener.recyclerTouchListener_class;
 import com.google.firebase.auth.FirebaseAuth;
@@ -113,6 +114,16 @@ public class e_option_selector_recycler_view_activity extends AppCompatActivity
 
 
 
+                    case "Test RecyclerView":
+
+                        if(e_option_selector_recycler_view_activity.TESTING_MODE)
+                            Toast.makeText(e_option_selector_recycler_view_activity.this, "Test RecyclerView"+dataE.getOptionName(), Toast.LENGTH_LONG).show();
+
+
+                        intent = new Intent(e_option_selector_recycler_view_activity.this, MainActivity.class);
+                        startActivity(intent);
+
+                        break;
 
 
 

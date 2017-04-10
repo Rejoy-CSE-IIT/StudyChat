@@ -30,7 +30,7 @@ public class a_option_recycler_view_adapter_class extends RecyclerView.Adapter<d
                                                                        int viewType)
     {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.cardview_a_a_option_recycler_view_adapter_class, parent, false);
+                .inflate(R.layout.recycler_view_cardview_a_a_option_adapter_class, parent, false);
 
 
 

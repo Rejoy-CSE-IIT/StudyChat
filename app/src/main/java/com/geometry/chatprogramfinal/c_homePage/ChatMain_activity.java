@@ -10,8 +10,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.geometry.chatprogramfinal.R;
+import com.geometry.chatprogramfinal.d_register.c_userlist_recycler_view_data_model_class;
 import com.geometry.chatprogramfinal.f_login.login_activity;
-import com.geometry.chatprogramfinal.h_Users_List.c_userlist_recycler_view_data_model_class;
+import com.geometry.chatprogramfinal.h_user_list.MainActivity;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -36,7 +37,7 @@ public class ChatMain_activity extends AppCompatActivity implements
 
     public static boolean                                                    loggedIn = false;
 
-    Button logout_button_xml;
+    Button logout_button_xml,user_chat_Button_xml;
     private GoogleApiClient mGoogleApiClient;
     private GoogleSignInOptions gso;
     Intent intentfromOther;
@@ -87,13 +88,16 @@ public class ChatMain_activity extends AppCompatActivity implements
         else
         {
             intentfromOther.putExtra("googleSignInD", "normalLoginD");
-            helperFunctions_class.showToast(ChatMain_activity.this,"Detected Normal Sign In");
+            helperFunctions_class.showToast(ChatMain_activity.this,"Detected Normal Sign In or no user");
         }
 
         logout_button_xml =(Button) findViewById(R.id.logout_button_xml);
+        user_chat_Button_xml =(Button) findViewById(R.id.user_chat_Button_xml);
 
 
-
+/*
+        Intent intent = new Intent(e_option_selector_recycler_view_activity.this, MainActivity.class);
+        startActivity(intent);*/
 
 
 /*
@@ -146,11 +150,7 @@ public class ChatMain_activity extends AppCompatActivity implements
 
                         logout_button_xml.setEnabled(true);
 
-                    /*
-                         ChatMain_activity.userId =FirebaseAuth.getInstance().getCurrentUser().getEmail();
-                        ChatMain_activity.UserName =userData.getUsername().toString();
-                        ChatMain_activity.userId=email_address_from_xml.setText();
-                         display_name_from_xml.setText(userData.getUsername().toString());*/
+
 
                     }
 
@@ -181,6 +181,23 @@ public class ChatMain_activity extends AppCompatActivity implements
 
 
 
+        user_chat_Button_xml.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                progressBar_from_layout.setVisibility(View.VISIBLE);
+
+
+
+                Intent intent = new Intent(ChatMain_activity.this, MainActivity.class);
+                startActivity(intent);
+
+
+
+            }
+        });
+
 
 
 
@@ -193,8 +210,9 @@ public class ChatMain_activity extends AppCompatActivity implements
             {
                         progressBar_from_layout.setVisibility(View.VISIBLE);
 
-                c_userlist_recycler_view_data_model_class userData = new c_userlist_recycler_view_data_model_class(ChatMain_activity.userId,ChatMain_activity.UserName,"OFFLINE");
-                chatIdatLogin.setValue(userData,
+              //  Item userData = new Item(ChatMain_activity.userId,ChatMain_activity.UserName,"OFFLINE");
+                DatabaseReference offline_ref = chatIdatLogin.child("status");
+                offline_ref.setValue("OFFLINE",
                         new DatabaseReference.CompletionListener() {
 
                             @Override

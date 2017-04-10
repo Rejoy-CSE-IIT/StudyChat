@@ -1,4 +1,4 @@
-package com.geometry.chatprogramfinal.h_Users_List;
+package com.geometry.chatprogramfinal.d_register;
 
 
 public class c_userlist_recycler_view_data_model_class

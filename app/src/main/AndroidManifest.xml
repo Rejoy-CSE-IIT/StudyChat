@@ -48,9 +48,11 @@
         <activity
             android:name=".g_reset_Password.resetPassword_activity"
             android:theme="@style/AppTheme1" />
-        <activity android:name=".d_register.c_register_details_google_signIn_activity"
-            android:theme="@style/AppTheme1"
-            />
+        <activity
+            android:name=".d_register.c_register_details_google_signIn_activity"
+            android:theme="@style/AppTheme1" />
+        <activity android:name=".h_user_list.MainActivity"
+            android:theme="@style/AppTheme1" />
     </application>
 
 </manifest>
