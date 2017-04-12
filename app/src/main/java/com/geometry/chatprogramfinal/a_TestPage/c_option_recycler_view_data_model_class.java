@@ -14,6 +14,10 @@ public class c_option_recycler_view_data_model_class
 
 
 
+    public c_option_recycler_view_data_model_class()
+    {
+
+    }
 
 
 

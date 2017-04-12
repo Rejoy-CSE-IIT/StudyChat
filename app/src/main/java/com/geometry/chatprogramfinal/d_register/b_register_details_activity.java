@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 import com.geometry.chatprogramfinal.f_login.login_activity;
-import com.geometry.chatprogramfinal.h_user_list.Item;
+import com.geometry.chatprogramfinal.h_user_list.a_data_model_class;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -107,7 +107,7 @@ public class b_register_details_activity extends AppCompatActivity
                      helperFunctions_class.showToast(b_register_details_activity.this,"user id aleady exists");
                      SystemClock.sleep(1000);
 
-                     Item userData = dataSnapshot.getValue(Item.class);
+                     a_data_model_class userData = dataSnapshot.getValue(a_data_model_class.class);
 
                      UserName = userData.getUsername();
                      userId = userData.getFirebaseUserId();
@@ -177,8 +177,8 @@ public class b_register_details_activity extends AppCompatActivity
                                                 userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                                 loggedIn=true;
                                               //  c_userlist_recycler_view_data_model_class userData = new c_userlist_recycler_view_data_model_class(userId,UserName,"ONLINE");
-                                               //  Item userData = dataSnapshot.getValue(Item.class);
-                                                Item userData = new Item(userId,UserName,"ONLINE");
+                                               //  a_data_group_model_class userData = dataSnapshot.getValue(a_data_group_model_class.class);
+                                                a_data_model_class userData = new a_data_model_class(userId,UserName,"ONLINE");
                                                 userData.setLoginType("Normal");
 
                                                 chatIdatLogin.setValue(userData,

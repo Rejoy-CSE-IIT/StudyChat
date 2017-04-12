@@ -12,30 +12,30 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder>
+public class c_userlist_recycler_view_adapter_class extends RecyclerView.Adapter<d_userlist_view_holder_class>
 {
 
     private List<String> id_entry = new ArrayList<>();
-    LinkedHashMap <String, Item> currentItemsLinkedHmap = new LinkedHashMap<String, Item>();
+    LinkedHashMap <String, a_data_model_class> currentItemsLinkedHmap = new LinkedHashMap<String, a_data_model_class>();
 
-   // public RecyclerViewAdapter(List<Item> items) { mDatasetD = items; }
-   public RecyclerViewAdapter(LinkedHashMap<String, Item> currentItemsLinkedHmap,List<String> id_entry )
+   // public c_group_recycler_view_adapter_class(List<a_data_group_model_class> items) { mDatasetD = items; }
+   public c_userlist_recycler_view_adapter_class(LinkedHashMap<String, a_data_model_class> currentItemsLinkedHmap, List<String> id_entry )
    {
        this.id_entry = id_entry;
        this.currentItemsLinkedHmap =currentItemsLinkedHmap;
    }
     @Override
-    public  ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public d_userlist_view_holder_class onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_cardview_a_b_userlist_adapter_class, parent, false);
 
-        ViewHolder vh = new ViewHolder(v);
+        d_userlist_view_holder_class vh = new d_userlist_view_holder_class(v);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position)
+    public void onBindViewHolder(d_userlist_view_holder_class holder, final int position)
     {
 
         if(currentItemsLinkedHmap.get(id_entry.get(position).toString()).isDisplay()) {

@@ -1,20 +1,17 @@
-package com.geometry.chatprogramfinal.h_user_list;
+package com.geometry.chatprogramfinal.i_create_chatRoom.i_b_ListGroup;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.TextView;
 
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 import com.geometry.chatprogramfinal.f_login.login_activity;
+import com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room.b_group_data_model;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -35,12 +32,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements
+public class b_group_list_activity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
 {
 
     private List<String> id_entry = new ArrayList<>();
-    LinkedHashMap <String, Item> currentItemsLinkedHmap = new LinkedHashMap<String, Item>();
+    LinkedHashMap <String, b_group_data_model> currentItemsLinkedHmap = new LinkedHashMap<String, b_group_data_model>();
 
 
     private RecyclerView mRecyclerView;
@@ -48,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements
     private RecyclerView.LayoutManager mLayoutManager;
 
     DatabaseReference myFirebaseRef;
-    private TextView currentDBUrl;
+
 
 
     private GoogleApiClient mGoogleApiClient;
@@ -57,19 +54,18 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_i_group_list_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        toolbar.setTitle("Group List");
         this.mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         this.mLayoutManager = new LinearLayoutManager(this);
         this.mRecyclerView.setLayoutManager(mLayoutManager);
 
 
-        currentDBUrl = (TextView) findViewById(R.id.currentDB);
 
-        mAdapter = new RecyclerViewAdapter(currentItemsLinkedHmap,id_entry);
+        mAdapter = new c_group_recycler_view_adapter_class(currentItemsLinkedHmap,id_entry);
         mRecyclerView.setAdapter(mAdapter);
 
 
@@ -89,25 +85,15 @@ public class MainActivity extends AppCompatActivity implements
 
         setFirebaseValueListener();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                 pushValue();
-                Snackbar.make(view, "New item added to Firebase", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
     }
 
     public void setFirebaseValueListener()
     {
 
 
-        myFirebaseRef = FirebaseDatabase.getInstance().getReference().child("GroupChatIds");
-        helperFunctions_class.showToast(MainActivity.this,"Children =>"+myFirebaseRef.getKey());
+        myFirebaseRef = FirebaseDatabase.getInstance().getReference().child("GroupName");
+        helperFunctions_class.showToast(b_group_list_activity.this,"Children =>"+myFirebaseRef.getKey());
 
         myFirebaseRef.addChildEventListener(new ChildEventListener()
         {
@@ -116,10 +102,11 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s)
             {
-                Item item = dataSnapshot.getValue(Item.class);
-                id_entry.add(item.getFirebaseUserId());
-                currentItemsLinkedHmap.put(item.getFirebaseUserId(), item);
-                helperFunctions_class.showToast(MainActivity.this,"Name =>"+item.getUsername());
+
+                b_group_data_model adatamodelclass = dataSnapshot.getValue(b_group_data_model.class);
+                id_entry.add(adatamodelclass.getOwner());
+                currentItemsLinkedHmap.put(adatamodelclass.getOwner(), adatamodelclass);
+                helperFunctions_class.showToast(b_group_list_activity.this,"Name =>"+ adatamodelclass.getGroup_name());
                 mAdapter.notifyDataSetChanged();
              }
 
@@ -127,27 +114,22 @@ public class MainActivity extends AppCompatActivity implements
             public void onChildChanged(DataSnapshot dataSnapshot, String s)
             {
 
-                Item item = dataSnapshot.getValue(Item.class);
-               // item.setDisplay(false);
-                if(item.getFirebaseUserId().equals(ChatMain_activity.userId))
-                {
-                    ChatMain_activity.UserName = item.getUsername();
+                b_group_data_model adatamodelclass = dataSnapshot.getValue(b_group_data_model.class);
+               // adatamodelclass.setDisplay(false);
 
-
-                }
                 //Fire base id never changes,user name
-                currentItemsLinkedHmap.put(item.getFirebaseUserId(), item);
+                currentItemsLinkedHmap.put(adatamodelclass.getOwner(), adatamodelclass);
                 mAdapter.notifyDataSetChanged();
-                helperFunctions_class.showToast(MainActivity.this,"Item changed =>"+item.getUsername());
+                helperFunctions_class.showToast(b_group_list_activity.this,"a_data_group_model_class changed =>"+ adatamodelclass.getGroup_name());
 
 
                 /*
-                Item item = dataSnapshot.getValue(Item.class);
-                //   Item item = new Item(itemSnapshot.getKey(), itemSnapshot.child("name").getValue(String.class));
-                Item itemT = new Item(item.getFirebaseUserId(),item.getUsername(),item.getStatus() );
+                a_data_group_model_class adatamodelclass = dataSnapshot.getValue(a_data_group_model_class.class);
+                //   a_data_group_model_class adatamodelclass = new a_data_group_model_class(itemSnapshot.getKey(), itemSnapshot.child("name").getValue(String.class));
+                a_data_group_model_class itemT = new a_data_group_model_class(adatamodelclass.getFirebaseUserId(),adatamodelclass.getUsername(),adatamodelclass.getStatus() );
                 //currentItemsDict.add(itemT);
-                helperFunctions_class.showToast(MainActivity.this,"Name =>"+itemT.getUsername());
-                helperFunctions_class.showToast(MainActivity.this,"Item Changed =>"+item.getUsername());
+                helperFunctions_class.showToast(b_group_list_activity.this,"Name =>"+itemT.getUsername());
+                helperFunctions_class.showToast(b_group_list_activity.this,"a_data_group_model_class Changed =>"+adatamodelclass.getUsername());
 */
             }
 
@@ -155,23 +137,14 @@ public class MainActivity extends AppCompatActivity implements
             public void onChildRemoved(DataSnapshot dataSnapshot)
             {
 
-                Item item = dataSnapshot.getValue(Item.class);
-
-                if(item.getFirebaseUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
-                {
-                    ChatMain_activity.userId = null;
-                    ChatMain_activity.UserName = null;
-                    call_login(item);
-                    finish();
+                b_group_data_model adatamodelclass = dataSnapshot.getValue(b_group_data_model.class);
 
 
-                }
-                else {
-                    item.setDisplay(false);
-                    currentItemsLinkedHmap.put(item.getFirebaseUserId(), item);
+                    adatamodelclass.setDisplay(false);
+                    currentItemsLinkedHmap.put(adatamodelclass.getOwner(), adatamodelclass);
                     mAdapter.notifyDataSetChanged();
-                    helperFunctions_class.showToast(MainActivity.this, "Item Deleted =>" + item.getUsername());
-                }
+                    helperFunctions_class.showToast(b_group_list_activity.this, "a_data_group_model_class Deleted =>" + adatamodelclass.getGroup_name());
+
 
             }
 
@@ -197,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    private void call_login(Item item)
+    private void call_login(a_data_group_model_class adatamodelclass)
     {
 
         ChatMain_activity.UserName=null;
@@ -206,10 +179,10 @@ public class MainActivity extends AppCompatActivity implements
 
 
 
-        if( item.getLoginType().equals("Normal"))
+        if( adatamodelclass.getLoginType().equals("Normal"))
         {
 
-            helperFunctions_class.showToast(MainActivity.this, "Current user deleted Google Login!!!");
+            helperFunctions_class.showToast(b_group_list_activity.this, "Current user deleted Google Login!!!");
 
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                     new ResultCallback<Status>()
@@ -217,12 +190,12 @@ public class MainActivity extends AppCompatActivity implements
                         @Override
                         public void onResult(@NonNull Status status)
                         {
-                            helperFunctions_class.showToast(MainActivity.this, "BBDOne googlesign out!!!");
+                            helperFunctions_class.showToast(b_group_list_activity.this, "BBDOne googlesign out!!!");
 
                             FirebaseAuth.getInstance().signOut();
 
 
-                            startActivity(new Intent(MainActivity.this, login_activity.class));
+                            startActivity(new Intent(b_group_list_activity.this, login_activity.class));
                             finish();
 
                         }
@@ -231,9 +204,9 @@ public class MainActivity extends AppCompatActivity implements
         }
         else
         {
-            helperFunctions_class.showToast(MainActivity.this, "user deleted  Normal out!!!");
+            helperFunctions_class.showToast(b_group_list_activity.this, "user deleted  Normal out!!!");
 
-            startActivity(new Intent(MainActivity.this, login_activity.class));
+            startActivity(new Intent(b_group_list_activity.this, login_activity.class));
             finish();
         }
 

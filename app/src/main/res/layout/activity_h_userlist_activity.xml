@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.geometry.chatprogramfinal.h_user_list.MainActivity">
+    tools:context="com.geometry.chatprogramfinal.h_user_list.b_user_list_activity">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.borref.firebaserecyclerview.MainActivity"
-        tools:showIn="@layout/activity_main">
+        tools:showIn="@layout/activity_h_userlist_activity">
 
         <TextView
             android:id="@+id/currentDB"
@@ -51,13 +51,6 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:tint="@android:color/white"
-        android:src="@android:drawable/ic_input_add"  />
+
 
 </android.support.design.widget.CoordinatorLayout>

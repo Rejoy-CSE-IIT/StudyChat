@@ -61,16 +61,16 @@
 
 
     <Button
-        android:id="@+id/group"
+        android:id="@+id/grouplist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:background="@drawable/button_rounded_corners_gradient"
         android:onClick="Group_Control"
-        android:text="Group Chat"
+        android:text="Group List"
         />
     <Button
-        android:id="@+id/creategroup"
+        android:id="@+id/creategroup_from_xml"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_horizontal_margin"

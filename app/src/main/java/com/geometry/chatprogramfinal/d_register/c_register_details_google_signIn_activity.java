@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 import com.geometry.chatprogramfinal.f_login.login_activity;
-import com.geometry.chatprogramfinal.h_user_list.Item;
+import com.geometry.chatprogramfinal.h_user_list.a_data_model_class;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -142,7 +142,7 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
                                             UserName = chatid_from_layout.getText().toString();
                                             userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                             loggedIn=true;
-                                            Item userData = new Item(userId,UserName,"ONLINE");
+                                            a_data_model_class userData = new a_data_model_class(userId,UserName,"ONLINE");
 
 
                                             userData.setLoginType("google");
@@ -267,7 +267,7 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
                                     {
                                         helperFunctions_class.showToast(c_register_details_google_signIn_activity.this,"user id aleady exists");
                                         SystemClock.sleep(1000);
-                                        Item userData = dataSnapshot.getValue(Item.class);
+                                        a_data_model_class userData = dataSnapshot.getValue(a_data_model_class.class);
                                        // c_userlist_recycler_view_data_model_class userData = dataSnapshot.getValue(c_userlist_recycler_view_data_model_class.class);
 
 

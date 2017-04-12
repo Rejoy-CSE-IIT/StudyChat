@@ -51,8 +51,14 @@
         <activity
             android:name=".d_register.c_register_details_google_signIn_activity"
             android:theme="@style/AppTheme1" />
-        <activity android:name=".h_user_list.MainActivity"
+        <activity
+            android:name=".h_user_list.b_user_list_activity"
             android:theme="@style/AppTheme1" />
+        <activity android:name=".i_create_chatRoom.i_a_make_room.a_chat_room_create_activity"
+            android:theme="@style/AppTheme1" />
+        <activity android:name=".i_create_chatRoom.i_b_ListGroup.b_group_list_activity"
+            android:theme="@style/AppTheme1" />
+
     </application>
 
 </manifest>

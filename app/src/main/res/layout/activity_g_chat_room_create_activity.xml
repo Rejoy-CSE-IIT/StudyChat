@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room.a_chat_room_create_activity">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/userIdWindow"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin">
+
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" "
+                android:id="@+id/chatroomcreate_label_from_layout"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:textSize="32dp" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="30sp"
+            android:src="@drawable/chat_icon"
+            android:contentDescription="@string/logo_description"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/chatroomname_from_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter desired Chat Room Name"
+                android:maxLines="1"
+                android:textColor="@android:color/black" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+
+        <Button
+            android:id="@+id/create_chatroom_button_from_layout"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16sp"
+
+            android:text="Create New Chat room"
+            android:textColor="@android:color/black"
+            android:background="@drawable/button_rounded_corners_gradient"
+            android:padding="15dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/grouplist"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16sp"
+
+            android:text="Chat room list"
+            android:textColor="@android:color/black"
+            android:background="@drawable/button_rounded_corners_gradient"
+            android:padding="15dp"
+            android:textStyle="bold" />
+        <ProgressBar
+            android:id="@+id/progressBar_from_layout"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone" />
+
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

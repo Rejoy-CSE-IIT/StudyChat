@@ -10,9 +10,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.geometry.chatprogramfinal.R;
-import com.geometry.chatprogramfinal.d_register.c_userlist_recycler_view_data_model_class;
 import com.geometry.chatprogramfinal.f_login.login_activity;
-import com.geometry.chatprogramfinal.h_user_list.MainActivity;
+import com.geometry.chatprogramfinal.h_user_list.a_data_model_class;
+import com.geometry.chatprogramfinal.h_user_list.b_user_list_activity;
+import com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room.a_chat_room_create_activity;
+import com.geometry.chatprogramfinal.i_create_chatRoom.i_b_ListGroup.b_group_list_activity;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -37,7 +39,7 @@ public class ChatMain_activity extends AppCompatActivity implements
 
     public static boolean                                                    loggedIn = false;
 
-    Button logout_button_xml,user_chat_Button_xml;
+    Button logout_button_xml,user_chat_Button_xml,creategroup_from_xml,grouplist;
     private GoogleApiClient mGoogleApiClient;
     private GoogleSignInOptions gso;
     Intent intentfromOther;
@@ -93,10 +95,12 @@ public class ChatMain_activity extends AppCompatActivity implements
 
         logout_button_xml =(Button) findViewById(R.id.logout_button_xml);
         user_chat_Button_xml =(Button) findViewById(R.id.user_chat_Button_xml);
+        creategroup_from_xml =(Button) findViewById(R.id.creategroup_from_xml);
+        grouplist =(Button) findViewById(R.id.grouplist);
 
 
 /*
-        Intent intent = new Intent(e_option_selector_recycler_view_activity.this, MainActivity.class);
+        Intent intent = new Intent(e_option_selector_recycler_view_activity.this, b_group_list_activity.class);
         startActivity(intent);*/
 
 
@@ -141,7 +145,7 @@ public class ChatMain_activity extends AppCompatActivity implements
                         logout_button_xml.setVisibility(View.VISIBLE);
 
 
-                        c_userlist_recycler_view_data_model_class userData = dataSnapshot.getValue(c_userlist_recycler_view_data_model_class.class);
+                        a_data_model_class userData = dataSnapshot.getValue(a_data_model_class.class);
                         email_address_from_xml.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                         display_name_from_xml.setText(userData.getUsername().toString());
 
@@ -190,7 +194,7 @@ public class ChatMain_activity extends AppCompatActivity implements
 
 
 
-                Intent intent = new Intent(ChatMain_activity.this, MainActivity.class);
+                Intent intent = new Intent(ChatMain_activity.this, b_user_list_activity.class);
                 startActivity(intent);
 
 
@@ -198,7 +202,29 @@ public class ChatMain_activity extends AppCompatActivity implements
             }
         });
 
+        //Make log out
+        creategroup_from_xml.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
 
+                Intent intent = new Intent(ChatMain_activity.this, a_chat_room_create_activity.class);
+                startActivity(intent);
+            }
+        });
+
+        //Make log out
+        grouplist.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+
+                Intent intent = new Intent(ChatMain_activity.this, b_group_list_activity.class);
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -210,7 +236,7 @@ public class ChatMain_activity extends AppCompatActivity implements
             {
                         progressBar_from_layout.setVisibility(View.VISIBLE);
 
-              //  Item userData = new Item(ChatMain_activity.userId,ChatMain_activity.UserName,"OFFLINE");
+              //  a_data_group_model_class userData = new a_data_group_model_class(ChatMain_activity.userId,ChatMain_activity.UserName,"OFFLINE");
                 DatabaseReference offline_ref = chatIdatLogin.child("status");
                 offline_ref.setValue("OFFLINE",
                         new DatabaseReference.CompletionListener() {

@@ -1,6 +1,6 @@
 package com.geometry.chatprogramfinal.h_user_list;
 
-public class Item
+public class a_data_model_class
 {
     public String getFirebaseUserId()
     {
@@ -27,12 +27,12 @@ public class Item
         this.status = status;
     }
 
-    public Item()
+    public a_data_model_class()
     {
 
     }
 
-    public Item(String firebaseUserId, String username, String status) {
+    public a_data_model_class(String firebaseUserId, String username, String status) {
         this.firebaseUserId = firebaseUserId;
         Username = username;
         this.status = status;
