@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.geometry.chatprogramfinal.R;
@@ -55,9 +54,9 @@ public class b_user_list_activity extends AppCompatActivity implements
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_h_userlist_activity);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle("user List");
+
+        setTitle("List of users");
+
         this.mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         this.mLayoutManager = new LinearLayoutManager(this);

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -44,6 +45,8 @@ public class ChatMain_activity extends AppCompatActivity implements
     private GoogleSignInOptions gso;
     Intent intentfromOther;
 
+    LinearLayout button_grp;
+
     TextView     email_address_from_xml,display_name_from_xml;
 
     DatabaseReference chatIdatLogin;
@@ -60,7 +63,7 @@ public class ChatMain_activity extends AppCompatActivity implements
 
         email_address_from_xml =(TextView) findViewById(R.id.email_address_from_xml);
         display_name_from_xml =(TextView) findViewById(R.id.display_name_from_xml);
-
+        button_grp =(LinearLayout) findViewById(R.id.button_grp);
 
 
 
@@ -131,7 +134,8 @@ public class ChatMain_activity extends AppCompatActivity implements
             }
             else
             {
-                logout_button_xml.setVisibility(View.GONE);
+                button_grp.setVisibility(View.GONE);
+                progressBar_from_layout.setVisibility(View.VISIBLE);
                 email_address_from_xml.setText("loading..................");
                 display_name_from_xml.setText("loading..................");
                 chatIdatLogin.addListenerForSingleValueEvent(new ValueEventListener()
@@ -142,8 +146,8 @@ public class ChatMain_activity extends AppCompatActivity implements
                     public void onDataChange(DataSnapshot dataSnapshot)
                     {
 
-                        logout_button_xml.setVisibility(View.VISIBLE);
-
+                        button_grp.setVisibility(View.VISIBLE);
+                        progressBar_from_layout.setVisibility(View.GONE);
 
                         a_data_model_class userData = dataSnapshot.getValue(a_data_model_class.class);
                         email_address_from_xml.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
