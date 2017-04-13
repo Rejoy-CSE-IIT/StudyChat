@@ -96,11 +96,11 @@
 
     <ProgressBar
         android:id="@+id/progressBar_from_layout"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="150dp"
         android:visibility="gone" />
 
 

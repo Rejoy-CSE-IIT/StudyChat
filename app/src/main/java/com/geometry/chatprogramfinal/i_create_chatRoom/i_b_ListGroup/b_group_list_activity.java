@@ -6,12 +6,16 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 import com.geometry.chatprogramfinal.f_login.login_activity;
 import com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room.b_group_data_model;
+import com.geometry.chatprogramfinal.j_chatMainWindow.ChatActivity;
+import com.geometry.chatprogramfinal.z_a_recyler_listener.recyclerTouchListener_class;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
+import com.geometry.chatprogramfinal.z_d_Parcelable.chatData;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -83,6 +87,35 @@ public class b_group_list_activity extends AppCompatActivity implements
 
 
         setFirebaseValueListener();
+
+        mRecyclerView.addOnItemTouchListener(new recyclerTouchListener_class(getApplicationContext(), mRecyclerView, new recyclerTouchListener_class.ClickListener()
+        {
+            @Override
+            public void onClick(View view, int position)
+            {
+
+
+                String sel_id = id_entry.get(position);
+                chatData chatdata = new chatData(
+                        sel_id,
+                        FirebaseAuth.getInstance().getCurrentUser().getUid(),true
+
+                );
+                Intent openDetailIntent = new Intent(b_group_list_activity.this, ChatActivity.class);
+                openDetailIntent.putExtra("chatData", chatdata);
+                startActivity(openDetailIntent);
+                helperFunctions_class.showToast(b_group_list_activity.this,chatdata.getSend_id()+"::"+chatdata.getTarget_id()+"::"+chatdata.getChat_id());
+
+
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
 
 
     }

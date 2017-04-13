@@ -311,4 +311,19 @@ public class ChatMain_activity extends AppCompatActivity implements
         }
 
     }
+
+    private void loadDataFromIntent()
+    {
+        /*
+        if (getIntent().getExtras() != null)
+        {
+            Person person = getIntent().getParcelableExtra(PERSON);
+            if (person != null)
+            {
+                mName.setText(person.getName());
+                mSurname.setText(person.getSurname());
+                mAge.setText(String.valueOf(person.getAge()).toString());
+            }
+        }*/
+    }
 }

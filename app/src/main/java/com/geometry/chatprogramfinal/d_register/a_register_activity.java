@@ -54,7 +54,7 @@ public class a_register_activity extends AppCompatActivity implements GoogleApiC
 
 
 
-        setContentView(R.layout.activity_c_a_register);
+        setContentView(R.layout.activity_c_register);
 
 
         // Get Firebase Auth instance

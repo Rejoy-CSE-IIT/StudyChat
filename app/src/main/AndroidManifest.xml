@@ -54,11 +54,15 @@
         <activity
             android:name=".h_user_list.b_user_list_activity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".i_create_chatRoom.i_a_make_room.a_chat_room_create_activity"
+        <activity
+            android:name=".i_create_chatRoom.i_a_make_room.a_chat_room_create_activity"
             android:theme="@style/AppTheme1" />
-        <activity android:name=".i_create_chatRoom.i_b_ListGroup.b_group_list_activity"
+        <activity
+            android:name=".i_create_chatRoom.i_b_ListGroup.b_group_list_activity"
             android:theme="@style/AppTheme" />
-
+        <activity android:name=".j_chatMainWindow.ChatActivity"
+            android:theme="@style/AppTheme"
+            />
     </application>
 
 </manifest>
