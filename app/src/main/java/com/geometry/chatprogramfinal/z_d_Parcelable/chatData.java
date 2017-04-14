@@ -43,16 +43,21 @@ public class chatData implements Parcelable
     String send_id;
     String target_id;
     String chat_id;
+    int group_chat_flag;
 
-    public boolean isGroup_chat_flag() {
+    public int getGroup_chat_flag() {
         return group_chat_flag;
     }
 
-    public void setGroup_chat_flag(boolean group_chat_flag) {
+    public void setGroup_chat_flag(int group_chat_flag) {
         this.group_chat_flag = group_chat_flag;
     }
 
-    boolean group_chat_flag;
+
+
+
+
+
 
 
     protected chatData(Parcel in)
@@ -60,15 +65,16 @@ public class chatData implements Parcelable
         send_id = in.readString();
         target_id = in.readString();
         chat_id = in.readString();
+        group_chat_flag=in.readInt();
       //  age = in.readInt();
     }
-    public chatData(String send_id, String target_id,boolean group_chat_flag)
+    public chatData(String send_id, String target_id,int group_chat_flag)
     {
         this.send_id = send_id;
         this.target_id = target_id;
-        this.group_chat_flag = group_chat_flag;
+
        // this.chat_id = chat_id;
-        if(group_chat_flag)
+        if(group_chat_flag==0)
         {
             this.chat_id = this.target_id;
         }
@@ -81,6 +87,7 @@ public class chatData implements Parcelable
             this.chat_id = target_dest_id_maker[0] + target_dest_id_maker[1];
 
         }
+        this.group_chat_flag = group_chat_flag;
     }
     public static final Creator<chatData> CREATOR = new Creator<chatData>()
     {
@@ -106,7 +113,7 @@ public class chatData implements Parcelable
         dest.writeString(chat_id);
         dest.writeString(target_id);
         dest.writeString(chat_id);
-        //dest.writeInt(chat_id);
+        dest.writeInt(group_chat_flag);
     }
 
 }

@@ -120,7 +120,7 @@ public class ChatMain_activity extends AppCompatActivity implements
 
 
             chatIdatLogin= FirebaseDatabase.getInstance()
-                    .getReference().child("GroupChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    .getReference().child("ChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
 
             if(intentfromOther.hasExtra("googleSignIn")||intentfromOther.hasExtra("normalLogin"))

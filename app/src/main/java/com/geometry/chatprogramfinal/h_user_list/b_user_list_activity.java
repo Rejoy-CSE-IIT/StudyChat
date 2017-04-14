@@ -100,9 +100,9 @@ public class b_user_list_activity extends AppCompatActivity implements
 
 
                 String sel_id = id_entry.get(position);
-                chatData chatdata = new chatData(
-                        sel_id,
-                        FirebaseAuth.getInstance().getCurrentUser().getUid(),false
+                chatData chatdata = new chatData(FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                        sel_id
+                        ,1
 
                 );
                 Intent openDetailIntent = new Intent(b_user_list_activity.this, ChatActivity.class);
@@ -128,7 +128,7 @@ public class b_user_list_activity extends AppCompatActivity implements
     {
 
 
-        myFirebaseRef = FirebaseDatabase.getInstance().getReference().child("GroupChatIds");
+        myFirebaseRef = FirebaseDatabase.getInstance().getReference().child("ChatIds");
         helperFunctions_class.showToast(b_user_list_activity.this,"Children =>"+myFirebaseRef.getKey());
 
         myFirebaseRef.addChildEventListener(new ChildEventListener()

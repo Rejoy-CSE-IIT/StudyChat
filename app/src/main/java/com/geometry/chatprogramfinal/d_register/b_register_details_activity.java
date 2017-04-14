@@ -71,7 +71,7 @@ public class b_register_details_activity extends AppCompatActivity
 
 
         chatIdatLogin= FirebaseDatabase.getInstance()
-                .getReference().child("GroupChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                .getReference().child("ChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
 
 
@@ -148,7 +148,7 @@ public class b_register_details_activity extends AppCompatActivity
 
 
                     chatIdatverification = FirebaseDatabase.getInstance()
-                            .getReference().child("GroupChatIdVerification").child(chatid_from_layout.getText().toString().toLowerCase());
+                            .getReference().child("ChatIdVerification").child(chatid_from_layout.getText().toString().toLowerCase());
                     chatIdatverification.addListenerForSingleValueEvent(new ValueEventListener() {
 
 

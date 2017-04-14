@@ -9,8 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.geometry.chatprogramfinal.R;
-import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
-import com.geometry.chatprogramfinal.f_login.login_activity;
 import com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room.b_group_data_model;
 import com.geometry.chatprogramfinal.j_chatMainWindow.ChatActivity;
 import com.geometry.chatprogramfinal.z_a_recyler_listener.recyclerTouchListener_class;
@@ -20,8 +18,6 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -95,10 +91,11 @@ public class b_group_list_activity extends AppCompatActivity implements
             {
 
 
-                String sel_id = id_entry.get(position);
-                chatData chatdata = new chatData(
-                        sel_id,
-                        FirebaseAuth.getInstance().getCurrentUser().getUid(),true
+                String groupId = id_entry.get(position);
+
+                chatData chatdata = new chatData(FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                        groupId
+                        ,0
 
                 );
                 Intent openDetailIntent = new Intent(b_group_list_activity.this, ChatActivity.class);
@@ -202,47 +199,7 @@ public class b_group_list_activity extends AppCompatActivity implements
     }
 
 
-    private void call_login(a_data_group_model_class adatamodelclass)
-    {
 
-        ChatMain_activity.UserName=null;
-        ChatMain_activity.userId=null;
-
-
-
-
-        if( adatamodelclass.getLoginType().equals("Normal"))
-        {
-
-            helperFunctions_class.showToast(b_group_list_activity.this, "Current user deleted Google Login!!!");
-
-            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                    new ResultCallback<Status>()
-                    {
-                        @Override
-                        public void onResult(@NonNull Status status)
-                        {
-                            helperFunctions_class.showToast(b_group_list_activity.this, "BBDOne googlesign out!!!");
-
-                            FirebaseAuth.getInstance().signOut();
-
-
-                            startActivity(new Intent(b_group_list_activity.this, login_activity.class));
-                            finish();
-
-                        }
-                    });
-
-        }
-        else
-        {
-            helperFunctions_class.showToast(b_group_list_activity.this, "user deleted  Normal out!!!");
-
-            startActivity(new Intent(b_group_list_activity.this, login_activity.class));
-            finish();
-        }
-
-    }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {

@@ -114,7 +114,7 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
 
 
                 chatIdatverification = FirebaseDatabase.getInstance()
-                        .getReference().child("GroupChatIdVerification").child(chatid_from_layout.getText().toString().toLowerCase());
+                        .getReference().child("ChatIdVerification").child(chatid_from_layout.getText().toString().toLowerCase());
                 chatIdatverification.addListenerForSingleValueEvent(new ValueEventListener() {
 
 
@@ -241,7 +241,7 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
                         if (task.isSuccessful())
                         {
                             chatIdatLogin= FirebaseDatabase.getInstance()
-                                    .getReference().child("GroupChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                    .getReference().child("ChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
 
                             chatIdatLogin.addListenerForSingleValueEvent(new ValueEventListener()
@@ -280,7 +280,11 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
 
                                         userData.setStatus("ONLINE");
                                         userData.setLoginType("google");
-                                        chatIdatLogin.setValue(userData,
+                                        DatabaseReference UserStatics;
+                                        UserStatics= FirebaseDatabase.getInstance()
+                                                .getReference().child("ChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                                        UserStatics.setValue(userData,
                                                 new DatabaseReference.CompletionListener()
                                                 {
 
