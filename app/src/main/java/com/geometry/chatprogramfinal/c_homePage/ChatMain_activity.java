@@ -52,6 +52,12 @@ public class ChatMain_activity extends AppCompatActivity implements
     DatabaseReference chatIdatLogin;
 
     private ProgressBar progressBar_from_layout;
+
+
+    public static boolean TOAST_CONTROL=true;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

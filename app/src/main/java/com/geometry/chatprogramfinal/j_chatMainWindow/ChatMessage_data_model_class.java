@@ -80,6 +80,16 @@ public class ChatMessage_data_model_class
     String message;
     String user_name;
     String date_time;
+
+    public boolean isDisplay() {
+        return display;
+    }
+
+    public void setDisplay(boolean display) {
+        this.display = display;
+    }
+
+    boolean display =true;
     public ChatMessage_data_model_class()
     {
 
