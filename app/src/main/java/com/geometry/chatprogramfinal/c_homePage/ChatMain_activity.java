@@ -35,23 +35,21 @@ import com.google.firebase.database.ValueEventListener;
 public class ChatMain_activity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
 {
-    public static String                                                    UserName=null;
-    public static String                                                      userId=null;
+    public static String                                                         UserName=null;
+    public static String                                                           userId=null;
+    public static boolean                                                     loggedIn = false;
 
-    public static boolean                                                    loggedIn = false;
+    Button               logout_button_xml,user_chat_Button_xml,creategroup_from_xml,grouplist;
+    GoogleApiClient                                                           mGoogleApiClient;
+    GoogleSignInOptions                                                                    gso;
+    Intent                                                                     intentfromOther;
 
-    Button logout_button_xml,user_chat_Button_xml,creategroup_from_xml,grouplist;
-    private GoogleApiClient mGoogleApiClient;
-    private GoogleSignInOptions gso;
-    Intent intentfromOther;
+    LinearLayout                                                                    button_grp;
+    TextView                                       email_address_from_xml,display_name_from_xml;
 
-    LinearLayout button_grp;
+    DatabaseReference                                                             chatIdatLogin;
 
-    TextView     email_address_from_xml,display_name_from_xml;
-
-    DatabaseReference chatIdatLogin;
-
-    private ProgressBar progressBar_from_layout;
+    ProgressBar                                                         progressBar_from_layout;
 
 
     public static boolean TOAST_CONTROL=true;
@@ -71,7 +69,7 @@ public class ChatMain_activity extends AppCompatActivity implements
         display_name_from_xml =(TextView) findViewById(R.id.display_name_from_xml);
         button_grp =(LinearLayout) findViewById(R.id.button_grp);
 
-
+        intentfromOther = getIntent();
 
         // [START config_signin]
         // Configure Google Sign In
@@ -87,20 +85,7 @@ public class ChatMain_activity extends AppCompatActivity implements
                 .build();
 
 
-        intentfromOther = getIntent();
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone())
-        {
 
-            intentfromOther.putExtra("googleSignInD", "googleSignInD");
-
-            helperFunctions_class.showToast(ChatMain_activity.this,"Detected Google Sign In");
-        }
-        else
-        {
-            intentfromOther.putExtra("googleSignInD", "normalLoginD");
-            helperFunctions_class.showToast(ChatMain_activity.this,"Detected Normal Sign In or no user");
-        }
 
         logout_button_xml =(Button) findViewById(R.id.logout_button_xml);
         user_chat_Button_xml =(Button) findViewById(R.id.user_chat_Button_xml);
@@ -108,22 +93,32 @@ public class ChatMain_activity extends AppCompatActivity implements
         grouplist =(Button) findViewById(R.id.grouplist);
 
 
-/*
-        Intent intent = new Intent(e_option_selector_recycler_view_activity.this, b_group_list_activity.class);
-        startActivity(intent);*/
-
-
-/*
-
- */
 
 
 
         if(  FirebaseAuth.getInstance().getCurrentUser()!=null)
         {
+
+            if(ChatMain_activity.TOAST_CONTROL)
             helperFunctions_class.showToast(ChatMain_activity.this,"Not Null user ::"+FirebaseAuth.getInstance().getCurrentUser().getUid());
 
+             if(!(intentfromOther.hasExtra("googleSignIn")||intentfromOther.hasExtra("normalLogin")))
+             {
 
+                 OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+                 if (opr.isDone())
+                 {
+
+                     intentfromOther.putExtra("googleSignInD", "googleSignInD");
+
+                     helperFunctions_class.showToast(ChatMain_activity.this,"Detected Google Sign In");
+                 }
+                 else
+                 {
+                     intentfromOther.putExtra("normalLoginD", "normalLoginD");
+                     helperFunctions_class.showToast(ChatMain_activity.this,"Detected Normal Sign In or no user");
+                 }
+             }
 
             chatIdatLogin= FirebaseDatabase.getInstance()
                     .getReference().child("ChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -131,9 +126,12 @@ public class ChatMain_activity extends AppCompatActivity implements
 
             if(intentfromOther.hasExtra("googleSignIn")||intentfromOther.hasExtra("normalLogin"))
             {
+                if(ChatMain_activity.TOAST_CONTROL)
                 helperFunctions_class.showToast(ChatMain_activity.this,"Ssecond Not Null user ::"+FirebaseAuth.getInstance().getCurrentUser().getEmail());
                 email_address_from_xml.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                 display_name_from_xml.setText(ChatMain_activity.UserName.toString());
+
+
 
                 // email_address_from_xml.setText("Hello test Email");
 
@@ -182,9 +180,13 @@ public class ChatMain_activity extends AppCompatActivity implements
         else
         {
 
+            if(ChatMain_activity.TOAST_CONTROL)
+                helperFunctions_class.showToast(ChatMain_activity.this,"  Null user");
+
+            ChatMain_activity.UserName=null;
+            ChatMain_activity.userId=null;
             startActivity(new Intent(ChatMain_activity.this, login_activity.class));
             finish();
-            helperFunctions_class.showToast(ChatMain_activity.this,"  Null user");
 
         }
 
@@ -287,6 +289,8 @@ public class ChatMain_activity extends AppCompatActivity implements
 
         if(intentfromOther.hasExtra("googleSignIn")||intentfromOther.hasExtra("googleSignInD"))
         {
+            if(ChatMain_activity.TOAST_CONTROL)
+                helperFunctions_class.showToast(ChatMain_activity.this,"  Null user");
 
             helperFunctions_class.showToast(ChatMain_activity.this, "AAADOne googlesign out!!!");
 
@@ -310,6 +314,9 @@ public class ChatMain_activity extends AppCompatActivity implements
         }
         else
         {
+            if(ChatMain_activity.TOAST_CONTROL)
+                helperFunctions_class.showToast(ChatMain_activity.this,"  Null user");
+
             helperFunctions_class.showToast(ChatMain_activity.this, "cccOne googlesign out!!!");
 
             startActivity(new Intent(ChatMain_activity.this, login_activity.class));
