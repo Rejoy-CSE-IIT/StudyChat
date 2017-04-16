@@ -1,19 +1,21 @@
 package com.geometry.chatprogramfinal.j_chatMainWindow;
 
+import java.util.Date;
+
 /**
  * Created by Rijoy on 4/13/2017.
  */
 
 public class ChatMessage_data_model_class
 {
-    public ChatMessage_data_model_class(String sender_id, String reciever_id, String message_Type, String imageurl, String message, String username, String datetime) {
+    public ChatMessage_data_model_class(String sender_id, String reciever_id, String message_Type, String imageurl, String message, String username) {
         this.sender_id = sender_id;
         this.reciever_id = reciever_id;
         this.message_Type = message_Type;
         image_url = imageurl;
         this.message = message;
         user_name = username;
-        date_time = datetime;
+        messageTime = new Date().getTime();
     }
 
     public String getSender_id() {
@@ -64,13 +66,7 @@ public class ChatMessage_data_model_class
         this.user_name = user_name;
     }
 
-    public String getDate_time() {
-        return date_time;
-    }
 
-    public void setDate_time(String date_time) {
-        this.date_time = date_time;
-    }
 
     String sender_id;
     String reciever_id;
@@ -79,7 +75,16 @@ public class ChatMessage_data_model_class
     String image_url =null;
     String message;
     String user_name;
-    String date_time;
+
+    public long getMessageTime() {
+        return messageTime;
+    }
+
+    public void setMessageTime(long messageTime) {
+        this.messageTime = messageTime;
+    }
+
+    long messageTime;
 
     public boolean isDisplay() {
         return display;

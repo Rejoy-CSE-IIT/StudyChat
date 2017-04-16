@@ -333,8 +333,7 @@ public class ChatActivity extends AppCompatActivity
                     "groupChat",
                     selectedImageUri.toString(),
                     message,
-                    ChatMain_activity.UserName,
-                    mydate);
+                    ChatMain_activity.UserName);
 
             databaseReference_groupChat.push().setValue(chatD,
                     new DatabaseReference.CompletionListener() {
@@ -357,8 +356,7 @@ public class ChatActivity extends AppCompatActivity
                     "userChat",
                     selectedImageUri.toString(),
                     message,
-                    ChatMain_activity.UserName,
-                    mydate);
+                    ChatMain_activity.UserName);
 
 
 

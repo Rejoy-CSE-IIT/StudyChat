@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:id = "@+id/receive"
+        android:layout_height="wrap_content"
+        android:background="@drawable/receive">
+
+        <TextView
+            android:id="@+id/chatuser_R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="user name"
+            android:textStyle="normal|bold" />
+
+
+        <ImageView
+            android:id="@+id/chat_photo_R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/chat_icon"
+            android:layout_below="@+id/chatuser_R"/>
+
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/chatmessage_R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chat_photo_R"
+            android:layout_marginTop="5dp"
+            android:text="Chat Message receive"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+
+
+        <TextView
+            android:id="@+id/chat_time_R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chatmessage_R"
+            android:text="Time of Chat" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id = "@+id/send"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/send">
+
+        <TextView
+            android:id="@+id/chatuser_S"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="user name"
+            android:textStyle="normal|bold" />
+
+
+        <ImageView
+            android:id="@+id/chat_photo_S"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/chat_icon"
+            android:layout_below="@+id/chatuser_S"/>
+
+
+
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/chatmessage_S"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chat_photo_S"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="5dp"
+            android:text="Chat Message send"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="18sp" />
+
+
+
+        <TextView
+            android:id="@+id/chat_time_S"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chatmessage_S"
+            android:text="Time of send Chat" />
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
