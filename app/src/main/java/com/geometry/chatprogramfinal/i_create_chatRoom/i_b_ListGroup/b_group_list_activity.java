@@ -54,7 +54,7 @@ public class b_group_list_activity extends AppCompatActivity implements
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_i_group_list_activity);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //Toolbar scrollView = (Toolbar) findViewById(R.id.scrollView);
         setTitle("List of Groups");
 
         this.mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);

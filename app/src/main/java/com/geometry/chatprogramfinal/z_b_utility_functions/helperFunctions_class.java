@@ -31,15 +31,7 @@ public class helperFunctions_class
     }
 
 
-    public static float getScreenWidth(Activity activity)
-    {
-        Display display = activity.getWindowManager().getDefaultDisplay();
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        display.getMetrics(outMetrics);
-       // float pxWidth = outMetrics.widthPixels;
-        return outMetrics.widthPixels;
 
-    }
 
     public static void  set_user_statics(String UserName,String userId,Boolean loggedIn)
     {
@@ -49,6 +41,24 @@ public class helperFunctions_class
         ChatMain_activity.userId =userId;
         ChatMain_activity.loggedIn = loggedIn;
     }
+    public static float getScreenWidth(Activity activity)
+    {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        display.getMetrics(outMetrics);
+        float pxWidth = outMetrics.widthPixels;
+        return pxWidth;
+    }
+
+    public static float getScreenHeight(Activity activity)
+    {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        display.getMetrics(outMetrics);
+        float pxHeight = outMetrics.heightPixels;
+        return pxHeight;
+    }
+
 
 
 }

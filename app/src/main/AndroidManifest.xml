@@ -20,6 +20,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:largeHeap="true"
         android:supportsRtl="true">
         <activity
             android:name=".a_TestPage.e_option_selector_recycler_view_activity"
@@ -60,9 +61,13 @@
         <activity
             android:name=".i_create_chatRoom.i_b_ListGroup.b_group_list_activity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".j_chatMainWindow.ChatActivity"
-            android:theme="@style/AppTheme"
-            />
+        <activity
+            android:name=".j_chatMainWindow.ChatActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".k_ImageEditor.ImageEditor"
+            android:theme="@style/AppTheme_tab" />
+
     </application>
 
 </manifest>
