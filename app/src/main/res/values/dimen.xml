@@ -5,4 +5,9 @@
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>
 
+    <dimen name="activity_horizontal_margin_D">16dp</dimen>
+    <dimen name="activity_vertical_margin_D">16dp</dimen>
+    <dimen name="line_imageview_height_D">50dp</dimen>
+    <dimen name="color_view_height_D">80dp</dimen>
+
 </resources>

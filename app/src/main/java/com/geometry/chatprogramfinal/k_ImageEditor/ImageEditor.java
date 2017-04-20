@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -110,6 +111,15 @@ public class ImageEditor extends AppCompatActivity
     // confirm whether image should be erase
     private void confirmErase()
     {
+        // j_f_EraseImageDialogFragment fragment = new j_f_EraseImageDialogFragment();
+        // fragment.show(fragment.getFragmentManager(),"erase dialog");
+
+
+        FragmentManager fm = getSupportFragmentManager();
+
+        j_f_EraseImageDialogFragment frag = new j_f_EraseImageDialogFragment();
+        //j_d_ColorDialogFragment j_d_colorDialogfragment = j_d_ColorDialogFragment.newInstance("Change Color");
+        frag.show(fm, "erase");
 
     }
 
@@ -138,20 +148,38 @@ public class ImageEditor extends AppCompatActivity
                 return true; // consume the menu event*/
 
 
+            case R.id.delete_drawing:
+                confirmErase();
+                return true; // consume the menu event
+
+            case R.id.color:
+
+                FragmentManager fm = getSupportFragmentManager();
+
+                j_d_ColorDialogFragment frag = new j_d_ColorDialogFragment();
+                //j_d_ColorDialogFragment j_d_colorDialogfragment = j_d_ColorDialogFragment.newInstance("Change Color");
+                frag.show(fm, "fragment_edit_name");
+
+                return true; // consume the menu event
+
+
+
             case R.id.applyImageToDoodle:
 
                 return true; // consume the menu event*/
 
-            case R.id.color:
-            return true; // consume the menu event
+
 
             case R.id.line_width:
+
+                FragmentManager FL = getSupportFragmentManager();
+
+                j_e_LineWidthDialogFragment fragL = new j_e_LineWidthDialogFragment();
+                //j_d_ColorDialogFragment j_d_colorDialogfragment = j_d_ColorDialogFragment.newInstance("Change Color");
+                fragL.show(FL, "fragment_edit_name");
             return true; // consume the menu event*/
 
-            case R.id.delete_drawing:
-
-                return true; // consume the menu event
-              case crop:
+               case crop:
 
                 return true; // consume the menu event*/
 
@@ -236,6 +264,7 @@ public class ImageEditor extends AppCompatActivity
 
                     bitmap_P = BitmapFactory.decodeStream(imageStream);
 
+
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap_P.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byte[] byteArray = stream.toByteArray();
@@ -291,21 +320,25 @@ public class ImageEditor extends AppCompatActivity
 
     {
         doodleView.noupdate=true;
-        float screenHieight= helperFunctions_class.getScreenWidth(ImageEditor.this )/1.3f;
-        helperFunctions_class.showToast(ImageEditor.this, "Check"+screenHieight);
+        float screenwidth= helperFunctions_class.getScreenWidth(ImageEditor.this )/1.3f;
+        helperFunctions_class.showToast(ImageEditor.this, "Check"+screenwidth);
 
 
         float Height = 0;
 
         float Width  = 0;
 
-          LinearLayout.LayoutParams parms=null;
+        LinearLayout.LayoutParams parms=null;
+
+        Height = ((float)screenwidth * (float)bitmap_P.getHeight() ) /(float)bitmap_P.getWidth();
+        Width =screenwidth;
+        helperFunctions_class.showToast(ImageEditor.this, "W+H:: "+Width+"::"+Height+"Width high");
 
 
             // newHeight = (screenWidth * decodedByte.getHeight()) / decodedByte.getWidth();
 
 
-
+/*
             if(bitmap_P.getWidth()< bitmap_P.getHeight())
             {
                  Height = ((float)doodleView.getWidth() * (float)bitmap_P.getHeight() ) /(float)bitmap_P.getWidth();
@@ -320,12 +353,8 @@ public class ImageEditor extends AppCompatActivity
             else
             {
 
-                Height = ((float)doodleView.getWidth() * (float)bitmap_P.getHeight() ) /(float)bitmap_P.getWidth();
-                Width =doodleView.getWidth();
-                helperFunctions_class.showToast(ImageEditor.this, "W+H:: "+Width+"::"+Height+"Width high");
-
             }
-
+*/
 
 
 
@@ -470,6 +499,8 @@ public class ImageEditor extends AppCompatActivity
             }
         }
     }
+
+
 
 
 
