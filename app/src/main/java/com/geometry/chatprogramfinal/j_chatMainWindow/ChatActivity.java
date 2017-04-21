@@ -3,9 +3,12 @@ package com.geometry.chatprogramfinal.j_chatMainWindow;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.Voice;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,11 +32,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import static com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class.showToast;
 
 
-public class ChatActivity extends AppCompatActivity
+public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnInitListener
 {
     private Button                                               sendBtn;
     private EditText                                          messageTxt;
@@ -45,7 +49,7 @@ public class ChatActivity extends AppCompatActivity
     DatabaseReference                        databaseReference_groupChat;
 
     LinearLayoutManager mManager;
-
+    TextToSpeech TtoS;
     ///Menu
     boolean text_to_speech=false,clear_image=false;
 
@@ -124,7 +128,7 @@ public class ChatActivity extends AppCompatActivity
         messageTxt = (EditText) findViewById(R.id.messageTxt);
         recycleView = (RecyclerView) findViewById(R.id.recycleView);
 
-
+        TtoS = new TextToSpeech(ChatActivity.this, ChatActivity.this,"com.google.android.tts");
 
 ////////////////////////////////////////////////////////////////////////////////
 ///Deciding chat mode
@@ -241,6 +245,13 @@ public class ChatActivity extends AppCompatActivity
 
                 mAdapter.notifyDataSetChanged();
                 recycleView.smoothScrollToPosition(currentItemsLinkedHmap.size() - 1);
+                //http://programmerguru.com/android-tutorial/android-text-to-speech-example/
+                //https://www.quora.com/How-do-I-change-a-male-voice-to-a-female-voice-What-are-some-Android-codes-or-apps
+              //http://www.androidauthority.com/google-text-to-speech-engine-659528/
+                if(text_to_speech)
+                {
+                    TextToSpeechFunction(adatamodelclass.getMessage());
+                }
 
 
             }
@@ -390,4 +401,55 @@ public class ChatActivity extends AppCompatActivity
         mRecyclerViewAdapter.notifyDataSetChanged();*/
 
     }
+
+//http://stackoverflow.com/questions/9815245/android-text-to-speech-male-voice
+    public   void TextToSpeechFunction(String speech)
+    {
+
+
+            TtoS.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
+
+
+    }
+
+    @Override
+    public void onDestroy()
+    {
+
+        TtoS.shutdown();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onInit(int status)
+    {
+
+        if (status == TextToSpeech.SUCCESS)
+        {
+            TtoS.setLanguage(Locale.US);
+
+
+            for (Voice tmpVoice : TtoS.getVoices())
+            {
+                helperFunctions_class.showToast(ChatActivity.this,"Array +"+tmpVoice.toString());
+                   String TAG = "MyActivity";
+                Log.v(TAG, "Speech=   " + tmpVoice.toString());
+
+                if (tmpVoice.getName().equals( "en-us-x-sfg#male_1-local"))
+                {
+                   // TtoS.setVoice(tmpVoice);
+                    helperFunctions_class.showToast(ChatActivity.this,"Voice changed");
+                }
+            }
+
+
+          //  TtoS.setVoice()
+            // ChatActivity.TextToSpeechFunction(messageTxt.getText().toString());
+        }
+
+
+
+    }
+
+
 }
