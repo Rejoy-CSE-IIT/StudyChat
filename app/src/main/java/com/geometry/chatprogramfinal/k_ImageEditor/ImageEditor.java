@@ -95,7 +95,7 @@ public class ImageEditor extends AppCompatActivity
             public void onClick(View v)
             {
                 doodleView.StringValue=TextOnImageEditText.getText().toString();
-
+                I=(I+1)%100;
 
                 if(I%2==1)
                 {
@@ -111,7 +111,7 @@ public class ImageEditor extends AppCompatActivity
                     doodleView.string_on_text = false;
 
                 }
-                I=(I+1)%100;
+
 
 
             }
@@ -207,7 +207,7 @@ public class ImageEditor extends AppCompatActivity
 
 
             case R.id.applyImageToDoodle:
-
+                ApplyImageToDoodle(); // check permission and save current image
                 return true; // consume the menu event*/
 
 
@@ -591,6 +591,29 @@ public class ImageEditor extends AppCompatActivity
 
     // requests for the permission needed for saving the image if
     // necessary or saves the image if the app already has permission
+
+    private void ApplyImageToDoodle()
+    {
+
+        try
+        {
+            bitmap_P =  doodleView.bitmap;
+            getImageUri();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+
+
+        Intent in = new Intent();
+        in.setData(mImageUri);
+        setResult(RESULT_OK, in);
+        finish();
+
+    }
 
     private void CropImage()
     {
