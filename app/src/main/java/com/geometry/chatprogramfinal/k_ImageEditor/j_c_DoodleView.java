@@ -187,15 +187,40 @@ public class j_c_DoodleView extends View {
         }
 
         else
-
         {
+
+            // determine whether touch started, ended or is moving
+            if (action == MotionEvent.ACTION_DOWN ||
+                    action == MotionEvent.ACTION_POINTER_DOWN)
+            {
+                ImageEditor.scrollView.setScrolling(false); // to disable scrolling
+
+
+            }
+            else if (action == MotionEvent.ACTION_UP ||
+                    action == MotionEvent.ACTION_POINTER_UP)
+            {
+
+                                ImageEditor.scrollView.setScrolling(true); // to disable scrolling
+
+            }
+            else
+            {
+
+            }
+
+
             paintScreen.setTextSize(72);
 
             bitmapCanvas.drawText(StringValue, event.getX(actionIndex), event.getY(actionIndex), paintScreen);
+
         }
         invalidate(); // redraw
         return true;
     }
+
+
+
 
     // called when the user touches the screen
     private void touchStarted(float x, float y, int lineID)
@@ -203,6 +228,12 @@ public class j_c_DoodleView extends View {
 
         Path path; // used to store the path for the given touch id
         Point point; // used to store the last point in path
+
+        ImageEditor.scrollView.setScrolling(false); // to disable scrolling
+
+
+
+
 
         ImageEditor.scrollView.setScrolling(false); // to disable scrolling
 

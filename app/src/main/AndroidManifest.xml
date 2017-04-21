@@ -67,6 +67,9 @@
         <activity
             android:name=".k_ImageEditor.ImageEditor"
             android:theme="@style/AppTheme_tab" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
 
     </application>
 

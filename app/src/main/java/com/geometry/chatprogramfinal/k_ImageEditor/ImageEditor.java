@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -22,13 +23,16 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.geometry.chatprogramfinal.R;
+import com.geometry.chatprogramfinal.k_ImageEditor.ImageFilters.ImageFilters;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.geometry.chatprogramfinal.z_e_MyScrollView.MyScrollView;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -46,13 +50,13 @@ public class ImageEditor extends AppCompatActivity
     private Button ImageOnText;
     private EditText TextOnImageEditText;
     private Uri mImageUri=null;
-    Bitmap bitmap_P=null;
+    public static Bitmap bitmap_P=null;
     private static final int      REQUEST_WRITE_STORAGE = 112;
     private static final int           REQUEST_OPEN_GALLEY =0;
     private static String              TAG = "PermissionDemo";
 
    // ScrollView scrollView;
-
+   public int I=0;
    public  static  MyScrollView  scrollView;
     File actualImage_file;
 
@@ -76,6 +80,43 @@ public class ImageEditor extends AppCompatActivity
        // scrollView = (ScrollView)   findViewById(R.id.editorView);
 
          scrollView = (MyScrollView) findViewById(R.id.editorView);
+
+        handler = new Handler()
+        {
+            @Override
+            public void handleMessage(Message msg) {
+                progressDialog.dismiss();
+            }
+        };
+
+
+        ImageOnText.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                doodleView.StringValue=TextOnImageEditText.getText().toString();
+
+
+                if(I%2==1)
+                {
+                    ImageOnText.setText("Select\n Draw");
+                    ImageOnText.setBackground(getResources().getDrawable(R.drawable.button_bg_round_0));
+                    doodleView.string_on_text = true;
+                }
+                else
+                {
+
+                    ImageOnText.setText("Select\n Text");
+                    ImageOnText.setBackground(getResources().getDrawable(R.drawable.button_bg_round_1));
+                    doodleView.string_on_text = false;
+
+                }
+                I=(I+1)%100;
+
+
+            }
+        });
+
 
         //scrollView.setScrolling(true); // to disable scrolling
 
@@ -150,6 +191,7 @@ public class ImageEditor extends AppCompatActivity
 
             case R.id.delete_drawing:
                 confirmErase();
+              //  bitmap_P.eraseColor(Color.WHITE);
                 return true; // consume the menu event
 
             case R.id.color:
@@ -180,27 +222,364 @@ public class ImageEditor extends AppCompatActivity
             return true; // consume the menu event*/
 
                case crop:
-
+                   CropImage(); // check permission and save current image
                 return true; // consume the menu event*/
 
 
 
             case R.id.effect_grayscale:
-            return true;
+                showProcessDialog("Image Processing","Applying grey Scle plz wait");
+
+
+                new Thread( new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+
+
+
+
+                        handler.post(
+
+                                new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        ImageFilters imgFilterG;
+
+                                        //
+
+                                        imgFilterG = new ImageFilters();
+
+                                        bitmap_P =imgFilterG.applyGreyscaleEffect( doodleView.bitmap) ;
+                                        apply_image_view();
+                                        doodleView.invalidate();
+                                        //or me a call to invalidate() only refresh the view and a call to requestLayout()
+                                        // refresh the view and compute the size of the view in the screen.
+                                        doodleView.requestLayout();
+
+                                        handler.sendEmptyMessage(0);
+
+
+                                        //
+                                    }
+                                }
+
+                        );
+
+
+                        //Handler handler;
+                        //handler = new Handler(getActivity().getApplicationContext().getMainLooper());
+
+
+
+
+
+
+
+
+                    }
+                }).start();
+                return true;
 
             case R.id.effect_black:
-            return true;
+
+                /*
+                ImageFilters imgFilter_B;
+                imgFilter_B = new ImageFilters();
+
+                bitmap_P =imgFilter_B.applyBlackFilter( bitmap_P) ;
+                apply_image_view();
+                doodleView.invalidate();
+                //or me a call to invalidate() only refresh the view and a call to requestLayout()
+                // refresh the view and compute the size of the view in the screen.
+                doodleView.requestLayout();*/
+
+
+
+
+
+
+                showProcessDialog("Image Processing","Applying  light dark  plz wait");
+
+
+                new Thread( new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+
+
+
+
+                        handler.post(
+
+                                new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        ImageFilters imgFilterB;
+
+                                        //
+
+                                        imgFilterB = new ImageFilters();
+
+                                        bitmap_P =imgFilterB.applyBlackFilter(  doodleView.bitmap) ;
+                                        apply_image_view();
+                                        doodleView.invalidate();
+                                        //or me a call to invalidate() only refresh the view and a call to requestLayout()
+                                        // refresh the view and compute the size of the view in the screen.
+                                        doodleView.requestLayout();
+
+                                        handler.sendEmptyMessage(0);
+
+
+                                        //
+                                    }
+                                }
+
+                        );
+
+
+                        //Handler handler;
+                        //handler = new Handler(getActivity().getApplicationContext().getMainLooper());
+
+
+
+
+
+
+
+
+                    }
+                }).start();
+
+
+
+                return true;
 
 
             case R.id.effect_boost_1:
-            return true;
+
+
+
+/*
+                ImageFilters imgFilter_BB;
+
+                imgFilter_BB = new ImageFilters();
+
+                bitmap_P =imgFilter_BB.applyBoostEffect( bitmap_P, 1, 40) ;
+                apply_image_view();
+                doodleView.invalidate();
+                //or me a call to invalidate() only refresh the view and a call to requestLayout()
+                // refresh the view and compute the size of the view in the screen.
+                doodleView.requestLayout();*/
+
+
+
+                showProcessDialog("Image Processing","Applying  Boost effect plz  wait");
+
+
+                new Thread( new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+
+
+
+
+                        handler.post(
+
+                                new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        ImageFilters imgFilterBB;
+
+                                        //
+
+                                        imgFilterBB = new ImageFilters();
+
+                                        bitmap_P =imgFilterBB.applyBoostEffect(  doodleView.bitmap, 1, 40) ;
+                                        apply_image_view();
+                                        doodleView.invalidate();
+                                        //or me a call to invalidate() only refresh the view and a call to requestLayout()
+                                        // refresh the view and compute the size of the view in the screen.
+                                        doodleView.requestLayout();
+
+                                        handler.sendEmptyMessage(0);
+
+
+                                        //
+                                    }
+                                }
+
+                        );
+
+
+                        //Handler handler;
+                        //handler = new Handler(getActivity().getApplicationContext().getMainLooper());
+
+
+
+
+
+
+
+
+                    }
+                }).start();
+
+
+                return true;
 
 
             case R.id.Brightness:
-            return true;
+
+                /*
+                ImageFilters imgFilter_BT;
+                imgFilter_BT = new ImageFilters();
+
+                bitmap_P =imgFilter_BT.applyBrightnessEffect( bitmap_P, 80) ;
+                apply_image_view();
+                doodleView.invalidate();
+                //or me a call to invalidate() only refresh the view and a call to requestLayout()
+                // refresh the view and compute the size of the view in the screen.
+                doodleView.requestLayout();*/
+                showProcessDialog("Image Processing","Applying Brightness effect plz  wait");
+
+
+                new Thread( new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+
+
+
+
+                        handler.post(
+
+                                new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        ImageFilters imgFilterBT;
+
+                                        //
+
+                                        imgFilterBT = new ImageFilters();
+
+                                        bitmap_P =imgFilterBT.applyBrightnessEffect(  doodleView.bitmap, 80) ;
+                                        apply_image_view();
+                                        doodleView.invalidate();
+                                        //or me a call to invalidate() only refresh the view and a call to requestLayout()
+                                        // refresh the view and compute the size of the view in the screen.
+                                        doodleView.requestLayout();
+
+                                        handler.sendEmptyMessage(0);
+
+
+                                        //
+                                    }
+                                }
+
+                        );
+
+
+                        //Handler handler;
+                        //handler = new Handler(getActivity().getApplicationContext().getMainLooper());
+
+
+
+
+
+
+
+
+                    }
+                }).start();
+
+
+                return true;
 
             case R.id.hue:
-            return true;
+/*
+                ImageFilters imgFilter_H;
+                imgFilter_H = new ImageFilters();
+
+                bitmap_P =imgFilter_H.applyHueFilter( bitmap_P, 2) ;
+                apply_image_view();
+                doodleView.invalidate();
+                //or me a call to invalidate() only refresh the view and a call to requestLayout()
+                // refresh the view and compute the size of the view in the screen.
+                doodleView.requestLayout();*/
+
+                showProcessDialog("Image Processing","Applying Paint effect plz  wait");
+
+
+                new Thread( new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+
+
+
+
+                        handler.post(
+
+                                new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        ImageFilters imgFilterP;
+
+                                        //
+
+                                        imgFilterP = new ImageFilters();
+
+                                        bitmap_P =imgFilterP.applyHueFilter(  doodleView.bitmap, 2);
+                                        apply_image_view();
+                                        doodleView.invalidate();
+                                        //or me a call to invalidate() only refresh the view and a call to requestLayout()
+                                        // refresh the view and compute the size of the view in the screen.
+                                        doodleView.requestLayout();
+
+                                        handler.sendEmptyMessage(0);
+
+
+                                        //
+                                    }
+                                }
+
+                        );
+
+
+                        //Handler handler;
+                        //handler = new Handler(getActivity().getApplicationContext().getMainLooper());
+
+
+
+
+
+
+
+
+                    }
+                }).start();
+
+
+                return true;
+
+
 
 
 
@@ -213,6 +592,31 @@ public class ImageEditor extends AppCompatActivity
     // requests for the permission needed for saving the image if
     // necessary or saves the image if the app already has permission
 
+    private void CropImage()
+    {
+
+        try
+        {
+            bitmap_P =  doodleView.bitmap;
+            getImageUri( );
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+        //CropImage.activity(mImageUri).start(getActivity().getApplicationContext(), this);
+        Intent intent = CropImage.activity(mImageUri)
+                .getIntent(getApplicationContext());
+        startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
+
+
+    }
     private void ApplyImage()
     {
 
@@ -234,22 +638,22 @@ public class ImageEditor extends AppCompatActivity
         if (requestCode == REQUEST_OPEN_GALLEY && resultCode ==RESULT_OK)
         {
 
-            helperFunctions_class.showToast(ImageEditor.this, "CheckA");
+           // helperFunctions_class.showToast(ImageEditor.this, "CheckA");
 
             if(intent_resultdata!=null)
             {
-                helperFunctions_class.showToast(ImageEditor.this, "CheckB");
+             //   helperFunctions_class.showToast(ImageEditor.this, "CheckB");
                 mImageUri = intent_resultdata.getData();
-                helperFunctions_class.showToast(ImageEditor.this, "CheckC");
+             //   helperFunctions_class.showToast(ImageEditor.this, "CheckC");
 
                 try
                 {
                     //bitmap_P = MediaStore.Images.Media.getBitmap( getApplicationContext().getContentResolver(), mImageUri);
-                    helperFunctions_class.showToast(ImageEditor.this, "CheckD"+"::"+mImageUri);
+                //    helperFunctions_class.showToast(ImageEditor.this, "CheckD"+"::"+mImageUri);
 
                     /*
                     actualImage_file = FileUtil.from(this, mImageUri);
-                    helperFunctions_class.showToast(ImageEditor.this, "CheckE");
+               //     helperFunctions_class.showToast(ImageEditor.this, "CheckE");
                     bitmap_P = Compressor.getDefault(this).compressToBitmap(actualImage_file);*/
 
 
@@ -276,7 +680,7 @@ public class ImageEditor extends AppCompatActivity
                         e.printStackTrace();
                     }
 
-                    helperFunctions_class.showToast(ImageEditor.this, "CheckF");
+                   // helperFunctions_class.showToast(ImageEditor.this, "CheckF");
 
 
                     apply_image_view();
@@ -309,6 +713,60 @@ public class ImageEditor extends AppCompatActivity
             }
         }
 
+        if (requestCode ==  CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE  && resultCode ==RESULT_OK)
+        {
+
+
+
+            CropImage.ActivityResult result = CropImage.getActivityResult(intent_resultdata);
+
+
+
+            //mImageUri = intent_resultdata.getData();
+            mImageUri = result.getUri();
+
+            InputStream imageStream = null;
+            try {
+                imageStream = getContentResolver().openInputStream(
+                        mImageUri);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            bitmap_P = BitmapFactory.decodeStream(imageStream);
+
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap_P.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            try {
+                stream.close();
+                stream = null;
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            }
+
+            apply_image_view();
+            doodleView.invalidate();
+            doodleView.requestLayout();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
 
 
 
@@ -321,7 +779,7 @@ public class ImageEditor extends AppCompatActivity
     {
         doodleView.noupdate=true;
         float screenwidth= helperFunctions_class.getScreenWidth(ImageEditor.this )/1.3f;
-        helperFunctions_class.showToast(ImageEditor.this, "Check"+screenwidth);
+       // helperFunctions_class.showToast(ImageEditor.this, "Check"+screenwidth);
 
 
         float Height = 0;
@@ -332,7 +790,7 @@ public class ImageEditor extends AppCompatActivity
 
         Height = ((float)screenwidth * (float)bitmap_P.getHeight() ) /(float)bitmap_P.getWidth();
         Width =screenwidth;
-        helperFunctions_class.showToast(ImageEditor.this, "W+H:: "+Width+"::"+Height+"Width high");
+        //helperFunctions_class.showToast(ImageEditor.this, "W+H:: "+Width+"::"+Height+"Width high");
 
 
             // newHeight = (screenWidth * decodedByte.getHeight()) / decodedByte.getWidth();
@@ -501,7 +959,13 @@ public class ImageEditor extends AppCompatActivity
     }
 
 
-
+    private void showProcessDialog(String title,String message)
+    {
+        progressDialog = new ProgressDialog(ImageEditor.this);
+        progressDialog.setTitle(title);
+        progressDialog.setMessage(message);
+        progressDialog.show();
+    }
 
 
 }
