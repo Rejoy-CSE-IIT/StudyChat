@@ -23,9 +23,10 @@
 
         <ImageView
             android:id="@+id/chat_photo_R"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/chat_icon"
+            android:layout_width="500px"
+            android:layout_height="500px"
+
+
             android:layout_below="@+id/chatuser_R"/>
 
 
@@ -76,7 +77,7 @@
             android:id="@+id/chat_photo_S"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/chat_icon"
+
             android:layout_below="@+id/chatuser_S"/>
 
 

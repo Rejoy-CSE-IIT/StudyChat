@@ -594,10 +594,16 @@ public class ImageEditor extends AppCompatActivity
 
     private void ApplyImageToDoodle()
     {
+        float screenwidth_half=0.0f;
+        float Height=0.0f;
 
         try
         {
             bitmap_P =  doodleView.bitmap;
+             screenwidth_half= helperFunctions_class.getScreenWidth(ImageEditor.this )/2.0f;
+              Height = ((float)screenwidth_half* (float)bitmap_P.getHeight() ) /(float)bitmap_P.getWidth();
+
+
             getImageUri();
         }
         catch (Exception e)
@@ -609,6 +615,10 @@ public class ImageEditor extends AppCompatActivity
 
 
         Intent in = new Intent();
+
+        in.putExtra("width",(int) screenwidth_half);
+        in.putExtra("height",(int) Height);
+        Log.d("TEST_1", "Width =>" + screenwidth_half+"Height=>"+Height);
         in.setData(mImageUri);
         setResult(RESULT_OK, in);
         finish();

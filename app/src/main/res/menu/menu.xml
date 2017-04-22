@@ -4,6 +4,6 @@
     <item android:id="@+id/menu_text_to_speech"
         android:title="Text to Speech" />
 
-    <item android:id="@+id/menu_clear_image"
-        android:title="Clear Image" />
+    <item android:id="@+id/notification"
+        android:title="Notification" />
 </menu >

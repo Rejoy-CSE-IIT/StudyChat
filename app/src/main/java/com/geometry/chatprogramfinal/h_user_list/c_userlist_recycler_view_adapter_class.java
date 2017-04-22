@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.geometry.chatprogramfinal.R;
+import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -18,7 +19,7 @@ public class c_userlist_recycler_view_adapter_class extends RecyclerView.Adapter
     private List<String> id_entry = new ArrayList<>();
     LinkedHashMap <String, a_data_model_class> currentItemsLinkedHmap = new LinkedHashMap<String, a_data_model_class>();
 
-   // public c_group_recycler_view_adapter_class(List<a_data_group_model_class> items) { mDatasetD = items; }
+   // public c_chat_recycler_view_adapter_class(List<a_data_group_model_class> items) { mDatasetD = items; }
    public c_userlist_recycler_view_adapter_class(LinkedHashMap<String, a_data_model_class> currentItemsLinkedHmap, List<String> id_entry )
    {
        this.id_entry = id_entry;
@@ -38,17 +39,27 @@ public class c_userlist_recycler_view_adapter_class extends RecyclerView.Adapter
     public void onBindViewHolder(d_userlist_view_holder_class holder, final int position)
     {
 
-        if(currentItemsLinkedHmap.get(id_entry.get(position).toString()).isDisplay()) {
-
-            String name = currentItemsLinkedHmap.get(id_entry.get(position).toString()).getUsername();
-            String online = currentItemsLinkedHmap.get(id_entry.get(position).toString()).getStatus();
-            holder.online.setText(online);
-            holder.name.setText(name);
+        if(currentItemsLinkedHmap.get(id_entry.get(position).toString()).getFirebaseUserId().equals(ChatMain_activity.userId))
+        {
+           holder.userListCard.setVisibility(View.GONE);
         }
         else
+
         {
-          holder.userListCard.setVisibility(View.GONE);
+            if(currentItemsLinkedHmap.get(id_entry.get(position).toString()).isDisplay()) {
+
+                String name = currentItemsLinkedHmap.get(id_entry.get(position).toString()).getUsername();
+                String online = currentItemsLinkedHmap.get(id_entry.get(position).toString()).getStatus();
+                holder.online.setText(online);
+                holder.name.setText(name);
+            }
+            else
+            {
+                holder.userListCard.setVisibility(View.GONE);
+            }
         }
+
+
 
      //   holder.name.setText( currentItemsLinkedHmap.get(id_entry.get(position)).g );
        // holder.online.setText(currentItemsLinkedHmap.get(id_entry.get(position)).toString());

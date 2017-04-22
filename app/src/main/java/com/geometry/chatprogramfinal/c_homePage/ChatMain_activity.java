@@ -52,7 +52,7 @@ public class ChatMain_activity extends AppCompatActivity implements
     ProgressBar                                                         progressBar_from_layout;
 
 
-    public static boolean TOAST_CONTROL=true;
+    public static boolean TOAST_CONTROL=false;
 
 
 
@@ -110,12 +110,13 @@ public class ChatMain_activity extends AppCompatActivity implements
                  {
 
                      intentfromOther.putExtra("googleSignInD", "googleSignInD");
-
+                     if(ChatMain_activity.TOAST_CONTROL)
                      helperFunctions_class.showToast(ChatMain_activity.this,"Detected Google Sign In");
                  }
                  else
                  {
                      intentfromOther.putExtra("normalLoginD", "normalLoginD");
+                     if(ChatMain_activity.TOAST_CONTROL)
                      helperFunctions_class.showToast(ChatMain_activity.this,"Detected Normal Sign In or no user");
                  }
              }
@@ -291,7 +292,7 @@ public class ChatMain_activity extends AppCompatActivity implements
         {
             if(ChatMain_activity.TOAST_CONTROL)
                 helperFunctions_class.showToast(ChatMain_activity.this,"  Null user");
-
+            if(ChatMain_activity.TOAST_CONTROL)
             helperFunctions_class.showToast(ChatMain_activity.this, "AAADOne googlesign out!!!");
 
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
@@ -300,6 +301,7 @@ public class ChatMain_activity extends AppCompatActivity implements
                         @Override
                         public void onResult(@NonNull Status status)
                         {
+                            if(ChatMain_activity.TOAST_CONTROL)
                             helperFunctions_class.showToast(ChatMain_activity.this, "BBDOne googlesign out!!!");
 
                             FirebaseAuth.getInstance().signOut();
@@ -316,7 +318,7 @@ public class ChatMain_activity extends AppCompatActivity implements
         {
             if(ChatMain_activity.TOAST_CONTROL)
                 helperFunctions_class.showToast(ChatMain_activity.this,"  Null user");
-
+            if(ChatMain_activity.TOAST_CONTROL)
             helperFunctions_class.showToast(ChatMain_activity.this, "cccOne googlesign out!!!");
 
             startActivity(new Intent(ChatMain_activity.this, login_activity.class));

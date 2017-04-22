@@ -2,8 +2,10 @@ package com.geometry.chatprogramfinal.j_chatMainWindow;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,6 +29,10 @@ public class d_group_view_holder_class extends RecyclerView.ViewHolder
     public TextView chat_time_R  ;
     public ImageView pic_R   ;
     public RelativeLayout  Receive;
+
+    LinearLayout.LayoutParams parms=null;
+
+    String TAG = "WIDTH_TEST";
 
     public d_group_view_holder_class(View v)
     {
@@ -52,16 +58,17 @@ public class d_group_view_holder_class extends RecyclerView.ViewHolder
     {
 
         // Send.setVisibility(View.GONE);
-
+/*
         if(!chat.isDisplay())
         {
             Receive.setVisibility(View.GONE);
             Send.setVisibility(View.GONE);
             return;
-        }
+        }*/
 
+        Log.d("TEST_B", "Message"+"("+chat.getMessage()+")"+ chat.reciever_id);
 
-        if (chat.getSender_id().equals(ChatMain_activity.userId))
+       if (chat.getSender_id().equals(ChatMain_activity.userId))
         {
 
             Receive.setVisibility(View.GONE);
@@ -73,13 +80,26 @@ public class d_group_view_holder_class extends RecyclerView.ViewHolder
             else
             {
 
+
+
+                Log.d(TAG, "Width =>" + chat.getWidth()+"Height=>"+chat.getHeight());
+
+/*
+                parms = new LinearLayout.LayoutParams(chat.getWidth(),chat.getHeight());
+                parms.gravity= Gravity.CENTER_HORIZONTAL;
+                pic_S.setLayoutParams(parms);
+
+                Glide.with((Activity) mView.getContext())
+                        .load(chat.getImage_url())
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(pic_S);*/
+
 /*
                 Glide.with((Activity) mView.getContext())
                         .load(chat.getImage_url())
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .override(chat.getWidth(), chat.getHeight())
                         .into(pic_S);*/
-
 
 
 
@@ -106,12 +126,24 @@ public class d_group_view_holder_class extends RecyclerView.ViewHolder
             else
             {
                 // System.out.print("HAI");
+
 /*
-                Glide.with((Activity) mView.getContext())
-                        .load(chat.getPicId())
+                parms = new LinearLayout.LayoutParams(chat.getWidth(),chat.getHeight());
+                parms.gravity= Gravity.CENTER_HORIZONTAL;
+                pic_R.setLayoutParams(parms);*/
+
+      /*          Glide.with((Activity) mView.getContext())
+                        .load(chat.getImage_url())
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .override(chat.getWidth(), chat.getHeight())
                         .into(pic_R);*/
+/*
+                Glide.with((Activity) mView.getContext())
+                        .load(chat.getImage_url())
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(pic_S);*/
+
+                Log.d(TAG, "Width =>" + chat.getWidth()+"Height=>"+chat.getHeight());
 
             }
 

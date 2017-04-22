@@ -19,7 +19,7 @@ public class c_group_recycler_view_adapter_class extends RecyclerView.Adapter<d_
     private List<String> id_entry = new ArrayList<>();
     LinkedHashMap <String, b_group_data_model> currentItemsLinkedHmap = new LinkedHashMap<String, b_group_data_model>();
 
-   // public c_group_recycler_view_adapter_class(List<a_data_group_model_class> items) { mDatasetD = items; }
+   // public c_chat_recycler_view_adapter_class(List<a_data_group_model_class> items) { mDatasetD = items; }
    public c_group_recycler_view_adapter_class(LinkedHashMap<String, b_group_data_model> currentItemsLinkedHmap, List<String> id_entry )
    {
        this.id_entry = id_entry;

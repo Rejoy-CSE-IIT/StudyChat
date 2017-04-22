@@ -8,7 +8,8 @@ import java.util.Date;
 
 public class ChatMessage_data_model_class
 {
-    public ChatMessage_data_model_class(String sender_id, String reciever_id, String message_Type, String imageurl, String message, String username) {
+
+    public ChatMessage_data_model_class(String sender_id, String reciever_id, String message_Type, String imageurl, String message, String username,int width,int height) {
         this.sender_id = sender_id;
         this.reciever_id = reciever_id;
         this.message_Type = message_Type;
@@ -16,6 +17,8 @@ public class ChatMessage_data_model_class
         this.message = message;
         user_name = username;
         messageTime = new Date().getTime();
+        this.width=width;
+        this.height=height;
     }
 
     public String getSender_id() {
@@ -67,7 +70,25 @@ public class ChatMessage_data_model_class
     }
 
 
+    int width;
 
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    int height;
     String sender_id;
     String reciever_id;
     //Either "userChat" or "GroupChat"
