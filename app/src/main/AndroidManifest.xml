@@ -22,6 +22,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:largeHeap="true"
         android:supportsRtl="true">
+
+
+
+        <activity
+            android:name=".c_homePage.ChatMain_activity"
+            android:theme="@style/AppTheme1">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+<!--
         <activity
             android:name=".a_TestPage.e_option_selector_recycler_view_activity"
             android:theme="@style/AppTheme">
@@ -31,15 +45,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        -->
+
+
         <activity
             android:name=".t_a_analytics.a_analytics"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".d_register.a_register_activity"
             android:theme="@style/AppTheme1" />
+
+        <!--
         <activity
             android:name=".c_homePage.ChatMain_activity"
             android:theme="@style/AppTheme1" />
+            -->
         <activity
             android:name=".f_login.login_activity"
             android:theme="@style/AppTheme1" />
