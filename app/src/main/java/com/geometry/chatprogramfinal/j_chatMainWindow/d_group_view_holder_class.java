@@ -1,5 +1,6 @@
 package com.geometry.chatprogramfinal.j_chatMainWindow;
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -9,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 
@@ -94,12 +97,12 @@ public class d_group_view_holder_class extends RecyclerView.ViewHolder
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(pic_S);*/
 
-/*
+
                 Glide.with((Activity) mView.getContext())
                         .load(chat.getImage_url())
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .override(chat.getWidth(), chat.getHeight())
-                        .into(pic_S);*/
+                        .into(pic_S);
 
 
 
@@ -132,11 +135,11 @@ public class d_group_view_holder_class extends RecyclerView.ViewHolder
                 parms.gravity= Gravity.CENTER_HORIZONTAL;
                 pic_R.setLayoutParams(parms);*/
 
-      /*          Glide.with((Activity) mView.getContext())
+                Glide.with((Activity) mView.getContext())
                         .load(chat.getImage_url())
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .override(chat.getWidth(), chat.getHeight())
-                        .into(pic_R);*/
+                        .into(pic_R);
 /*
                 Glide.with((Activity) mView.getContext())
                         .load(chat.getImage_url())

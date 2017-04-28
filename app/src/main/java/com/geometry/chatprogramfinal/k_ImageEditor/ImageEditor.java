@@ -600,8 +600,11 @@ public class ImageEditor extends AppCompatActivity
         try
         {
             bitmap_P =  doodleView.bitmap;
+            /*
              screenwidth_half= helperFunctions_class.getScreenWidth(ImageEditor.this )/2.0f;
               Height = ((float)screenwidth_half* (float)bitmap_P.getHeight() ) /(float)bitmap_P.getWidth();
+*/
+
 
 
             getImageUri();
@@ -616,8 +619,8 @@ public class ImageEditor extends AppCompatActivity
 
         Intent in = new Intent();
 
-        in.putExtra("width",(int) screenwidth_half);
-        in.putExtra("height",(int) Height);
+        in.putExtra("width",(int) bitmap_P.getWidth());
+        in.putExtra("height",(int) bitmap_P.getHeight());
         Log.d("TEST_1", "Width =>" + screenwidth_half+"Height=>"+Height);
         in.setData(mImageUri);
         setResult(RESULT_OK, in);
@@ -857,8 +860,10 @@ public class ImageEditor extends AppCompatActivity
 
         parms.gravity= Gravity.CENTER_HORIZONTAL;
         this.doodleView.setLayoutParams(parms);
-
-        doodleView.bitmap = Bitmap.createScaledBitmap(bitmap_P, (int)Width,(int)Height, false);
+        Bitmap bitmapD =  Bitmap.createScaledBitmap(bitmap_P, (int)Width,(int)Height, false);
+        doodleView.bitmap= bitmapD.copy(Bitmap.Config.ARGB_8888, true);
+              //  = bitmapT.copy(Bitmap.Config.ARGB_8888, true);
+       // doodleView.bitmap = Bitmap.createScaledBitmap(bitmap_P, (int)Width,(int)Height, false);
         doodleView.bitmapCanvas = new Canvas( doodleView.bitmap);
         doodleView.pathMap.clear(); // remove all paths
         doodleView.previousPointMap.clear(); // remove all previous points

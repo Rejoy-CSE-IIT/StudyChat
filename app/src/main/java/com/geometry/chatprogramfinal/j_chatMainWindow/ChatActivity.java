@@ -48,6 +48,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import static com.geometry.chatprogramfinal.k_ImageEditor.ImageEditor.bitmap_P;
+
 public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnInitListener
 {
 
@@ -291,6 +293,11 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
             {
                  ChatMessage_data_model_class adatamodelclass = dataSnapshot.getValue(ChatMessage_data_model_class.class);
                 c_chat_recycler_view_adapter_class.id_entry.add(dataSnapshot.getKey().toString());
+
+                float screenwidth_half= helperFunctions_class.getScreenWidth(ChatActivity.this )/2.0f;
+                float Height = ((float)screenwidth_half* (float)adatamodelclass.getHeight() ) /(float)adatamodelclass.getWidth();
+                adatamodelclass.setWidth((int)screenwidth_half);
+                adatamodelclass.setHeight((int)Height);
                 c_chat_recycler_view_adapter_class.currentItemsLinkedHmap.put(dataSnapshot.getKey().toString(), adatamodelclass);
 
                  Log.d("PARENT", "Parent Node =>" +dataSnapshot.getKey().toString() +"Sender ID=>"+"("+adatamodelclass.getMessage()+")"+ adatamodelclass.getSender_id());
@@ -305,12 +312,12 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
                 //https://www.quora.com/How-do-I-change-a-male-voice-to-a-female-voice-What-are-some-Android-codes-or-apps
               //http://www.androidauthority.com/google-text-to-speech-engine-659528/
 
-                if(text_to_speech)
+                if(text_to_speech )
                 {
                     TextToSpeechFunction(adatamodelclass.getMessage());
                 }
 
-                if(notification)
+                if(notification && !(ChatMain_activity.userId.equals(adatamodelclass.getSender_id())))
                 {
                     NotificationManager notificationManager = (NotificationManager) ChatActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
 
