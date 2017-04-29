@@ -25,6 +25,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.geometry.chatprogramfinal.R;
+import com.geometry.chatprogramfinal.a_TestPage.e_option_selector_recycler_view_activity;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 import com.geometry.chatprogramfinal.k_ImageEditor.ImageEditor;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
@@ -48,11 +49,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import static com.geometry.chatprogramfinal.k_ImageEditor.ImageEditor.bitmap_P;
-
 public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnInitListener
 {
-
+     public static boolean print_array=false;
       int width;
       int height;
     private Button                                               sendBtn;
@@ -100,13 +99,16 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
         {
 
             case R.id.menu_text_to_speech:
+
                 if(!text_to_speech)
                 {
                     text_to_speech = true;
+                    item.setTitle("Text To Speech :: ON ");
                 }
                 else
                 {
                     text_to_speech = false;
+                    item.setTitle("Text To Speech :: OFF");
                 }
 
                 if(ChatMain_activity.TOAST_CONTROL)
@@ -121,10 +123,12 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
                 if(!notification)
                 {
+                    item.setTitle("Notification :: ON ");
                     notification = true;
                 }
                 else
                 {
+                    item.setTitle("Notification :: OFF ");
                     notification = false;
                 }
 
@@ -132,6 +136,42 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
                 if(ChatMain_activity.TOAST_CONTROL)
                     helperFunctions_class.showToast(ChatActivity.this,"notification Image");
+
+                return true;
+
+            case R.id.testArray:
+
+
+                if(!ChatActivity.print_array)
+                {
+                    item.setTitle("Test Print :: ON ");
+                    ChatActivity.print_array = true;
+                }
+                else
+                {
+                    item.setTitle("Test Print :: OFF ");
+                    ChatActivity.print_array = false;
+                }
+
+
+
+                if(ChatMain_activity.TOAST_CONTROL)
+                    helperFunctions_class.showToast(ChatActivity.this,"notification Image");
+
+                return true;
+
+            case R.id.homepage:
+
+
+
+
+                Intent intent = new Intent(ChatActivity.this, ChatMain_activity.class);
+                startActivity(intent);
+                finish();
+
+
+
+
 
                 return true;
 
@@ -200,7 +240,7 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
 ////////////////////////////////////////////////////////////////////////////////
 
-        setTitle("Chatting as " +ChatMain_activity.UserName);
+        setTitle("Chatting as " +ChatMain_activity.UserName+"::"+ChatMain_activity.userId);
 
 
         //Refference to Main thread looper
@@ -292,12 +332,14 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
             public void onChildAdded(DataSnapshot dataSnapshot, String s)
             {
                  ChatMessage_data_model_class adatamodelclass = dataSnapshot.getValue(ChatMessage_data_model_class.class);
-                c_chat_recycler_view_adapter_class.id_entry.add(dataSnapshot.getKey().toString());
+                 c_chat_recycler_view_adapter_class.id_entry.add(dataSnapshot.getKey().toString());
 
                 float screenwidth_half= helperFunctions_class.getScreenWidth(ChatActivity.this )/2.0f;
                 float Height = ((float)screenwidth_half* (float)adatamodelclass.getHeight() ) /(float)adatamodelclass.getWidth();
                 adatamodelclass.setWidth((int)screenwidth_half);
                 adatamodelclass.setHeight((int)Height);
+                String Msg_test = "::"+dataSnapshot.getKey().toString()+"::"+adatamodelclass.getSender_id();
+                adatamodelclass.setMessage(adatamodelclass.getMessage()+Msg_test);
                 c_chat_recycler_view_adapter_class.currentItemsLinkedHmap.put(dataSnapshot.getKey().toString(), adatamodelclass);
 
                  Log.d("PARENT", "Parent Node =>" +dataSnapshot.getKey().toString() +"Sender ID=>"+"("+adatamodelclass.getMessage()+")"+ adatamodelclass.getSender_id());
@@ -341,7 +383,7 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s)
             {
-
+/*
                 ChatMessage_data_model_class adatamodelclass = dataSnapshot.getValue(ChatMessage_data_model_class.class);
 
                 if(adatamodelclass.getSender_id().equals(ChatMain_activity.userId))
@@ -357,13 +399,13 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
                 if(ChatMain_activity.TOAST_CONTROL)
                 helperFunctions_class.showToast(ChatActivity.this,"a_data_group_model_class changed =>"+ adatamodelclass.getUser_name());
 
-
+*/
              }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot)
             {
-
+/*
                 ChatMessage_data_model_class adatamodelclass = dataSnapshot.getValue(ChatMessage_data_model_class.class);
 
                 if(adatamodelclass.getSender_id().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
@@ -382,7 +424,7 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
                     mAdapter.notifyDataSetChanged();
                     if(ChatMain_activity.TOAST_CONTROL)
                         helperFunctions_class.showToast(ChatActivity.this, "a_data_group_model_class Deleted =>" + adatamodelclass.getUser_name());
-                }
+                }*/
 
             }
 
@@ -632,6 +674,10 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
         }
 
     }
+
+
+    @Override
+    public void onBackPressed() { }
 
 
 }

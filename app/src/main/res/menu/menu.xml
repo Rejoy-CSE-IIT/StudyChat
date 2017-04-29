@@ -5,5 +5,13 @@
         android:title="Text to Speech" />
 
     <item android:id="@+id/notification"
-        android:title="Notification" />
+        android:title="Notification"
+        />
+    <item android:id="@+id/homepage"
+        android:title="HomePage"
+        />
+
+    <item android:id="@+id/testArray"
+        android:title="Test"
+        />
 </menu >

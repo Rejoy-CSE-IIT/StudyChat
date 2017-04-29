@@ -39,7 +39,7 @@ public class helperFunctions_class
 
         ChatMain_activity.UserName = UserName;
         ChatMain_activity.userId =userId;
-        ChatMain_activity.loggedIn = loggedIn;
+       // ChatMain_activity.loggedIn = loggedIn;
     }
     public static float getScreenWidth(Activity activity)
     {

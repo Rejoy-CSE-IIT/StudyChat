@@ -53,12 +53,13 @@ public class c_chat_recycler_view_adapter_class extends RecyclerView.Adapter<d_g
 
      //   holder.name.setText( currentItemsLinkedHmap.get(id_entry.get(position)).g );
        // holder.online.setText(currentItemsLinkedHmap.get(id_entry.get(position)).toString());
-        holder.bind(c_chat_recycler_view_adapter_class.currentItemsLinkedHmap.get(id_entry.get(position).toString()));
+        holder.bind(c_chat_recycler_view_adapter_class.currentItemsLinkedHmap.get(c_chat_recycler_view_adapter_class.id_entry.get(position).toString()));
 
-               Log.d("TEST_V", "index =>" +position +"Message"+"("+currentItemsLinkedHmap.get(id_entry.get(position).toString()).getMessage()+")"+ id_entry.get(position).toString());
+        if(ChatActivity.print_array) {
+            Log.d("TEST_V", "index =>" + position + "Message" + "(" + currentItemsLinkedHmap.get(id_entry.get(position).toString()).getMessage() + ")" + id_entry.get(position).toString());
 
-               Log.d("TEST_S", "Size key"+id_entry.size()+"size Hash"+currentItemsLinkedHmap.size());
-
+            Log.d("TEST_S", "Size key" + id_entry.size() + "size Hash" + currentItemsLinkedHmap.size());
+        }
 
     }
 

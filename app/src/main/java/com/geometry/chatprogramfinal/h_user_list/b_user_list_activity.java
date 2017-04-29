@@ -108,6 +108,7 @@ public class b_user_list_activity extends AppCompatActivity implements
                 Intent openDetailIntent = new Intent(b_user_list_activity.this, ChatActivity.class);
                 openDetailIntent.putExtra("chatData", chatdata);
                 startActivity(openDetailIntent);
+                finish();
                 helperFunctions_class.showToast(b_user_list_activity.this,chatdata.getSend_id()+"::"+chatdata.getTarget_id()+"::"+chatdata.getChat_id());
 
 

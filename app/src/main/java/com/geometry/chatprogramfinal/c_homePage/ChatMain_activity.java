@@ -37,7 +37,7 @@ public class ChatMain_activity extends AppCompatActivity implements
 {
     public static String                                                         UserName=null;
     public static String                                                           userId=null;
-    public static boolean                                                     loggedIn = false;
+ //   public static boolean                                                     loggedIn = false;
 
     Button               logout_button_xml,user_chat_Button_xml,creategroup_from_xml,grouplist;
     GoogleApiClient                                                           mGoogleApiClient;
