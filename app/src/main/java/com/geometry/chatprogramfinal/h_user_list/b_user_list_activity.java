@@ -176,7 +176,7 @@ public class b_user_list_activity extends AppCompatActivity implements
 
 
                 }
-                //Fire base id never changes,user name
+                //Fire base id never changes,user groupName
                 currentItemsLinkedHmap.put(adatamodelclass.getFirebaseUserId(), adatamodelclass);
                 mAdapter.notifyDataSetChanged();
                 helperFunctions_class.showToast(b_user_list_activity.this,"a_data_group_model_class changed =>"+ adatamodelclass.getUsername());
@@ -184,7 +184,7 @@ public class b_user_list_activity extends AppCompatActivity implements
 
                 /*
                 a_data_group_model_class adatamodelclass = dataSnapshot.getValue(a_data_group_model_class.class);
-                //   a_data_group_model_class adatamodelclass = new a_data_group_model_class(itemSnapshot.getKey(), itemSnapshot.child("name").getValue(String.class));
+                //   a_data_group_model_class adatamodelclass = new a_data_group_model_class(itemSnapshot.getKey(), itemSnapshot.child("groupName").getValue(String.class));
                 a_data_group_model_class itemT = new a_data_group_model_class(adatamodelclass.getFirebaseUserId(),adatamodelclass.getUsername(),adatamodelclass.getStatus() );
                 //currentItemsDict.add(itemT);
                 helperFunctions_class.showToast(b_group_list_activity.this,"Name =>"+itemT.getUsername());
@@ -233,7 +233,7 @@ public class b_user_list_activity extends AppCompatActivity implements
     public void pushValue()
     {
         Map<String, Object> item = new HashMap<String, Object>();
-        //item.put("name", "item "+ (currentItemsDict.size() + 1));
+        //item.put("groupName", "item "+ (currentItemsDict.size() + 1));
         myFirebaseRef.push().setValue(item);
     }
 

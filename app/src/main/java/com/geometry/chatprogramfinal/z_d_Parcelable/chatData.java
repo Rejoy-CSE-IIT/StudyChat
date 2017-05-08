@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class chatData implements Parcelable
 {
 
-  //  private String name;
+  //  private String groupName;
   //  private String surname;
   //  private int age;
 

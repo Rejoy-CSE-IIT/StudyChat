@@ -61,7 +61,7 @@ public class c_userlist_recycler_view_adapter_class extends RecyclerView.Adapter
 
 
 
-     //   holder.name.setText( currentItemsLinkedHmap.get(id_entry.get(position)).g );
+     //   holder.groupName.setText( currentItemsLinkedHmap.get(id_entry.get(position)).g );
        // holder.online.setText(currentItemsLinkedHmap.get(id_entry.get(position)).toString());
 
 

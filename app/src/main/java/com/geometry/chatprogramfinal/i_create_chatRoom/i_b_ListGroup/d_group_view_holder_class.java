@@ -9,15 +9,18 @@ import com.geometry.chatprogramfinal.R;
 
 public class d_group_view_holder_class extends RecyclerView.ViewHolder
 {
-    public TextView name;
-
+    public TextView groupName;
+    public TextView JoinGroup;
+    public TextView LeaveGroup;
     public CardView GroupListCard;
    // public ImageButton mDeleteBtn;
 
     public d_group_view_holder_class(View v)
     {
         super(v);
-        name = (TextView) v.findViewById(R.id.name);
+        groupName = (TextView) v.findViewById(R.id.groupName);
+        JoinGroup  = (TextView) v.findViewById(R.id.JoinGroup);
+        LeaveGroup = (TextView) v.findViewById(R.id.LeaveGroup);
 
         GroupListCard = (CardView) v.findViewById(R.id.GroupListCard);
       //  mDeleteBtn = (ImageButton) v.findViewById(R.id.delete_btn);

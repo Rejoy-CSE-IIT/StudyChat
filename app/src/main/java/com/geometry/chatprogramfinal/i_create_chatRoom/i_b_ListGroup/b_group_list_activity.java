@@ -1,6 +1,5 @@
 package com.geometry.chatprogramfinal.i_create_chatRoom.i_b_ListGroup;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,15 +9,12 @@ import android.view.View;
 
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room.b_group_data_model;
-import com.geometry.chatprogramfinal.j_chatMainWindow.ChatActivity;
 import com.geometry.chatprogramfinal.z_a_recyler_listener.recyclerTouchListener_class;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
-import com.geometry.chatprogramfinal.z_d_Parcelable.chatData;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -88,8 +84,7 @@ public class b_group_list_activity extends AppCompatActivity implements
             @Override
             public void onClick(View view, int position)
             {
-
-
+   /*
                 String groupId = id_entry.get(position);
 
                 chatData chatdata = new chatData(FirebaseAuth.getInstance().getCurrentUser().getUid(),
@@ -102,7 +97,7 @@ public class b_group_list_activity extends AppCompatActivity implements
                 startActivity(openDetailIntent);
               //  helperFunctions_class.showToast(b_group_list_activity.this,chatdata.getSend_id()+"::"+chatdata.getTarget_id()+"::"+chatdata.getChat_id());
 
-
+*/
 
             }
 
@@ -153,7 +148,7 @@ public class b_group_list_activity extends AppCompatActivity implements
                 b_group_data_model adatamodelclass = dataSnapshot.getValue(b_group_data_model.class);
                // adatamodelclass.setDisplay(false);
 
-                //Fire base id never changes,user name
+                //Fire base id never changes,user groupName
                 currentItemsLinkedHmap.put(adatamodelclass.getOwner(), adatamodelclass);
                 mAdapter.notifyDataSetChanged();
                 helperFunctions_class.showToast(b_group_list_activity.this,"a_data_group_model_class changed =>"+ adatamodelclass.getGroup_name());
@@ -161,7 +156,7 @@ public class b_group_list_activity extends AppCompatActivity implements
 
                 /*
                 a_data_group_model_class adatamodelclass = dataSnapshot.getValue(a_data_group_model_class.class);
-                //   a_data_group_model_class adatamodelclass = new a_data_group_model_class(itemSnapshot.getKey(), itemSnapshot.child("name").getValue(String.class));
+                //   a_data_group_model_class adatamodelclass = new a_data_group_model_class(itemSnapshot.getKey(), itemSnapshot.child("groupName").getValue(String.class));
                 a_data_group_model_class itemT = new a_data_group_model_class(adatamodelclass.getFirebaseUserId(),adatamodelclass.getUsername(),adatamodelclass.getStatus() );
                 //currentItemsDict.add(itemT);
                 helperFunctions_class.showToast(b_group_list_activity.this,"Name =>"+itemT.getUsername());
@@ -201,11 +196,16 @@ public class b_group_list_activity extends AppCompatActivity implements
     public void pushValue()
     {
         Map<String, Object> item = new HashMap<String, Object>();
-        //item.put("name", "item "+ (currentItemsDict.size() + 1));
+        //item.put("groupName", "item "+ (currentItemsDict.size() + 1));
         myFirebaseRef.push().setValue(item);
     }
 
+    @Override
+    public void onBackPressed()
+    {
 
+        //thats it
+    }
 
 
     @Override

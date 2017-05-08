@@ -323,13 +323,13 @@ public class j_c_DoodleView extends View {
     // save the current image to the Gallery
     public void saveImage()
     {
-        // use "Doodlz" followed by current time as the image name
-        final String name = "Doodlz" + System.currentTimeMillis() + ".jpg";
+        // use "Doodlz" followed by current time as the image groupName
+        final String groupName = "Doodlz" + System.currentTimeMillis() + ".jpg";
 
         // insert the image on the device
         String location = MediaStore.Images.Media.insertImage
                 (
-                getContext().getContentResolver(), bitmap, name,
+                getContext().getContentResolver(), bitmap, groupName,
                 "Doodlz Drawing");
 
     }*/

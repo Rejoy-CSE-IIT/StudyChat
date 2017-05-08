@@ -37,12 +37,12 @@
 
 <!--
         <activity
-            android:name=".a_TestPage.e_option_selector_recycler_view_activity"
+            android:groupName=".a_TestPage.e_option_selector_recycler_view_activity"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:groupName="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:groupName="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         -->
@@ -57,7 +57,7 @@
 
         <!--
         <activity
-            android:name=".c_homePage.ChatMain_activity"
+            android:groupName=".c_homePage.ChatMain_activity"
             android:theme="@style/AppTheme1" />
             -->
         <activity

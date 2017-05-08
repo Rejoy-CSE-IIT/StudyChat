@@ -45,14 +45,14 @@ public class c_chat_recycler_view_adapter_class extends RecyclerView.Adapter<d_c
     @Override
     public void onBindViewHolder(d_chat_view_holder_class holder, final int position)
     {
-        //String name = currentItemsLinkedHmap.get(id_entry.get(position).toString()).getMessage();
+        //String groupName = currentItemsLinkedHmap.get(id_entry.get(position).toString()).getMessage();
         //String online = currentItemsLinkedHmap.get(id_entry.get(position).toString()).getStatus();
         // holder.online.setText(online);
 
 
-        //holder.name.setText(name);
+        //holder.groupName.setText(groupName);
 
-     //   holder.name.setText( currentItemsLinkedHmap.get(id_entry.get(position)).g );
+     //   holder.groupName.setText( currentItemsLinkedHmap.get(id_entry.get(position)).g );
         //holder.online.setText(currentItemsLinkedHmap.get(id_entry.get(position)).toString());
          holder.bind(ChatMessages.get( position) );
 /*

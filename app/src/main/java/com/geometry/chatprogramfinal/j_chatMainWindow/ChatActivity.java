@@ -450,7 +450,7 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
                     ChatMain_activity.UserName = adatamodelclass.getUser_name();
                 }
 
-                //Fire base id never changes,user name
+                //Fire base id never changes,user groupName
                 c_chat_recycler_view_adapter_class.currentItemsLinkedHmap.put(dataSnapshot.getKey().toString(), adatamodelclass);
 
 
