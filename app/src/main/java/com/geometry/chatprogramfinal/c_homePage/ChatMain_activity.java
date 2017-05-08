@@ -16,6 +16,7 @@ import com.geometry.chatprogramfinal.h_user_list.a_data_model_class;
 import com.geometry.chatprogramfinal.h_user_list.b_user_list_activity;
 import com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room.a_chat_room_create_activity;
 import com.geometry.chatprogramfinal.i_create_chatRoom.i_b_ListGroup.b_group_list_activity;
+import com.geometry.chatprogramfinal.j_chatMainWindow.ChatActivity;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -68,6 +69,20 @@ public class ChatMain_activity extends AppCompatActivity implements
         email_address_from_xml =(TextView) findViewById(R.id.email_address_from_xml);
         display_name_from_xml =(TextView) findViewById(R.id.display_name_from_xml);
         button_grp =(LinearLayout) findViewById(R.id.button_grp);
+        if(ChatMain_activity.TOAST_CONTROL)
+            helperFunctions_class.showToast(ChatMain_activity.this,"Acitivity Create  Main");
+
+
+
+    }
+
+    protected void onStart()
+    {
+
+        if(ChatMain_activity.TOAST_CONTROL)
+            helperFunctions_class.showToast(ChatMain_activity.this,"Acitivity Create  Main");
+
+        super.onStart();
 
         intentfromOther = getIntent();
 
@@ -99,27 +114,29 @@ public class ChatMain_activity extends AppCompatActivity implements
         if(  FirebaseAuth.getInstance().getCurrentUser()!=null)
         {
 
+
+
             if(ChatMain_activity.TOAST_CONTROL)
-            helperFunctions_class.showToast(ChatMain_activity.this,"Not Null user ::"+FirebaseAuth.getInstance().getCurrentUser().getUid());
+                helperFunctions_class.showToast(ChatMain_activity.this,"Some one already Logged in Going to find out who ::"+FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-             if(!(intentfromOther.hasExtra("googleSignIn")||intentfromOther.hasExtra("normalLogin")))
-             {
+            if(!(intentfromOther.hasExtra("googleSignIn")||intentfromOther.hasExtra("normalLogin")))
+            {
 
-                 OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-                 if (opr.isDone())
-                 {
+                OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+                if (opr.isDone())
+                {
 
-                     intentfromOther.putExtra("googleSignInD", "googleSignInD");
-                     if(ChatMain_activity.TOAST_CONTROL)
-                     helperFunctions_class.showToast(ChatMain_activity.this,"Detected Google Sign In");
-                 }
-                 else
-                 {
-                     intentfromOther.putExtra("normalLoginD", "normalLoginD");
-                     if(ChatMain_activity.TOAST_CONTROL)
-                     helperFunctions_class.showToast(ChatMain_activity.this,"Detected Normal Sign In or no user");
-                 }
-             }
+                    intentfromOther.putExtra("googleSignInD", "googleSignInD");
+                    if(ChatMain_activity.TOAST_CONTROL)
+                        helperFunctions_class.showToast(ChatMain_activity.this,"Detected Google Sign In");
+                }
+                else
+                {
+                    intentfromOther.putExtra("normalLoginD", "normalLoginD");
+                    if(ChatMain_activity.TOAST_CONTROL)
+                        helperFunctions_class.showToast(ChatMain_activity.this,"Detected Normal Sign In or no user");
+                }
+            }
 
             chatIdatLogin= FirebaseDatabase.getInstance()
                     .getReference().child("ChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -128,7 +145,7 @@ public class ChatMain_activity extends AppCompatActivity implements
             if(intentfromOther.hasExtra("googleSignIn")||intentfromOther.hasExtra("normalLogin"))
             {
                 if(ChatMain_activity.TOAST_CONTROL)
-                helperFunctions_class.showToast(ChatMain_activity.this,"Ssecond Not Null user ::"+FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                    helperFunctions_class.showToast(ChatMain_activity.this,"Figured Out Who Logged in ::"+FirebaseAuth.getInstance().getCurrentUser().getEmail());
                 email_address_from_xml.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                 display_name_from_xml.setText(ChatMain_activity.UserName.toString());
 
@@ -247,9 +264,9 @@ public class ChatMain_activity extends AppCompatActivity implements
             @Override
             public void onClick(View view)
             {
-                        progressBar_from_layout.setVisibility(View.VISIBLE);
+                progressBar_from_layout.setVisibility(View.VISIBLE);
 
-              //  a_data_group_model_class userData = new a_data_group_model_class(ChatMain_activity.userId,ChatMain_activity.UserName,"OFFLINE");
+                //  a_data_group_model_class userData = new a_data_group_model_class(ChatMain_activity.userId,ChatMain_activity.UserName,"OFFLINE");
                 DatabaseReference offline_ref = chatIdatLogin.child("status");
                 offline_ref.setValue("OFFLINE",
                         new DatabaseReference.CompletionListener() {
@@ -271,6 +288,7 @@ public class ChatMain_activity extends AppCompatActivity implements
 
             }
         });
+
 
     }
 

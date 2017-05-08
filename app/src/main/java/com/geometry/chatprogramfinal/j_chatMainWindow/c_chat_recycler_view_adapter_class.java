@@ -3,7 +3,6 @@ package com.geometry.chatprogramfinal.j_chatMainWindow;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class c_chat_recycler_view_adapter_class extends RecyclerView.Adapter<d_group_view_holder_class>
+public class c_chat_recycler_view_adapter_class extends RecyclerView.Adapter<d_chat_view_holder_class>
 {
 
-    public  static List<String> id_entry = new ArrayList<>();
-    public static HashMap<String, ChatMessage_data_model_class> currentItemsLinkedHmap = new HashMap<String, ChatMessage_data_model_class>();
+    public   List<String>                                              id_entry = new ArrayList<>();
+    public  HashMap<String, ChatMessage_data_model_class> currentItemsLinkedHmap = new HashMap<String, ChatMessage_data_model_class>();
+    public static List <ChatMessage_data_model_class>                     ChatMessages;
+
     Activity activity;
 
    // public c_chat_recycler_view_adapter_class(List<a_data_group_model_class> items) { mDatasetD = items; }
@@ -32,17 +33,17 @@ public class c_chat_recycler_view_adapter_class extends RecyclerView.Adapter<d_g
 
     }
     @Override
-    public d_group_view_holder_class onCreateViewHolder(ViewGroup parent, int viewType)
+    public d_chat_view_holder_class onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_cardview_a_d_chat_adapter_class, parent, false);
 
-        d_group_view_holder_class vh = new d_group_view_holder_class(v);
+        d_chat_view_holder_class vh = new d_chat_view_holder_class(v);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(d_group_view_holder_class holder, final int position)
+    public void onBindViewHolder(d_chat_view_holder_class holder, final int position)
     {
         //String name = currentItemsLinkedHmap.get(id_entry.get(position).toString()).getMessage();
         //String online = currentItemsLinkedHmap.get(id_entry.get(position).toString()).getStatus();
@@ -52,31 +53,39 @@ public class c_chat_recycler_view_adapter_class extends RecyclerView.Adapter<d_g
         //holder.name.setText(name);
 
      //   holder.name.setText( currentItemsLinkedHmap.get(id_entry.get(position)).g );
-       // holder.online.setText(currentItemsLinkedHmap.get(id_entry.get(position)).toString());
-        holder.bind(c_chat_recycler_view_adapter_class.currentItemsLinkedHmap.get(c_chat_recycler_view_adapter_class.id_entry.get(position).toString()));
-
-        if(ChatActivity.print_array) {
+        //holder.online.setText(currentItemsLinkedHmap.get(id_entry.get(position)).toString());
+         holder.bind(ChatMessages.get( position) );
+/*
+        if(ChatActivity.print_array)
+        {
             Log.d("TEST_V", "index =>" + position + "Message" + "(" + currentItemsLinkedHmap.get(id_entry.get(position).toString()).getMessage() + ")" + id_entry.get(position).toString());
 
             Log.d("TEST_S", "Size key" + id_entry.size() + "size Hash" + currentItemsLinkedHmap.size());
-        }
+        }*/
 
     }
 
     @Override
-    public int getItemCount() {
-        return c_chat_recycler_view_adapter_class.currentItemsLinkedHmap.size();
+    public int getItemCount()
+    {
+       // return c_chat_recycler_view_adapter_class.id_entry.size();
+        return ChatMessages.size();
     }
 
+
+
     @Override
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         return position;
     }
 
     @Override
-    public int getItemViewType(int position) {
+    public int getItemViewType(int position)
+    {
         return position;
     }
+
 
 
 }

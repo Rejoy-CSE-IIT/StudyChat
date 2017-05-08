@@ -15,7 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 
-public class d_group_view_holder_class extends RecyclerView.ViewHolder
+public class d_chat_view_holder_class extends RecyclerView.ViewHolder
 {
 
     View mView;
@@ -37,7 +37,7 @@ public class d_group_view_holder_class extends RecyclerView.ViewHolder
 
     String TAG = "WIDTH_TEST";
 
-    public d_group_view_holder_class(View v)
+    public d_chat_view_holder_class(View v)
     {
         super(v);
         mView = itemView;

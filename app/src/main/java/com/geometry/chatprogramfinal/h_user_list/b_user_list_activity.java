@@ -39,8 +39,8 @@ public class b_user_list_activity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
 {
 
-    private List<String> id_entry = new ArrayList<>();
-    LinkedHashMap <String, a_data_model_class> currentItemsLinkedHmap = new LinkedHashMap<String, a_data_model_class>();
+   static public   List<String> id_entry = new ArrayList<>();
+    static public LinkedHashMap <String, a_data_model_class> currentItemsLinkedHmap = new LinkedHashMap<String, a_data_model_class>();
 
 
     private RecyclerView mRecyclerView;
@@ -58,6 +58,19 @@ public class b_user_list_activity extends AppCompatActivity implements
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_h_userlist_activity);
+
+
+
+
+    }
+
+    protected void onStart()
+    {
+        super.onStart();
+
+        b_user_list_activity.id_entry.clear();
+        b_user_list_activity.currentItemsLinkedHmap.clear();
+
 
         setTitle("List of users");
 

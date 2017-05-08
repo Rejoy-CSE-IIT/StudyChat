@@ -35,7 +35,7 @@ public class b_group_list_activity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
 {
 
-    private List<String> id_entry = new ArrayList<>();
+    public  List<String> id_entry = new ArrayList<>();
     LinkedHashMap <String, b_group_data_model> currentItemsLinkedHmap = new LinkedHashMap<String, b_group_data_model>();
 
 
@@ -54,6 +54,13 @@ public class b_group_list_activity extends AppCompatActivity implements
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_i_group_list_activity);
+
+
+
+    }
+
+    protected void onStart() {
+        super.onStart();
         //Toolbar scrollView = (Toolbar) findViewById(R.id.scrollView);
         setTitle("List of Groups");
 
@@ -112,7 +119,6 @@ public class b_group_list_activity extends AppCompatActivity implements
 
             }
         }));
-
 
 
     }
