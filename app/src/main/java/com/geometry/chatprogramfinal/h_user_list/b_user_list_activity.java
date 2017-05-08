@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
+///All users smae list except their own
 public class b_user_list_activity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
 {
@@ -43,43 +43,39 @@ public class b_user_list_activity extends AppCompatActivity implements
     static public LinkedHashMap <String, a_data_model_class> currentItemsLinkedHmap = new LinkedHashMap<String, a_data_model_class>();
 
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView                                          mRecyclerView;
+    private RecyclerView.Adapter                                       mAdapter;
+    private RecyclerView.LayoutManager                           mLayoutManager;
+    DatabaseReference                                             myFirebaseRef;
 
-    DatabaseReference myFirebaseRef;
+
     private TextView currentDBUrl;
 
 
-    private GoogleApiClient mGoogleApiClient;
-    private GoogleSignInOptions gso;
+    private GoogleApiClient                                   mGoogleApiClient;
+    private GoogleSignInOptions                                            gso;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_h_userlist_activity);
 
+        if(ChatMain_activity.TOAST_CONTROL)
+            helperFunctions_class.showToast(b_user_list_activity.this,"Create Userlist");
 
+      //  b_user_list_activity.id_entry.clear();
+      //  b_user_list_activity.currentItemsLinkedHmap.clear();
 
-
-    }
-
-    protected void onStart()
-    {
-        super.onStart();
-
-        b_user_list_activity.id_entry.clear();
-        b_user_list_activity.currentItemsLinkedHmap.clear();
-
+        if(ChatMain_activity.TOAST_CONTROL)
+            helperFunctions_class.showToast(b_user_list_activity.this,"onStart Userlist");
 
         setTitle("List of users");
 
         this.mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-
         this.mLayoutManager = new LinearLayoutManager(this);
         this.mRecyclerView.setLayoutManager(mLayoutManager);
-
-
         currentDBUrl = (TextView) findViewById(R.id.currentDB);
 
         mAdapter = new c_userlist_recycler_view_adapter_class(currentItemsLinkedHmap,id_entry);
@@ -134,6 +130,15 @@ public class b_user_list_activity extends AppCompatActivity implements
             }
         }));
 
+
+
+    }
+
+    protected void onStart()
+    {
+        super.onStart();
+        //It will help us to hide our id
+        mAdapter.notifyDataSetChanged();
 
 
     }
@@ -278,5 +283,12 @@ public class b_user_list_activity extends AppCompatActivity implements
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+
+        //thats it
     }
 }

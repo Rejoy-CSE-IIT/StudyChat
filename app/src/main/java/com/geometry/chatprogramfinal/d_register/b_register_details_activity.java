@@ -74,6 +74,8 @@ public class b_register_details_activity extends AppCompatActivity
                 .getReference().child("ChatIds").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
 
+        if(ChatMain_activity.TOAST_CONTROL)
+            helperFunctions_class.showToast(b_register_details_activity.this,"Create Register Details");
 
 
         if( !firebaseUser.isEmailVerified())

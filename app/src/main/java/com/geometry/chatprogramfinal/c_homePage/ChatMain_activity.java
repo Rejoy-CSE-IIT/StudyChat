@@ -16,7 +16,6 @@ import com.geometry.chatprogramfinal.h_user_list.a_data_model_class;
 import com.geometry.chatprogramfinal.h_user_list.b_user_list_activity;
 import com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room.a_chat_room_create_activity;
 import com.geometry.chatprogramfinal.i_create_chatRoom.i_b_ListGroup.b_group_list_activity;
-import com.geometry.chatprogramfinal.j_chatMainWindow.ChatActivity;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -53,9 +52,9 @@ public class ChatMain_activity extends AppCompatActivity implements
     ProgressBar                                                         progressBar_from_layout;
 
 
-    public static boolean TOAST_CONTROL=false;
+    public static boolean TOAST_CONTROL=true;
 
-
+    public ValueEventListener valueEventListener=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -160,7 +159,12 @@ public class ChatMain_activity extends AppCompatActivity implements
                 progressBar_from_layout.setVisibility(View.VISIBLE);
                 email_address_from_xml.setText("loading..................");
                 display_name_from_xml.setText("loading..................");
-                chatIdatLogin.addListenerForSingleValueEvent(new ValueEventListener()
+
+                if(valueEventListener!=null)
+                {
+                    chatIdatLogin.removeEventListener(valueEventListener);
+                }
+                valueEventListener = new ValueEventListener()
                 {
 
 
@@ -188,7 +192,8 @@ public class ChatMain_activity extends AppCompatActivity implements
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
-                });
+                };
+                chatIdatLogin.addListenerForSingleValueEvent(valueEventListener);
 
             }
 
@@ -226,6 +231,7 @@ public class ChatMain_activity extends AppCompatActivity implements
 
                 Intent intent = new Intent(ChatMain_activity.this, b_user_list_activity.class);
                 startActivity(intent);
+
 
 
 
@@ -296,7 +302,12 @@ public class ChatMain_activity extends AppCompatActivity implements
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+    @Override
+    public void onBackPressed()
+    {
 
+        //thats it
+    }
     private void call_login()
     {
 
@@ -326,7 +337,7 @@ public class ChatMain_activity extends AppCompatActivity implements
 
                             progressBar_from_layout.setVisibility(View.GONE);
                             startActivity(new Intent(ChatMain_activity.this, login_activity.class));
-                            finish();
+
 
                         }
                     });
@@ -340,7 +351,7 @@ public class ChatMain_activity extends AppCompatActivity implements
             helperFunctions_class.showToast(ChatMain_activity.this, "cccOne googlesign out!!!");
 
             startActivity(new Intent(ChatMain_activity.this, login_activity.class));
-            finish();
+
         }
 
     }

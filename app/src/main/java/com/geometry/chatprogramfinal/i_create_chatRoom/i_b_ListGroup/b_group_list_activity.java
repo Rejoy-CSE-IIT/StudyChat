@@ -54,14 +54,6 @@ public class b_group_list_activity extends AppCompatActivity implements
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_i_group_list_activity);
-
-
-
-    }
-
-    protected void onStart() {
-        super.onStart();
-        //Toolbar scrollView = (Toolbar) findViewById(R.id.scrollView);
         setTitle("List of Groups");
 
         this.mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -108,7 +100,7 @@ public class b_group_list_activity extends AppCompatActivity implements
                 Intent openDetailIntent = new Intent(b_group_list_activity.this, ChatActivity.class);
                 openDetailIntent.putExtra("chatData", chatdata);
                 startActivity(openDetailIntent);
-                helperFunctions_class.showToast(b_group_list_activity.this,chatdata.getSend_id()+"::"+chatdata.getTarget_id()+"::"+chatdata.getChat_id());
+              //  helperFunctions_class.showToast(b_group_list_activity.this,chatdata.getSend_id()+"::"+chatdata.getTarget_id()+"::"+chatdata.getChat_id());
 
 
 
@@ -119,6 +111,15 @@ public class b_group_list_activity extends AppCompatActivity implements
 
             }
         }));
+
+
+    }
+
+    protected void onStart() {
+        super.onStart();
+        //Toolbar scrollView = (Toolbar) findViewById(R.id.scrollView);
+
+        mAdapter.notifyDataSetChanged();
 
 
     }

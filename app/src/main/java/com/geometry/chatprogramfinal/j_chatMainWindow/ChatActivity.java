@@ -25,7 +25,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.geometry.chatprogramfinal.R;
-import com.geometry.chatprogramfinal.a_TestPage.e_option_selector_recycler_view_activity;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 import com.geometry.chatprogramfinal.k_ImageEditor.ImageEditor;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
@@ -38,6 +37,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -45,14 +45,12 @@ import com.google.firebase.storage.UploadTask;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
-
-import static android.R.id.message;
 
 public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnInitListener
 {
+
+    ChildEventListener childEventListener=null;
      public static boolean print_array=false;
     public static boolean block_upload=false;
       int width;
@@ -63,8 +61,9 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
     Handler                                                      handler;
     chatData                                                    chatdata;
     Uri selectedImageUri                          = Uri.parse("noImage");
-    DatabaseReference                         databaseReference_userChat;
-    DatabaseReference                        databaseReference_groupChat;
+    //DatabaseReference                         databaseReference_userChat;
+  // DatabaseReference                        databaseReference_groupChat;
+    DatabaseReference databaseReference_Ref_final;
     private static final int RC_PHOTO_PICKER = 1;
     LinearLayoutManager mManager;
     TextToSpeech TtoS;
@@ -167,7 +166,7 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
                 Intent intent = new Intent(ChatActivity.this, ChatMain_activity.class);
                 startActivity(intent);
-                finish();
+
 
 
 
@@ -197,6 +196,8 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
         TtoS        =  new TextToSpeech(ChatActivity.this, ChatActivity.this,"com.google.android.tts");
         if(ChatMain_activity.TOAST_CONTROL)
             helperFunctions_class.showToast(ChatActivity.this,"  Create Chat");
+
+
     }
 
     @Override
@@ -211,27 +212,29 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
     }
     @Override
-    protected void onStart()
+    protected void onResume()
     {
-        super.onStart();
+        super.onResume();
         if(ChatMain_activity.TOAST_CONTROL)
-        helperFunctions_class.showToast(ChatActivity.this,"Inside Start Chat");
+        helperFunctions_class.showToast(ChatActivity.this,"Inside Resume Chat 1");
        // c_chat_recycler_view_adapter_class.ChatMessages.clear();
 
         ////////////////////////////////////////////////////////////////////////////////
 ///Deciding chat mode
 
-       if(!ChatActivity.block_upload)
+    //   if(!ChatActivity.block_upload)
        {
 
             storage = FirebaseStorage.getInstance();
             chatdata = getIntent().getParcelableExtra("chatData");
-
+           if(ChatMain_activity.TOAST_CONTROL)
+               helperFunctions_class.showToast(ChatActivity.this,"Inside Resume Chat 2");
+/*
             databaseReference_groupChat = FirebaseDatabase.getInstance()
                     .getReference().child("groupChat").child(chatdata.getChat_id());
             databaseReference_userChat = FirebaseDatabase.getInstance()
                     .getReference().child("userChat").child(chatdata.getChat_id());
-
+*/
 
 
         /*
@@ -258,10 +261,19 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
             c_chat_recycler_view_adapter_class.ChatMessages= new ArrayList<>();
 
 
-            if(chatdata.getGroup_chat_flag()==0)
-                setRecyclerView(databaseReference_groupChat);
-            else
-                setRecyclerView(databaseReference_userChat);
+            if(chatdata.getGroup_chat_flag()==0) {
+                databaseReference_Ref_final = FirebaseDatabase.getInstance()
+                        .getReference().child("groupChat").child(chatdata.getChat_id());
+
+                // setRecyclerView(databaseReference_groupChat);
+            }
+            else {
+                //setRecyclerView(databaseReference_userChat);
+                databaseReference_Ref_final = FirebaseDatabase.getInstance()
+                        .getReference().child("userChat").child(chatdata.getChat_id());
+
+            }
+           setRecyclerView();
 
             storageRef = storage.getReference("chat_photos");
 
@@ -359,17 +371,23 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
 
     }
-    void setRecyclerView(DatabaseReference ref)
+    void setRecyclerView()
     {
+        /*
+        if(childEventListener!=null)
+        {
 
-        ref.addChildEventListener(new ChildEventListener()
+            databaseReference_Ref_final.removeEventListener(childEventListener);
+        }*/
+
+        childEventListener=new ChildEventListener()
         {
 
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s)
             {
-                 ChatMessage_data_model_class adatamodelclass = dataSnapshot.getValue(ChatMessage_data_model_class.class);
+                ChatMessage_data_model_class adatamodelclass = dataSnapshot.getValue(ChatMessage_data_model_class.class);
 
 
                 float screenwidth_half= helperFunctions_class.getScreenWidth(ChatActivity.this )/2.0f;
@@ -379,18 +397,18 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
                 String Msg_test = "::"+dataSnapshot.getKey().toString()+"::"+adatamodelclass.getSender_id();
                 //adatamodelclass.setMessage(adatamodelclass.getMessage()+Msg_test);
                 adatamodelclass.setMessage(adatamodelclass.getMessage() );
-              //  c_chat_recycler_view_adapter_class.currentItemsLinkedHmap.put(dataSnapshot.getKey().toString(), adatamodelclass);
+                //  c_chat_recycler_view_adapter_class.currentItemsLinkedHmap.put(dataSnapshot.getKey().toString(), adatamodelclass);
                 c_chat_recycler_view_adapter_class.ChatMessages.add(adatamodelclass);
-                 Log.d("PARENT", "Parent Node =>" +dataSnapshot.getKey().toString() +"Sender ID=>"+"("+adatamodelclass.getMessage()+")"+ adatamodelclass.getSender_id());
+                Log.d("PARENT", "Parent Node =>" +dataSnapshot.getKey().toString() +"Sender ID=>"+"("+adatamodelclass.getMessage()+")"+ adatamodelclass.getSender_id());
 
 
                 if(ChatMain_activity.TOAST_CONTROL)
-                helperFunctions_class.showToast(ChatActivity.this,"Name =>"+ adatamodelclass.getSender_id());
+                    helperFunctions_class.showToast(ChatActivity.this,"Message"+ adatamodelclass.getMessage());
 
 
                 //http://programmerguru.com/android-tutorial/android-text-to-speech-example/
                 //https://www.quora.com/How-do-I-change-a-male-voice-to-a-female-voice-What-are-some-Android-codes-or-apps
-              //http://www.androidauthority.com/google-text-to-speech-engine-659528/
+                //http://www.androidauthority.com/google-text-to-speech-engine-659528/
 
                 if(text_to_speech )
                 {
@@ -441,7 +459,7 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
                 helperFunctions_class.showToast(ChatActivity.this,"a_data_group_model_class changed =>"+ adatamodelclass.getUser_name());
 
 */
-             }
+            }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot)
@@ -479,7 +497,8 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
             }
 
-        });
+        };
+        databaseReference_Ref_final.addChildEventListener(childEventListener);
 
     }
 
@@ -511,7 +530,7 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
                     message,
                     ChatMain_activity.UserName,W,H);
 
-            databaseReference_groupChat.push().setValue(chatD,
+            databaseReference_Ref_final.push().setValue(chatD,
                     new DatabaseReference.CompletionListener() {
 
                         @Override
@@ -537,7 +556,7 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
 
 
-            databaseReference_userChat.push().setValue(chatD,
+            databaseReference_Ref_final.push().setValue(chatD,
                     new DatabaseReference.CompletionListener() {
 
                         @Override
@@ -585,6 +604,15 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
         TtoS.shutdown();
         super.onDestroy();
+    }
+
+    @Override
+    public void onPause()
+    {
+        if(ChatMain_activity.TOAST_CONTROL)
+            helperFunctions_class.showToast(ChatActivity.this,"Inside Pause Chat");
+        super.onPause();
+        databaseReference_Ref_final.removeEventListener(childEventListener);
     }
 
     @Override
@@ -722,6 +750,7 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
         }
 
     }
+
 
 
     @Override
