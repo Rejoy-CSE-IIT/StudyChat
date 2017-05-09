@@ -484,6 +484,10 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
                     if(ChatMain_activity.TOAST_CONTROL)
                         helperFunctions_class.showToast(ChatActivity.this, "a_data_group_model_class Deleted =>" + adatamodelclass.getUser_name());
                 }*/
+                helperFunctions_class.showToast(ChatActivity.this, "Group Deleted");
+
+                Intent intent = new Intent(ChatActivity.this, ChatMain_activity.class);
+                startActivity(intent);
 
             }
 

@@ -259,16 +259,66 @@ public class c_group_recycler_view_adapter_class extends RecyclerView.Adapter<d_
         //holder.JoinGroup.setOnClickListener();
 
 
-        holder.LeaveGroup.setOnClickListener(new View.OnClickListener()
+        holder.onClickListenerNameLeave =  new View.OnClickListener()
         {
             @Override
-            public void onClick(View v)
+            public void onClick(final View v)
             {
+                if(data.getOwner().equals(ChatMain_activity.userId))
+                {
+                    helperFunctions_class.showToast(v.getContext(),"You are the owner of the group. \n You can directly enter the group");
+
+                }
+                else
+                {
+
+
+                    holder.LeaveData_Listner= FirebaseDatabase.getInstance()
+                            .getReference().child("Permission_Group").child(data.getGroup_name()+ChatMain_activity.userId);
+
+
+                    holder.LeaveData_Listner.addListenerForSingleValueEvent(new ValueEventListener()
+                    {
+
+
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot)
+                        {
+
+                            if(!dataSnapshot.exists())
+                            {
+                                helperFunctions_class.showToast(v.getContext(),"You are not even member of the group");
+
+                                // holder.JoinData_Listner.addListenerForSingleValueEvent(null);
+                            }
+                            else
+                            {
+                                holder.LeaveData_Listner.setValue(null);
+
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
+                }
                 if(ChatMain_activity.TOAST_CONTROL)
-                    helperFunctions_class.showToast(v.getContext(),"Leave Select Group Name");
+                    helperFunctions_class.showToast(v.getContext(),"Join Group Name");
 
             }
-        });
+        };
+        holder.LeaveGroup.setOnClickListener(holder.onClickListenerNameLeave);
+
+
+
+
      //   holder.groupName.setText( currentItemsLinkedHmap.get(id_entry.get(position)).g );
        // holder.online.setText(currentItemsLinkedHmap.get(id_entry.get(position)).toString());
 

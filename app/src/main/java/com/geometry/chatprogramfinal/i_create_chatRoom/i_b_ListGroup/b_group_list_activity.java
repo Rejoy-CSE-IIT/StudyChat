@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
+//http://stackoverflow.com/questions/37390864/how-to-delete-from-firebase-realtime-database
 public class b_group_list_activity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
 {

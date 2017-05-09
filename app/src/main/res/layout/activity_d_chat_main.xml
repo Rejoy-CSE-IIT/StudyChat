@@ -33,7 +33,7 @@
         android:id="@+id/display_name_from_xml"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="10dp"
         android:background="@drawable/button_rounded_corners_gradient"
         android:hint="User id"
         android:textAlignment="center"
@@ -82,6 +82,16 @@
             android:background="@drawable/button_rounded_corners_gradient"
             android:onClick="Group_Control"
             android:text="Create Chat Group"
+            />
+
+        <Button
+            android:id="@+id/group_permission_from_xml"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@drawable/button_rounded_corners_gradient"
+            android:onClick="Group_permission"
+            android:text="Group Join Requests"
             />
         <Button
             android:id="@+id/logout_button_xml"
