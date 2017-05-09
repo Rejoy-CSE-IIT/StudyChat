@@ -53,6 +53,8 @@ public class c_group_recycler_view_adapter_class extends RecyclerView.Adapter<d_
     public void onBindViewHolder(final d_group_view_holder_class holder, final int position)
     {
 
+
+
         Log.d("TEST VIEW HOLDER", position+"onCreate called");
 
         /*
@@ -69,6 +71,13 @@ public class c_group_recycler_view_adapter_class extends RecyclerView.Adapter<d_
         }*/
 
         final b_group_data_model data = currentItemsLinkedHmap.get(id_entry.get(position).toString());
+
+
+        if(data.getOwner().equals(ChatMain_activity.userId))
+        {
+         holder.LeaveGroup.setText("Delete Group");
+
+        }
 
         //String name = currentItemsLinkedHmap.get(id_entry.get(position).toString()).getGroup_name();
         //String online = currentItemsLinkedHmap.get(id_entry.get(position).toString()).getStatus();
