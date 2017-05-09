@@ -16,15 +16,15 @@ import com.geometry.chatprogramfinal.j_chatMainWindow.ChatActivity;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.geometry.chatprogramfinal.z_d_Parcelable.chatData;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-
 
 
 public class c_group_recycler_view_adapter_class extends RecyclerView.Adapter<d_group_view_holder_class>
@@ -80,10 +80,10 @@ public class c_group_recycler_view_adapter_class extends RecyclerView.Adapter<d_
         holder.onClickListenerName = new View.OnClickListener()
         {
             @Override
-            public void onClick(View v)
+            public void onClick(final View v)
             {
                 /// button click event
-                String groupId = id_entry.get(position);
+                final String groupId = id_entry.get(position);
 
                 if(ChatMain_activity.TOAST_CONTROL)
                     helperFunctions_class.showToast(v.getContext(),data.getOwner()+"data--Main"+ChatMain_activity.userId+"posi"+position);
@@ -104,8 +104,59 @@ public class c_group_recycler_view_adapter_class extends RecyclerView.Adapter<d_
                 }
                 else
                 {
-                    if(ChatMain_activity.TOAST_CONTROL)
-                        helperFunctions_class.showToast(v.getContext(),"No Permission");
+
+                    holder.JoinData_Listner= FirebaseDatabase.getInstance()
+                            .getReference().child("Permission_Group").child(data.getGroup_name()+ChatMain_activity.userId);
+
+
+                    holder.JoinData_Listner.addListenerForSingleValueEvent(new ValueEventListener()
+                    {
+
+
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot)
+                        {
+
+                            if(!dataSnapshot.exists())
+                            {
+
+                                helperFunctions_class.showToast(v.getContext(),"No Permission");
+                               // holder.JoinData_Listner.addListenerForSingleValueEvent(null);
+                            }
+                            else
+                            {
+                                GroupPermission_class data = new GroupPermission_class();
+                                data = dataSnapshot.getValue(GroupPermission_class.class);
+                                if(data.getStatus()==2)
+                                {
+                                        if (ChatMain_activity.TOAST_CONTROL)
+                                            helperFunctions_class.showToast(v.getContext(), "Yes permission Permission");
+                                        chatData chatdata = new chatData(FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                                groupId
+                                                , 0
+
+                                        );
+                                        Intent openDetailIntent = new Intent(v.getContext(), ChatActivity.class);
+                                        openDetailIntent.putExtra("chatData", chatdata);
+                                        v.getContext().startActivity(openDetailIntent);
+                                }
+                                else
+                                {
+                                    helperFunctions_class.showToast(v.getContext(),"No Permission but Request is submitted");
+                                }
+                              //  holder.JoinData_Listner.addListenerForSingleValueEvent(null);
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                   // if(ChatMain_activity.TOAST_CONTROL)
+                    //    helperFunctions_class.showToast(v.getContext(),"No Permission");
                 }
 
 
@@ -127,27 +178,67 @@ public class c_group_recycler_view_adapter_class extends RecyclerView.Adapter<d_
                 }
                 else
                 {
-                    DatabaseReference chatIdatLogin;
-                    chatIdatLogin= FirebaseDatabase.getInstance()
-                            .getReference().child("Permission_Group").child(data.getGroup_name());
-                    GroupPermission_class groupPermission_class = new GroupPermission_class();
-                    groupPermission_class.setStatus(1);
-                    groupPermission_class.setUserId(ChatMain_activity.userId);
-                    groupPermission_class.setUserName(ChatMain_activity.UserName);
-                    chatIdatLogin.setValue(groupPermission_class,
-                            new DatabaseReference.CompletionListener() {
 
-                                @Override
-                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
-                                {
 
-                                    // call_home_page();
+                    holder.JoinData_Listner= FirebaseDatabase.getInstance()
+                            .getReference().child("Permission_Group").child(data.getGroup_name()+ChatMain_activity.userId);
 
-                                    if(ChatMain_activity.TOAST_CONTROL)
-                                        helperFunctions_class.showToast(v.getContext(),"Done Join Request");
 
-                                }
-                            });
+                    holder.JoinData_Listner.addListenerForSingleValueEvent(new ValueEventListener()
+                    {
+
+
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot)
+                        {
+
+                            if(!dataSnapshot.exists())
+                            {
+
+                               // helperFunctions_class.showToast(v.getContext(),"No Join Permission");
+                                DatabaseReference chatIdatLogin;
+                                chatIdatLogin= FirebaseDatabase.getInstance()
+                                        .getReference().child("Permission_Group").child(data.getGroup_name()+ChatMain_activity.userId);
+                                GroupPermission_class groupPermission_class = new GroupPermission_class();
+                                groupPermission_class.setUserName(ChatMain_activity.UserName);
+                                groupPermission_class.setUserId(ChatMain_activity.userId);
+                                groupPermission_class.setStatus(1);
+                                groupPermission_class.setGroupName(data.getGroup_name());
+                                groupPermission_class.setOwner(data.getOwner());
+
+                                chatIdatLogin.setValue(groupPermission_class,
+                                        new DatabaseReference.CompletionListener() {
+
+                                            @Override
+                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
+                                            {
+
+                                                // call_home_page();
+
+                                                if(ChatMain_activity.TOAST_CONTROL)
+                                                    helperFunctions_class.showToast(v.getContext(),"Done Join Request");
+
+                                            }
+                                        });
+                                // holder.JoinData_Listner.addListenerForSingleValueEvent(null);
+                            }
+                            else
+                            {
+
+                                helperFunctions_class.showToast(v.getContext(),"You have already placed request");
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
                 }
                 if(ChatMain_activity.TOAST_CONTROL)
                     helperFunctions_class.showToast(v.getContext(),"Join Group Name");
