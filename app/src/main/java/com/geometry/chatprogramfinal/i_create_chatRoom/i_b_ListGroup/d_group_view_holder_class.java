@@ -13,6 +13,8 @@ public class d_group_view_holder_class extends RecyclerView.ViewHolder
     public TextView JoinGroup;
     public TextView LeaveGroup;
     public CardView GroupListCard;
+
+    public View.OnClickListener onClickListener=null;
    // public ImageButton mDeleteBtn;
 
     public d_group_view_holder_class(View v)

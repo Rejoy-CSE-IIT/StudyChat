@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.geometry.chatprogramfinal.R;
+import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 import com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room.b_group_data_model;
 import com.geometry.chatprogramfinal.z_a_recyler_listener.recyclerTouchListener_class;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
@@ -32,6 +33,8 @@ public class b_group_list_activity extends AppCompatActivity implements
 {
 
     public  List<String> id_entry = new ArrayList<>();
+    public  List<b_group_data_model> Group_entry = new ArrayList<>();
+
     LinkedHashMap <String, b_group_data_model> currentItemsLinkedHmap = new LinkedHashMap<String, b_group_data_model>();
 
 
@@ -108,6 +111,26 @@ public class b_group_list_activity extends AppCompatActivity implements
         }));
 
 
+
+        mRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+            @Override
+            public void onChildViewAttachedToWindow(View view) {
+              //  d_group_view_holder_class holder = (d_group_view_holder_class) mRecyclerView.getChildViewHolder(view);
+               // holder.na.setText("Clicked!");
+            }
+
+            @Override
+            public void onChildViewDetachedFromWindow(View view)
+            {
+                   d_group_view_holder_class holder = (d_group_view_holder_class) mRecyclerView.getChildViewHolder(view);
+                holder.groupName.setOnClickListener(holder.onClickListener);
+                holder.onClickListener=null;
+
+                if(ChatMain_activity.TOAST_CONTROL)
+                    helperFunctions_class.showToast(b_group_list_activity.this,"View left ::"+holder.groupName.getText());
+
+            }
+        });
     }
 
     protected void onStart() {
@@ -135,8 +158,8 @@ public class b_group_list_activity extends AppCompatActivity implements
             {
 
                 b_group_data_model adatamodelclass = dataSnapshot.getValue(b_group_data_model.class);
-                id_entry.add(adatamodelclass.getOwner());
-                currentItemsLinkedHmap.put(adatamodelclass.getOwner(), adatamodelclass);
+                id_entry.add(adatamodelclass.getGroup_name());
+                currentItemsLinkedHmap.put(adatamodelclass.getGroup_name(), adatamodelclass);
                 helperFunctions_class.showToast(b_group_list_activity.this,"Name =>"+ adatamodelclass.getGroup_name());
                 mAdapter.notifyDataSetChanged();
              }
@@ -149,7 +172,7 @@ public class b_group_list_activity extends AppCompatActivity implements
                // adatamodelclass.setDisplay(false);
 
                 //Fire base id never changes,user groupName
-                currentItemsLinkedHmap.put(adatamodelclass.getOwner(), adatamodelclass);
+                currentItemsLinkedHmap.put(adatamodelclass.getGroup_name(), adatamodelclass);
                 mAdapter.notifyDataSetChanged();
                 helperFunctions_class.showToast(b_group_list_activity.this,"a_data_group_model_class changed =>"+ adatamodelclass.getGroup_name());
 
@@ -172,7 +195,7 @@ public class b_group_list_activity extends AppCompatActivity implements
 
 
                     adatamodelclass.setDisplay(false);
-                    currentItemsLinkedHmap.put(adatamodelclass.getOwner(), adatamodelclass);
+                    currentItemsLinkedHmap.put(adatamodelclass.getGroup_name(), adatamodelclass);
                     mAdapter.notifyDataSetChanged();
                     helperFunctions_class.showToast(b_group_list_activity.this, "a_data_group_model_class Deleted =>" + adatamodelclass.getGroup_name());
 

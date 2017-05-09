@@ -25,6 +25,7 @@ public class b_group_data_model
     String group_name;
     String owner;
 
+
     public b_group_data_model(String group_name, String Owner)
     {
         this.group_name = group_name;

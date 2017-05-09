@@ -45,9 +45,10 @@ public class c_group_recycler_view_adapter_class extends RecyclerView.Adapter<d_
     }
 
     @Override
-    public void onBindViewHolder(d_group_view_holder_class holder, final int position)
+    public void onBindViewHolder(final d_group_view_holder_class holder, final int position)
     {
 
+        /*
         if(currentItemsLinkedHmap.get(id_entry.get(position).toString()).isDisplay()) {
 
             String name = currentItemsLinkedHmap.get(id_entry.get(position).toString()).getGroup_name();
@@ -58,9 +59,18 @@ public class c_group_recycler_view_adapter_class extends RecyclerView.Adapter<d_
         else
         {
           holder.GroupListCard.setVisibility(View.GONE);
-        }
+        }*/
 
-        holder.groupName.setOnClickListener(new View.OnClickListener()
+        final b_group_data_model data = currentItemsLinkedHmap.get(id_entry.get(position).toString());
+
+        //String name = currentItemsLinkedHmap.get(id_entry.get(position).toString()).getGroup_name();
+        //String online = currentItemsLinkedHmap.get(id_entry.get(position).toString()).getStatus();
+        // holder.online.setText(online);
+        String name = data.getGroup_name();
+        holder.groupName.setText(name);
+
+
+        holder.onClickListener = new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -68,19 +78,34 @@ public class c_group_recycler_view_adapter_class extends RecyclerView.Adapter<d_
                 /// button click event
                 String groupId = id_entry.get(position);
 
-                chatData chatdata = new chatData(FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                        groupId
-                        ,0
-
-                );
-                Intent openDetailIntent = new Intent(v.getContext(), ChatActivity.class);
-                openDetailIntent.putExtra("chatData", chatdata);
-                v.getContext().startActivity(openDetailIntent);
                 if(ChatMain_activity.TOAST_CONTROL)
-                  helperFunctions_class.showToast(v.getContext(),"Inside Select Group Name");
+                    helperFunctions_class.showToast(v.getContext(),data.getOwner()+"data--Main"+ChatMain_activity.userId+"posi"+position);
+
+                if(data.getOwner().equals(ChatMain_activity.userId))
+                {
+
+                    if(ChatMain_activity.TOAST_CONTROL)
+                        helperFunctions_class.showToast(v.getContext(),"  Permission::"+groupId);
+                    chatData chatdata = new chatData(FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                            groupId
+                            , 0
+
+                    );
+                    Intent openDetailIntent = new Intent(v.getContext(), ChatActivity.class);
+                    openDetailIntent.putExtra("chatData", chatdata);
+                    v.getContext().startActivity(openDetailIntent);
+                }
+                else
+                {
+                    if(ChatMain_activity.TOAST_CONTROL)
+                        helperFunctions_class.showToast(v.getContext(),"No Permission");
+                }
+
 
             }
-        });
+        };
+
+        holder.groupName.setOnClickListener(holder.onClickListener);
 
 
         holder.JoinGroup.setOnClickListener(new View.OnClickListener()

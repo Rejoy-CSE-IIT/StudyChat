@@ -18,8 +18,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.concurrent.TimeUnit;
-
 public class a_chat_room_create_activity extends AppCompatActivity
 {
     Button logout_button_xml,user_chat_Button_xml,create_chatroom_button_from_layout;
@@ -68,9 +66,14 @@ public class a_chat_room_create_activity extends AppCompatActivity
                         }
                         else
                         {
+                            /*
                             b_group_data_model group_data = new b_group_data_model(chatroomname_from_layout.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid()
                             + TimeUnit.NANOSECONDS.toMicros(System.nanoTime())
-                            );
+                            );*/
+
+                            b_group_data_model group_data = new b_group_data_model(chatroomname_from_layout.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid()
+                                     );
+
 
 
                             CreateChatGroup_location.setValue(group_data,
