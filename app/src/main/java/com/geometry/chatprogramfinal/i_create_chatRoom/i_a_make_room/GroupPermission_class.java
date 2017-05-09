@@ -5,6 +5,11 @@ package com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room;
  */
 
 public class GroupPermission_class {
+
+
+    String  userId;
+    int Status;
+
     public String getUserId() {
         return userId;
     }
@@ -21,6 +26,13 @@ public class GroupPermission_class {
         Status = status;
     }
 
-    String  userId;
-    int Status;
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
+    }
+
+    String UserName;
 }

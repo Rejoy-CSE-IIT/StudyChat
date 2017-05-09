@@ -114,22 +114,30 @@ public class b_group_list_activity extends AppCompatActivity implements
 
         mRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
-            public void onChildViewAttachedToWindow(View view) {
-              //  d_group_view_holder_class holder = (d_group_view_holder_class) mRecyclerView.getChildViewHolder(view);
+            public void onChildViewAttachedToWindow(View view)
+            {
+                d_group_view_holder_class holder = (d_group_view_holder_class) mRecyclerView.getChildViewHolder(view);
                // holder.na.setText("Clicked!");
+                holder.groupName.setOnClickListener(holder.onClickListenerName);
+                holder.JoinGroup.setOnClickListener(holder.onClickListenerNameJoin);
             }
 
             @Override
             public void onChildViewDetachedFromWindow(View view)
             {
                    d_group_view_holder_class holder = (d_group_view_holder_class) mRecyclerView.getChildViewHolder(view);
-                holder.groupName.setOnClickListener(holder.onClickListener);
-                holder.onClickListener=null;
+                holder.groupName.setOnClickListener(null);
+                holder.JoinGroup.setOnClickListener(null);
+
+               // holder.JoinGroup.setOnClickListener(null);
+              //  holder.onClickListenerNameJoin =null;
+
 
                 if(ChatMain_activity.TOAST_CONTROL)
                     helperFunctions_class.showToast(b_group_list_activity.this,"View left ::"+holder.groupName.getText());
 
             }
+
         });
     }
 

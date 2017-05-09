@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.geometry.chatprogramfinal.R;
+import com.google.firebase.database.DatabaseReference;
 
 public class d_group_view_holder_class extends RecyclerView.ViewHolder
 {
@@ -14,7 +15,10 @@ public class d_group_view_holder_class extends RecyclerView.ViewHolder
     public TextView LeaveGroup;
     public CardView GroupListCard;
 
-    public View.OnClickListener onClickListener=null;
+    public View.OnClickListener onClickListenerName =null;
+    public View.OnClickListener onClickListenerNameJoin =null;
+    public View.OnClickListener onClickListenerNameLeave =null;
+    DatabaseReference JoinData_Listner;
    // public ImageButton mDeleteBtn;
 
     public d_group_view_holder_class(View v)
