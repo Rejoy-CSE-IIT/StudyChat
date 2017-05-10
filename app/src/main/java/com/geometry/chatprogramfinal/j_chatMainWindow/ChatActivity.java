@@ -137,7 +137,7 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
                     helperFunctions_class.showToast(ChatActivity.this,"notification Image");
 
                 return true;
-
+/*
             case R.id.testArray:
 
 
@@ -158,7 +158,7 @@ public class ChatActivity extends AppCompatActivity implements TextToSpeech.OnIn
                     helperFunctions_class.showToast(ChatActivity.this,"notification Image");
 
                 return true;
-
+*/
             case R.id.homepage:
 
 

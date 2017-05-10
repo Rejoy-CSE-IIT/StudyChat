@@ -40,6 +40,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import id.zelory.compressor.Compressor;
+import id.zelory.compressor.FileUtil;
+
 import static com.geometry.chatprogramfinal.R.id.crop;
 
 public class ImageEditor extends AppCompatActivity
@@ -680,7 +683,17 @@ public class ImageEditor extends AppCompatActivity
             {
              //   helperFunctions_class.showToast(ImageEditor.this, "CheckB");
                 mImageUri = intent_resultdata.getData();
-             //   helperFunctions_class.showToast(ImageEditor.this, "CheckC");
+
+                try {
+                    final File actualImage;
+                    actualImage = FileUtil.from(this, mImageUri);
+                    bitmap_P = Compressor.getDefault(this).compressToBitmap(actualImage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                //   helperFunctions_class.showToast(ImageEditor.this, "CheckC");
 
                 try
                 {
@@ -692,7 +705,7 @@ public class ImageEditor extends AppCompatActivity
                //     helperFunctions_class.showToast(ImageEditor.this, "CheckE");
                     bitmap_P = Compressor.getDefault(this).compressToBitmap(actualImage_file);*/
 
-
+/*
 
                     InputStream imageStream = null;
                     try {
@@ -715,7 +728,7 @@ public class ImageEditor extends AppCompatActivity
 
                         e.printStackTrace();
                     }
-
+*/
                    // helperFunctions_class.showToast(ImageEditor.this, "CheckF");
 
 

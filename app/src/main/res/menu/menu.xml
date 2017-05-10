@@ -11,7 +11,5 @@
         android:title="HomePage"
         />
 
-    <item android:id="@+id/testArray"
-        android:title="Test"
-        />
+
 </menu >

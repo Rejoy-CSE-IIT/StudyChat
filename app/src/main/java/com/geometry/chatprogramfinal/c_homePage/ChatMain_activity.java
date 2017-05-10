@@ -53,7 +53,7 @@ public class ChatMain_activity extends AppCompatActivity implements
     ProgressBar                                                         progressBar_from_layout;
 
 
-    public static boolean TOAST_CONTROL=true;
+    public static boolean TOAST_CONTROL=false;
 
     public ValueEventListener valueEventListener=null;
 
