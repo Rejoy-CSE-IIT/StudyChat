@@ -9,6 +9,12 @@ import android.view.ViewGroup;
 
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room.GroupPermission_class;
+import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -51,6 +57,76 @@ public class c_group_recycler_view_permission_adapter_class extends RecyclerView
         {
             holder.GroupName.setText(data.getGroupName());
             holder.UserName.setText(data.getUserName());
+
+
+            holder.onClickListenerApprove = new View.OnClickListener()
+            {
+                @Override
+                public void onClick(final View v)
+                {
+                    holder.Data_Listner= FirebaseDatabase.getInstance()
+                            .getReference().child("Permission_Group").child(data.getGroupName()+data.getUserId());
+
+                    holder.Data_Listner.addListenerForSingleValueEvent(new ValueEventListener()
+                    {
+
+
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot)
+                        {
+
+                            if(!dataSnapshot.exists())
+                            {
+
+                                helperFunctions_class.showToast(v.getContext(),"No data System Error");
+                                // holder.JoinData_Listner.addListenerForSingleValueEvent(null);
+                            }
+                            else
+                            {
+                                GroupPermission_class data = new GroupPermission_class();
+                                data = dataSnapshot.getValue(GroupPermission_class.class);
+                                if(data.getStatus()==1)
+                                {
+                                   data.setStatus(2);
+                                    data.setDisplay(false);
+
+                                    holder.Data_Listner.setValue(data,
+                                            new DatabaseReference.CompletionListener() {
+
+                                                @Override
+                                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
+                                                {
+
+                                                    // call_home_page();
+
+                                                 //   if(ChatMain_activity.TOAST_CONTROL)
+                                                        helperFunctions_class.showToast(v.getContext(),"Assigned Permission");
+
+                                                }
+                                            });
+
+                                }
+                                else
+                                {
+                                    helperFunctions_class.showToast(v.getContext(),"Error");
+                                }
+                                //  holder.JoinData_Listner.addListenerForSingleValueEvent(null);
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+                }
+            };
+
+            holder.Approve.setOnClickListener(holder.onClickListenerApprove);
+
         }
         else
         {

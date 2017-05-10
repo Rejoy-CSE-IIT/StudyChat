@@ -119,7 +119,7 @@ public class b_group_permission_list_activity extends AppCompatActivity implemen
                 d_group_permission_view_holder_class holder = (d_group_permission_view_holder_class) mRecyclerView.getChildViewHolder(view);
                // holder.na.setText("Clicked!");
                 /*
-                holder.groupName.setOnClickListener(holder.onClickListenerName);
+                holder.groupName.setOnClickListener(holder.onClickListenerApprove);
                 holder.JoinGroup.setOnClickListener(holder.onClickListenerNameJoin);
                 holder.LeaveGroup.setOnClickListener(holder.onClickListenerNameLeave);*/
             }
@@ -177,6 +177,13 @@ public class b_group_permission_list_activity extends AppCompatActivity implemen
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s)
             {
+
+
+                GroupPermission_class adatamodelclass = dataSnapshot.getValue(GroupPermission_class.class);
+                id_entry.add(dataSnapshot.getKey());
+                currentItemsLinkedHmap.put(dataSnapshot.getKey(), adatamodelclass);
+                helperFunctions_class.showToast(b_group_permission_list_activity.this,"Group Name =>"+ adatamodelclass.getGroupName()+"owner"+adatamodelclass.getUserName());
+                mAdapter.notifyDataSetChanged();
 
             }
 
