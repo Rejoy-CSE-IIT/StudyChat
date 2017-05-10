@@ -8,15 +8,6 @@ public class GroupPermission_class
 {
 
 
-
-
-
-
-    String                       userId;
-    int                          Status;
-    String                     UserName;
-    String                      GroupName;
-
     public String getUserId() {
         return userId;
     }
@@ -57,5 +48,19 @@ public class GroupPermission_class
         Owner = owner;
     }
 
+    public boolean isDisplay() {
+        return display;
+    }
+
+    public void setDisplay(boolean display) {
+        this.display = display;
+    }
+
+    String                       userId;
+    int                          Status;
+    String                     UserName;
+    String                      GroupName;
     String                      Owner;
+
+    boolean display=true;
 }

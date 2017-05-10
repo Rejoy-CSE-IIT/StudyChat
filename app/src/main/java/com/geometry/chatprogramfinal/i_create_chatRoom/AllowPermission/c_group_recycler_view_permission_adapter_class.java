@@ -47,6 +47,15 @@ public class c_group_recycler_view_permission_adapter_class extends RecyclerView
 
         final GroupPermission_class data = currentItemsLinkedHmap.get(id_entry.get(position).toString());
 
+        if(data.isDisplay())
+        {
+            holder.GroupName.setText(data.getGroupName());
+            holder.UserName.setText(data.getUserName());
+        }
+        else
+        {
+            holder.GroupListCard.setVisibility(View.GONE);
+        }
 
 
 

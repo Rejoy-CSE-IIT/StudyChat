@@ -15,7 +15,6 @@ import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
 import com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room.GroupPermission_class;
 import com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room.b_group_data_model;
-import com.geometry.chatprogramfinal.z_a_recyler_listener.recyclerTouchListener_class;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -44,7 +43,8 @@ public class b_group_permission_list_activity extends AppCompatActivity implemen
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
+    Query applesQuery;
+    ChildEventListener childEventListener;
     DatabaseReference myFirebaseRef;
     // private                                     c_chat_recycler_view_adapter_class recycleView;
     @Override
@@ -97,7 +97,7 @@ public class b_group_permission_list_activity extends AppCompatActivity implemen
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_i_group_list_activity);
-        setTitle("List of Groups");
+        setTitle("Pending Permissions");
 
         this.mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
@@ -106,41 +106,9 @@ public class b_group_permission_list_activity extends AppCompatActivity implemen
 
 
 
-        mAdapter = new c_group_recycler_view_permission_adapter_class(currentItemsLinkedHmap,id_entry);
-        mRecyclerView.setAdapter(mAdapter);
 
 
 
-
-        setFirebaseValueListener();
-
-        mRecyclerView.addOnItemTouchListener(new recyclerTouchListener_class(getApplicationContext(), mRecyclerView, new recyclerTouchListener_class.ClickListener()
-        {
-            @Override
-            public void onClick(View view, int position)
-            {
-   /*
-                String groupId = id_entry.get(position);
-
-                chatData chatdata = new chatData(FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                        groupId
-                        ,0
-
-                );
-                Intent openDetailIntent = new Intent(b_group_permission_list_activity.this, ChatActivity.class);
-                openDetailIntent.putExtra("chatData", chatdata);
-                startActivity(openDetailIntent);
-              //  helperFunctions_class.showToast(b_group_permission_list_activity.this,chatdata.getSend_id()+"::"+chatdata.getTarget_id()+"::"+chatdata.getChat_id());
-
-*/
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
 
 
 
@@ -179,7 +147,7 @@ public class b_group_permission_list_activity extends AppCompatActivity implemen
     {
         super.onStart();
         //Toolbar scrollView = (Toolbar) findViewById(R.id.scrollView);
-        mAdapter.notifyDataSetChanged();
+//        mAdapter.notifyDataSetChanged();
 
 
     }
@@ -189,8 +157,9 @@ public class b_group_permission_list_activity extends AppCompatActivity implemen
 
         myFirebaseRef = FirebaseDatabase.getInstance().getReference();
         //helperFunctions_class.showToast(b_group_list_activity.this,"Children =>"+myFirebaseRef.getKey());
-        Query applesQuery =myFirebaseRef.child("Permission_Group").orderByChild("owner").equalTo(ChatMain_activity.userId);
-        applesQuery.addChildEventListener(new ChildEventListener()
+          applesQuery =myFirebaseRef.child("Permission_Group").orderByChild("owner").equalTo(ChatMain_activity.userId);
+
+        childEventListener= new ChildEventListener()
         {
 
 
@@ -199,10 +168,10 @@ public class b_group_permission_list_activity extends AppCompatActivity implemen
             {
 
                 GroupPermission_class adatamodelclass = dataSnapshot.getValue(GroupPermission_class.class);
-               // id_entry.add(adatamodelclass.getGroup_name());
-               // currentItemsLinkedHmap.put(adatamodelclass.getGroup_name(), adatamodelclass);
+                  id_entry.add(dataSnapshot.getKey());
+                  currentItemsLinkedHmap.put(dataSnapshot.getKey(), adatamodelclass);
                 helperFunctions_class.showToast(b_group_permission_list_activity.this,"Group Name =>"+ adatamodelclass.getGroupName()+"owner"+adatamodelclass.getUserName());
-               // mAdapter.notifyDataSetChanged();
+                  mAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -215,15 +184,15 @@ public class b_group_permission_list_activity extends AppCompatActivity implemen
             public void onChildRemoved(DataSnapshot dataSnapshot)
             {
 
-                /*
-                b_group_data_model adatamodelclass = dataSnapshot.getValue(b_group_data_model.class);
+
+                GroupPermission_class adatamodelclass = dataSnapshot.getValue(GroupPermission_class.class);
 
 
                 adatamodelclass.setDisplay(false);
-                currentItemsLinkedHmap.put(adatamodelclass.getGroup_name(), adatamodelclass);
+                currentItemsLinkedHmap.put(dataSnapshot.getKey(), adatamodelclass);
                 mAdapter.notifyDataSetChanged();
-                helperFunctions_class.showToast(b_group_list_activity.this, "a_data_group_model_class Deleted =>" + adatamodelclass.getGroup_name());
-*/
+              //  helperFunctions_class.showToast(b_group_permission_list_activity.this, "a_data_group_model_class Deleted =>" + adatamodelclass.getGroup_name());
+
 
             }
 
@@ -237,7 +206,9 @@ public class b_group_permission_list_activity extends AppCompatActivity implemen
 
             }
 
-        });
+        };
+
+        applesQuery.addChildEventListener(childEventListener);
 
 
     }
@@ -250,10 +221,31 @@ public class b_group_permission_list_activity extends AppCompatActivity implemen
     //    finish();
         //thats it
     }
-
+    @Override
+    public void onPause()
+    {
+        if(ChatMain_activity.TOAST_CONTROL)
+            helperFunctions_class.showToast(b_group_permission_list_activity.this,"Inside Pause Chat");
+        super.onPause();
+        applesQuery.removeEventListener(childEventListener);
+    }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        mAdapter = new c_group_recycler_view_permission_adapter_class(currentItemsLinkedHmap,id_entry);
+        mRecyclerView.setAdapter(mAdapter);
+
+
+
+
+        setFirebaseValueListener();
     }
 }
