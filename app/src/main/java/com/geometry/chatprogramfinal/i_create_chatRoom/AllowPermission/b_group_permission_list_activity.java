@@ -224,7 +224,7 @@ public class b_group_permission_list_activity extends AppCompatActivity implemen
     @Override
     public void onBackPressed()
     {
-         super.onBackPressed();
+        // super.onBackPressed();
     //    finish();
         //thats it
     }
