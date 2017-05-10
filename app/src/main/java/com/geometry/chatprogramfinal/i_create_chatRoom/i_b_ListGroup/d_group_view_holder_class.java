@@ -20,6 +20,11 @@ public class d_group_view_holder_class extends RecyclerView.ViewHolder
     public View.OnClickListener onClickListenerNameLeave =null;
     DatabaseReference JoinData_Listner;
     DatabaseReference LeaveData_Listner;
+
+
+    DatabaseReference Delete_group_name;
+    DatabaseReference Delete_groupChat;
+    DatabaseReference Delete_all_Group_Permission;
    // public ImageButton mDeleteBtn;
 
     public d_group_view_holder_class(View v)

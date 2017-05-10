@@ -20,6 +20,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -266,6 +267,37 @@ public class c_group_recycler_view_adapter_class extends RecyclerView.Adapter<d_
             {
                 if(data.getOwner().equals(ChatMain_activity.userId))
                 {
+                    holder.GroupListCard.setVisibility(View.GONE);
+                    holder.Delete_group_name=FirebaseDatabase.getInstance()
+                            .getReference().child("GroupName").child(data.getGroup_name().toLowerCase());
+                    holder.Delete_groupChat=FirebaseDatabase.getInstance()
+                            .getReference().child("groupChat").child(data.getGroup_name());
+
+                     holder.Delete_group_name.setValue(null);
+                     holder.Delete_groupChat.setValue(null);
+
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                    Query applesQuery = ref.child("Permission_Group").orderByChild("groupName").equalTo(data.getGroup_name());
+
+                    applesQuery.addListenerForSingleValueEvent(new ValueEventListener()
+                    {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot)
+                        {
+                           // dataSnapshot.getRef().setValue(null);
+
+                            for (DataSnapshot appleSnapshot: dataSnapshot.getChildren())
+                            {
+                                appleSnapshot.getRef().removeValue();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError)
+                        {
+                            //Log.e(TAG, "onCancelled", databaseError.toException());
+                        }
+                    });
                     helperFunctions_class.showToast(v.getContext(),"You are the owner of the group. \n You can directly enter the group");
 
                 }

@@ -120,6 +120,7 @@ public class b_group_list_activity extends AppCompatActivity implements
                // holder.na.setText("Clicked!");
                 holder.groupName.setOnClickListener(holder.onClickListenerName);
                 holder.JoinGroup.setOnClickListener(holder.onClickListenerNameJoin);
+                holder.LeaveGroup.setOnClickListener(holder.onClickListenerNameLeave);
             }
 
             @Override
@@ -128,6 +129,7 @@ public class b_group_list_activity extends AppCompatActivity implements
                    d_group_view_holder_class holder = (d_group_view_holder_class) mRecyclerView.getChildViewHolder(view);
                 holder.groupName.setOnClickListener(null);
                 holder.JoinGroup.setOnClickListener(null);
+                holder.LeaveGroup.setOnClickListener(null);
 
                // holder.JoinGroup.setOnClickListener(null);
               //  holder.onClickListenerNameJoin =null;
