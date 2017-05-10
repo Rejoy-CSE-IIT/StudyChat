@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -54,7 +57,46 @@ public class b_user_list_activity extends AppCompatActivity implements
 
     private GoogleApiClient                                   mGoogleApiClient;
     private GoogleSignInOptions                                            gso;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.homepagemenu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+
+        switch (item.getItemId())
+        {
+
+
+
+
+
+
+
+            case R.id.homepage:
+
+
+
+
+                Intent intent = new Intent(b_user_list_activity.this, ChatMain_activity.class);
+                startActivity(intent);
+
+
+
+
+
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
