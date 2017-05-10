@@ -353,7 +353,7 @@ public class ChatMain_activity extends AppCompatActivity implements
                             progressBar_from_layout.setVisibility(View.GONE);
                             startActivity(new Intent(ChatMain_activity.this, login_activity.class));
 
-                            //finish();
+                            finish();
                         }
                     });
 
@@ -366,6 +366,7 @@ public class ChatMain_activity extends AppCompatActivity implements
             helperFunctions_class.showToast(ChatMain_activity.this, "cccOne googlesign out!!!");
 
             startActivity(new Intent(ChatMain_activity.this, login_activity.class));
+            finish();
 
         }
 
