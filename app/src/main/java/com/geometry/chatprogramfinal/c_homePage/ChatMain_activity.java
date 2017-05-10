@@ -14,6 +14,7 @@ import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.f_login.login_activity;
 import com.geometry.chatprogramfinal.h_user_list.a_data_model_class;
 import com.geometry.chatprogramfinal.h_user_list.b_user_list_activity;
+import com.geometry.chatprogramfinal.i_create_chatRoom.AllowPermission.b_group_permission_list_activity;
 import com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room.a_chat_room_create_activity;
 import com.geometry.chatprogramfinal.i_create_chatRoom.i_b_ListGroup.b_group_list_activity;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
@@ -39,7 +40,7 @@ public class ChatMain_activity extends AppCompatActivity implements
     public static String                                                           userId=null;
  //   public static boolean                                                     loggedIn = false;
 
-    Button               logout_button_xml,user_chat_Button_xml,creategroup_from_xml,grouplist;
+    Button             group_permission_from_xml,  logout_button_xml,user_chat_Button_xml,creategroup_from_xml,grouplist;
     GoogleApiClient                                                           mGoogleApiClient;
     GoogleSignInOptions                                                                    gso;
     Intent                                                                     intentfromOther;
@@ -104,6 +105,7 @@ public class ChatMain_activity extends AppCompatActivity implements
         logout_button_xml =(Button) findViewById(R.id.logout_button_xml);
         user_chat_Button_xml =(Button) findViewById(R.id.user_chat_Button_xml);
         creategroup_from_xml =(Button) findViewById(R.id.creategroup_from_xml);
+        group_permission_from_xml = (Button) findViewById(R.id.group_permission_from_xml);
         grouplist =(Button) findViewById(R.id.grouplist);
 
 
@@ -251,6 +253,20 @@ public class ChatMain_activity extends AppCompatActivity implements
         });
 
         //Make log out
+        group_permission_from_xml.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+
+                Intent intent = new Intent(ChatMain_activity.this, b_group_permission_list_activity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+//Make log out
         grouplist.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -261,7 +277,6 @@ public class ChatMain_activity extends AppCompatActivity implements
                 startActivity(intent);
             }
         });
-
 
 
         //Make log out
@@ -338,7 +353,7 @@ public class ChatMain_activity extends AppCompatActivity implements
                             progressBar_from_layout.setVisibility(View.GONE);
                             startActivity(new Intent(ChatMain_activity.this, login_activity.class));
 
-
+                            //finish();
                         }
                     });
 

@@ -187,8 +187,8 @@ public class b_user_list_activity extends AppCompatActivity implements
                 //   a_data_group_model_class adatamodelclass = new a_data_group_model_class(itemSnapshot.getKey(), itemSnapshot.child("groupName").getValue(String.class));
                 a_data_group_model_class itemT = new a_data_group_model_class(adatamodelclass.getFirebaseUserId(),adatamodelclass.getUsername(),adatamodelclass.getStatus() );
                 //currentItemsDict.add(itemT);
-                helperFunctions_class.showToast(b_group_list_activity.this,"Name =>"+itemT.getUsername());
-                helperFunctions_class.showToast(b_group_list_activity.this,"a_data_group_model_class Changed =>"+adatamodelclass.getUsername());
+                helperFunctions_class.showToast(b_group_permission_list_activity.this,"Name =>"+itemT.getUsername());
+                helperFunctions_class.showToast(b_group_permission_list_activity.this,"a_data_group_model_class Changed =>"+adatamodelclass.getUsername());
 */
             }
 

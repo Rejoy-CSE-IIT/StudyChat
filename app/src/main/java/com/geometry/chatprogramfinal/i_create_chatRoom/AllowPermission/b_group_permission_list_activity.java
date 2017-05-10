@@ -1,4 +1,4 @@
-package com.geometry.chatprogramfinal.i_create_chatRoom.i_b_ListGroup;
+package com.geometry.chatprogramfinal.i_create_chatRoom.AllowPermission;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +13,10 @@ import android.view.View;
 
 import com.geometry.chatprogramfinal.R;
 import com.geometry.chatprogramfinal.c_homePage.ChatMain_activity;
+import com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room.GroupPermission_class;
 import com.geometry.chatprogramfinal.i_create_chatRoom.i_a_make_room.b_group_data_model;
 import com.geometry.chatprogramfinal.z_a_recyler_listener.recyclerTouchListener_class;
 import com.geometry.chatprogramfinal.z_b_utility_functions.helperFunctions_class;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.database.ChildEventListener;
@@ -25,21 +24,21 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+
 //http://stackoverflow.com/questions/37390864/how-to-delete-from-firebase-realtime-database
-public class b_group_list_activity extends AppCompatActivity implements
+public class b_group_permission_list_activity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
 {
 
     public  List<String> id_entry = new ArrayList<>();
     public  List<b_group_data_model> Group_entry = new ArrayList<>();
 
-    LinkedHashMap <String, b_group_data_model> currentItemsLinkedHmap = new LinkedHashMap<String, b_group_data_model>();
+    LinkedHashMap <String, GroupPermission_class> currentItemsLinkedHmap = new LinkedHashMap<String, GroupPermission_class>();
 
 
     private RecyclerView mRecyclerView;
@@ -47,12 +46,7 @@ public class b_group_list_activity extends AppCompatActivity implements
     private RecyclerView.LayoutManager mLayoutManager;
 
     DatabaseReference myFirebaseRef;
-
-
-
-    private GoogleApiClient mGoogleApiClient;
-    private GoogleSignInOptions gso;
-
+    // private                                     c_chat_recycler_view_adapter_class recycleView;
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -79,7 +73,7 @@ public class b_group_list_activity extends AppCompatActivity implements
 
 
 
-                Intent intent = new Intent(b_group_list_activity.this, ChatMain_activity.class);
+                Intent intent = new Intent(b_group_permission_list_activity.this, ChatMain_activity.class);
                 startActivity(intent);
 
 
@@ -93,6 +87,11 @@ public class b_group_list_activity extends AppCompatActivity implements
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -107,22 +106,10 @@ public class b_group_list_activity extends AppCompatActivity implements
 
 
 
-        mAdapter = new c_group_recycler_view_adapter_class(currentItemsLinkedHmap,id_entry);
+        mAdapter = new c_group_recycler_view_permission_adapter_class(currentItemsLinkedHmap,id_entry);
         mRecyclerView.setAdapter(mAdapter);
 
 
-        // [START config_signin]
-        // Configure Google Sign In
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        // [END config_signin]
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
 
 
         setFirebaseValueListener();
@@ -161,37 +148,37 @@ public class b_group_list_activity extends AppCompatActivity implements
             @Override
             public void onChildViewAttachedToWindow(View view)
             {
-                d_group_view_holder_class holder = (d_group_view_holder_class) mRecyclerView.getChildViewHolder(view);
+                d_group_permission_view_holder_class holder = (d_group_permission_view_holder_class) mRecyclerView.getChildViewHolder(view);
                // holder.na.setText("Clicked!");
+                /*
                 holder.groupName.setOnClickListener(holder.onClickListenerName);
                 holder.JoinGroup.setOnClickListener(holder.onClickListenerNameJoin);
-                holder.LeaveGroup.setOnClickListener(holder.onClickListenerNameLeave);
+                holder.LeaveGroup.setOnClickListener(holder.onClickListenerNameLeave);*/
             }
 
             @Override
             public void onChildViewDetachedFromWindow(View view)
             {
-                   d_group_view_holder_class holder = (d_group_view_holder_class) mRecyclerView.getChildViewHolder(view);
-                holder.groupName.setOnClickListener(null);
+                   d_group_permission_view_holder_class holder = (d_group_permission_view_holder_class) mRecyclerView.getChildViewHolder(view);
+
+             /*  holder.groupName.setOnClickListener(null);
                 holder.JoinGroup.setOnClickListener(null);
-                holder.LeaveGroup.setOnClickListener(null);
+                holder.LeaveGroup.setOnClickListener(null);*/
 
                // holder.JoinGroup.setOnClickListener(null);
               //  holder.onClickListenerNameJoin =null;
 
 
-                if(ChatMain_activity.TOAST_CONTROL)
-                    helperFunctions_class.showToast(b_group_list_activity.this,"View left ::"+holder.groupName.getText());
 
             }
 
         });
     }
 
-    protected void onStart() {
+    protected void onStart()
+    {
         super.onStart();
         //Toolbar scrollView = (Toolbar) findViewById(R.id.scrollView);
-
         mAdapter.notifyDataSetChanged();
 
 
@@ -200,11 +187,10 @@ public class b_group_list_activity extends AppCompatActivity implements
     public void setFirebaseValueListener()
     {
 
-
-        myFirebaseRef = FirebaseDatabase.getInstance().getReference().child("GroupName");
-        helperFunctions_class.showToast(b_group_list_activity.this,"Children =>"+myFirebaseRef.getKey());
-
-        myFirebaseRef.addChildEventListener(new ChildEventListener()
+        myFirebaseRef = FirebaseDatabase.getInstance().getReference();
+        //helperFunctions_class.showToast(b_group_list_activity.this,"Children =>"+myFirebaseRef.getKey());
+        Query applesQuery =myFirebaseRef.child("Permission_Group").orderByChild("owner").equalTo(ChatMain_activity.userId);
+        applesQuery.addChildEventListener(new ChildEventListener()
         {
 
 
@@ -212,48 +198,32 @@ public class b_group_list_activity extends AppCompatActivity implements
             public void onChildAdded(DataSnapshot dataSnapshot, String s)
             {
 
-                b_group_data_model adatamodelclass = dataSnapshot.getValue(b_group_data_model.class);
-                id_entry.add(adatamodelclass.getGroup_name());
-                currentItemsLinkedHmap.put(adatamodelclass.getGroup_name(), adatamodelclass);
-                helperFunctions_class.showToast(b_group_list_activity.this,"Name =>"+ adatamodelclass.getGroup_name());
-                mAdapter.notifyDataSetChanged();
-             }
+                GroupPermission_class adatamodelclass = dataSnapshot.getValue(GroupPermission_class.class);
+               // id_entry.add(adatamodelclass.getGroup_name());
+               // currentItemsLinkedHmap.put(adatamodelclass.getGroup_name(), adatamodelclass);
+                helperFunctions_class.showToast(b_group_permission_list_activity.this,"Group Name =>"+ adatamodelclass.getGroupName()+"owner"+adatamodelclass.getUserName());
+               // mAdapter.notifyDataSetChanged();
+            }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s)
             {
 
-                b_group_data_model adatamodelclass = dataSnapshot.getValue(b_group_data_model.class);
-               // adatamodelclass.setDisplay(false);
-
-                //Fire base id never changes,user groupName
-                currentItemsLinkedHmap.put(adatamodelclass.getGroup_name(), adatamodelclass);
-                mAdapter.notifyDataSetChanged();
-                helperFunctions_class.showToast(b_group_list_activity.this,"a_data_group_model_class changed =>"+ adatamodelclass.getGroup_name());
-
-
-                /*
-                a_data_group_model_class adatamodelclass = dataSnapshot.getValue(a_data_group_model_class.class);
-                //   a_data_group_model_class adatamodelclass = new a_data_group_model_class(itemSnapshot.getKey(), itemSnapshot.child("groupName").getValue(String.class));
-                a_data_group_model_class itemT = new a_data_group_model_class(adatamodelclass.getFirebaseUserId(),adatamodelclass.getUsername(),adatamodelclass.getStatus() );
-                //currentItemsDict.add(itemT);
-                helperFunctions_class.showToast(b_group_permission_list_activity.this,"Name =>"+itemT.getUsername());
-                helperFunctions_class.showToast(b_group_permission_list_activity.this,"a_data_group_model_class Changed =>"+adatamodelclass.getUsername());
-*/
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot)
             {
 
+                /*
                 b_group_data_model adatamodelclass = dataSnapshot.getValue(b_group_data_model.class);
 
 
-                    adatamodelclass.setDisplay(false);
-                    currentItemsLinkedHmap.put(adatamodelclass.getGroup_name(), adatamodelclass);
-                    mAdapter.notifyDataSetChanged();
-                    helperFunctions_class.showToast(b_group_list_activity.this, "a_data_group_model_class Deleted =>" + adatamodelclass.getGroup_name());
-
+                adatamodelclass.setDisplay(false);
+                currentItemsLinkedHmap.put(adatamodelclass.getGroup_name(), adatamodelclass);
+                mAdapter.notifyDataSetChanged();
+                helperFunctions_class.showToast(b_group_list_activity.this, "a_data_group_model_class Deleted =>" + adatamodelclass.getGroup_name());
+*/
 
             }
 
@@ -269,19 +239,15 @@ public class b_group_list_activity extends AppCompatActivity implements
 
         });
 
+
     }
 
-    public void pushValue()
-    {
-        Map<String, Object> item = new HashMap<String, Object>();
-        //item.put("groupName", "item "+ (currentItemsDict.size() + 1));
-        myFirebaseRef.push().setValue(item);
-    }
 
     @Override
     public void onBackPressed()
     {
-
+         super.onBackPressed();
+    //    finish();
         //thats it
     }
 
