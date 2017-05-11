@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,9 +35,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 
 import id.zelory.compressor.Compressor;
 import id.zelory.compressor.FileUtil;
@@ -684,11 +681,14 @@ public class ImageEditor extends AppCompatActivity
              //   helperFunctions_class.showToast(ImageEditor.this, "CheckB");
                 mImageUri = intent_resultdata.getData();
 
-                try {
+                try
+                {
                     final File actualImage;
                     actualImage = FileUtil.from(this, mImageUri);
                     bitmap_P = Compressor.getDefault(this).compressToBitmap(actualImage);
-                } catch (IOException e) {
+                }
+                catch (IOException e)
+                {
                     e.printStackTrace();
                 }
 
@@ -773,7 +773,18 @@ public class ImageEditor extends AppCompatActivity
 
             //mImageUri = intent_resultdata.getData();
             mImageUri = result.getUri();
+            try
+            {
+                final File actualImage;
+                actualImage = FileUtil.from(this, mImageUri);
+                bitmap_P = Compressor.getDefault(this).compressToBitmap(actualImage);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
 
+/*
             InputStream imageStream = null;
             try {
                 imageStream = getContentResolver().openInputStream(
@@ -795,7 +806,7 @@ public class ImageEditor extends AppCompatActivity
 
                 e.printStackTrace();
             }
-
+*/
             apply_image_view();
             doodleView.invalidate();
             doodleView.requestLayout();

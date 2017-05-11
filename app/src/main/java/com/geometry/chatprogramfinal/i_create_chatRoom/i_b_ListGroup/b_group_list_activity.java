@@ -202,7 +202,7 @@ public class b_group_list_activity extends AppCompatActivity implements
 
 
         myFirebaseRef = FirebaseDatabase.getInstance().getReference().child("GroupName");
-        helperFunctions_class.showToast(b_group_list_activity.this,"Children =>"+myFirebaseRef.getKey());
+        //helperFunctions_class.showToast(b_group_list_activity.this,"Children =>"+myFirebaseRef.getKey());
 
         myFirebaseRef.addChildEventListener(new ChildEventListener()
         {
@@ -215,7 +215,7 @@ public class b_group_list_activity extends AppCompatActivity implements
                 b_group_data_model adatamodelclass = dataSnapshot.getValue(b_group_data_model.class);
                 id_entry.add(adatamodelclass.getGroup_name());
                 currentItemsLinkedHmap.put(adatamodelclass.getGroup_name(), adatamodelclass);
-                helperFunctions_class.showToast(b_group_list_activity.this,"Name =>"+ adatamodelclass.getGroup_name());
+                //helperFunctions_class.showToast(b_group_list_activity.this,"Name =>"+ adatamodelclass.getGroup_name());
                 mAdapter.notifyDataSetChanged();
              }
 
@@ -229,7 +229,7 @@ public class b_group_list_activity extends AppCompatActivity implements
                 //Fire base id never changes,user groupName
                 currentItemsLinkedHmap.put(adatamodelclass.getGroup_name(), adatamodelclass);
                 mAdapter.notifyDataSetChanged();
-                helperFunctions_class.showToast(b_group_list_activity.this,"a_data_group_model_class changed =>"+ adatamodelclass.getGroup_name());
+                //helperFunctions_class.showToast(b_group_list_activity.this,"a_data_group_model_class changed =>"+ adatamodelclass.getGroup_name());
 
 
                 /*
@@ -252,7 +252,7 @@ public class b_group_list_activity extends AppCompatActivity implements
                     adatamodelclass.setDisplay(false);
                     currentItemsLinkedHmap.put(adatamodelclass.getGroup_name(), adatamodelclass);
                     mAdapter.notifyDataSetChanged();
-                    helperFunctions_class.showToast(b_group_list_activity.this, "a_data_group_model_class Deleted =>" + adatamodelclass.getGroup_name());
+                    //helperFunctions_class.showToast(b_group_list_activity.this, "a_data_group_model_class Deleted =>" + adatamodelclass.getGroup_name());
 
 
             }

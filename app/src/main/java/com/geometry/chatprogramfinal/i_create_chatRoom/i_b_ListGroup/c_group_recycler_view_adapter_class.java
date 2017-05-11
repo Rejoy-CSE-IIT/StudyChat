@@ -287,7 +287,7 @@ public class c_group_recycler_view_adapter_class extends RecyclerView.Adapter<d_
                                 //Log.e(TAG, "onCancelled", databaseError.toException());
                             }
                         });
-                        helperFunctions_class.showToast(v.getContext(),"You are the owner of the group. \n You can directly enter the group");
+                        //helperFunctions_class.showToast(v.getContext(),"You are the owner of the group. \n You can directly enter the group");
 
                     }
                     else

@@ -160,7 +160,7 @@ public class b_user_list_activity extends AppCompatActivity implements
                 openDetailIntent.putExtra("chatData", chatdata);
                 startActivity(openDetailIntent);
                 finish();
-                helperFunctions_class.showToast(b_user_list_activity.this,chatdata.getSend_id()+"::"+chatdata.getTarget_id()+"::"+chatdata.getChat_id());
+                //helperFunctions_class.showToast(b_user_list_activity.this,chatdata.getSend_id()+"::"+chatdata.getTarget_id()+"::"+chatdata.getChat_id());
 
 
 
@@ -190,7 +190,7 @@ public class b_user_list_activity extends AppCompatActivity implements
 
 
         myFirebaseRef = FirebaseDatabase.getInstance().getReference().child("ChatIds");
-        helperFunctions_class.showToast(b_user_list_activity.this,"Children =>"+myFirebaseRef.getKey());
+        //helperFunctions_class.showToast(b_user_list_activity.this,"Children =>"+myFirebaseRef.getKey());
 
         myFirebaseRef.addChildEventListener(new ChildEventListener()
         {
@@ -202,7 +202,7 @@ public class b_user_list_activity extends AppCompatActivity implements
                 a_data_model_class adatamodelclass = dataSnapshot.getValue(a_data_model_class.class);
                 id_entry.add(adatamodelclass.getFirebaseUserId());
                 currentItemsLinkedHmap.put(adatamodelclass.getFirebaseUserId(), adatamodelclass);
-                helperFunctions_class.showToast(b_user_list_activity.this,"Name =>"+ adatamodelclass.getUsername());
+                //helperFunctions_class.showToast(b_user_list_activity.this,"Name =>"+ adatamodelclass.getUsername());
                 mAdapter.notifyDataSetChanged();
              }
 
@@ -221,7 +221,7 @@ public class b_user_list_activity extends AppCompatActivity implements
                 //Fire base id never changes,user groupName
                 currentItemsLinkedHmap.put(adatamodelclass.getFirebaseUserId(), adatamodelclass);
                 mAdapter.notifyDataSetChanged();
-                helperFunctions_class.showToast(b_user_list_activity.this,"a_data_group_model_class changed =>"+ adatamodelclass.getUsername());
+                //helperFunctions_class.showToast(b_user_list_activity.this,"a_data_group_model_class changed =>"+ adatamodelclass.getUsername());
 
 
                 /*
@@ -253,7 +253,7 @@ public class b_user_list_activity extends AppCompatActivity implements
                     adatamodelclass.setDisplay(false);
                     currentItemsLinkedHmap.put(adatamodelclass.getFirebaseUserId(), adatamodelclass);
                     mAdapter.notifyDataSetChanged();
-                    helperFunctions_class.showToast(b_user_list_activity.this, "a_data_group_model_class Deleted =>" + adatamodelclass.getUsername());
+                    //helperFunctions_class.showToast(b_user_list_activity.this, "a_data_group_model_class Deleted =>" + adatamodelclass.getUsername());
                 }
 
             }
@@ -292,7 +292,7 @@ public class b_user_list_activity extends AppCompatActivity implements
         if( adatamodelclass.getLoginType().equals("Normal"))
         {
 
-            helperFunctions_class.showToast(b_user_list_activity.this, "Current user deleted Google Login!!!");
+            //helperFunctions_class.showToast(b_user_list_activity.this, "Current user deleted Google Login!!!");
 
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                     new ResultCallback<Status>()
@@ -300,7 +300,7 @@ public class b_user_list_activity extends AppCompatActivity implements
                         @Override
                         public void onResult(@NonNull Status status)
                         {
-                            helperFunctions_class.showToast(b_user_list_activity.this, "BBDOne googlesign out!!!");
+                            //helperFunctions_class.showToast(b_user_list_activity.this, "BBDOne googlesign out!!!");
 
                             FirebaseAuth.getInstance().signOut();
 
@@ -314,7 +314,7 @@ public class b_user_list_activity extends AppCompatActivity implements
         }
         else
         {
-            helperFunctions_class.showToast(b_user_list_activity.this, "user deleted  Normal out!!!");
+            //helperFunctions_class.showToast(b_user_list_activity.this, "user deleted  Normal out!!!");
 
             startActivity(new Intent(b_user_list_activity.this, login_activity.class));
             finish();

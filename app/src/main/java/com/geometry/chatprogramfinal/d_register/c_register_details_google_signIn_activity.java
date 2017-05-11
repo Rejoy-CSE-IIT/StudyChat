@@ -202,12 +202,12 @@ public class c_register_details_google_signIn_activity extends AppCompatActivity
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess())
             {
-                helperFunctions_class.showToast(c_register_details_google_signIn_activity.this,"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX!!!");
+                //helperFunctions_class.showToast(c_register_details_google_signIn_activity.this,"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX!!!");
 
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                  firebaseAuthWithGoogle(account);
-                helperFunctions_class.showToast(c_register_details_google_signIn_activity.this,"ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ!!!");
+               // helperFunctions_class.showToast(c_register_details_google_signIn_activity.this,"ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ!!!");
 
             }
             else

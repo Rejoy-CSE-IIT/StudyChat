@@ -144,7 +144,7 @@ public class a_register_activity extends AppCompatActivity implements GoogleApiC
                                                                             ChatMain_activity.UserName=null;
                                                                             ChatMain_activity.userId=null;
                                                                             FirebaseAuth.getInstance().signOut();
-                                                                            helperFunctions_class.showToast(a_register_activity.this,"DOne Register!!!");
+                                                                            //helperFunctions_class.showToast(a_register_activity.this,"DOne Register!!!");
 
                                                                             Intent intent = new Intent(getApplicationContext(), login_activity.class);
                                                                             intent.putExtra("fromRegister","fromRegister");

@@ -170,7 +170,7 @@ public class b_group_permission_list_activity extends AppCompatActivity implemen
                 GroupPermission_class adatamodelclass = dataSnapshot.getValue(GroupPermission_class.class);
                   id_entry.add(dataSnapshot.getKey());
                   currentItemsLinkedHmap.put(dataSnapshot.getKey(), adatamodelclass);
-                helperFunctions_class.showToast(b_group_permission_list_activity.this,"Group Name =>"+ adatamodelclass.getGroupName()+"owner"+adatamodelclass.getUserName());
+                //helperFunctions_class.showToast(b_group_permission_list_activity.this,"Group Name =>"+ adatamodelclass.getGroupName()+"owner"+adatamodelclass.getUserName());
                   mAdapter.notifyDataSetChanged();
             }
 
@@ -182,7 +182,7 @@ public class b_group_permission_list_activity extends AppCompatActivity implemen
                 GroupPermission_class adatamodelclass = dataSnapshot.getValue(GroupPermission_class.class);
                 id_entry.add(dataSnapshot.getKey());
                 currentItemsLinkedHmap.put(dataSnapshot.getKey(), adatamodelclass);
-                helperFunctions_class.showToast(b_group_permission_list_activity.this,"Group Name =>"+ adatamodelclass.getGroupName()+"owner"+adatamodelclass.getUserName());
+                //helperFunctions_class.showToast(b_group_permission_list_activity.this,"Group Name =>"+ adatamodelclass.getGroupName()+"owner"+adatamodelclass.getUserName());
                 mAdapter.notifyDataSetChanged();
 
             }

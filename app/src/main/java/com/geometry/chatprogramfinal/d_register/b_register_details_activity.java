@@ -95,7 +95,7 @@ public class b_register_details_activity extends AppCompatActivity
 
                 if(!dataSnapshot.exists())
                 {
-                    helperFunctions_class.showToast(b_register_details_activity.this,"user id is new");
+                    //helperFunctions_class.showToast(b_register_details_activity.this,"user id is new");
                     userIdMsgWindow.setVisibility(View.GONE);
                     userIdWindow.setVisibility(View.VISIBLE);
 
@@ -255,7 +255,7 @@ public class b_register_details_activity extends AppCompatActivity
 
     private void call_Login_page()
     {
-        helperFunctions_class.showToast(b_register_details_activity.this,"Check Registration Vertification mail ");
+       // helperFunctions_class.showToast(b_register_details_activity.this,"Check Registration Vertification mail ");
         helperFunctions_class.set_user_statics(  null,  null,  false);
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(getApplicationContext(), login_activity.class);
